@@ -15,7 +15,7 @@
                                :sign-releases false
                                :snapshots true}]]
   :managed-dependencies [[org.flatland/ordered "1.5.7"]]
-  :dependencies [[org.clojure/clojure "1.10.0"]
+  :dependencies [[org.clojure/clojure "1.11.2"]
                  [metosin/compojure-api "1.1.13" :exclusions [cheshire
                                                               com.fasterxml.jackson.core/jackson-core
                                                               com.fasterxml.jackson.dataformat/jackson-dataformat-smile
