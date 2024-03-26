@@ -400,11 +400,16 @@
   (map #(get-hakukohde-hakutieto % haku) (:hakukohteet haku)))
 
 (defn get-search-hakutiedot
-  [hakutieto]
-  (->> (:haut hakutieto)
-       (map map-haut)
-       flatten
-       vec))
+  [hakutieto toteutus-metadata]
+  (let [hakutieto-haut (:haut hakutieto)
+        toteutus-hakuaika (get toteutus-metadata :hakuaika)]
+    (if (and (empty? hakutieto-haut) (not-empty toteutus-hakuaika))
+         ; Lisätään "feikki-hakutieto", jotta voidaan yksinkertaisempia hakuaika-kyselyitä
+      [{:hakuajat [toteutus-hakuaika]}]
+      (->> (:haut hakutieto)
+           (map map-haut)
+           flatten
+           vec))))
 
 (defn search-terms
   [& {:keys [koulutus
@@ -459,7 +464,7 @@
       :toteutusNimi              {:fi (:fi toteutus-nimi)
                                   :sv (:sv toteutus-nimi)
                                   :en (:en toteutus-nimi)}
-      :toteutusHakuaika          (get toteutus-metadata :hakuaika {})
+      :toteutusHakuaika          (get toteutus-metadata :hakuaika {}) ; TODO: Poista tämä kun elasticsearch-haut on muunnettu käyttämään pelkästään hakutiedot-hakuajat-kenttää
       :oppilaitosOid             (:oid oppilaitos)
       :toteutus_organisaationimi {:fi (not-empty (get-lang-values :fi toteutus-organisaationimi))
                                   :sv (not-empty (get-lang-values :sv toteutus-organisaationimi))
@@ -475,7 +480,7 @@
                                   :en (not-empty (get-lang-values :en ammattinimikkeet))}
       :sijainti                  (clean-uris (concat kunnat maakunnat))
       :koulutusalat              (not-empty (clean-uris (koulutusala-koodi-urit koulutus)))
-      :hakutiedot                (not-empty (get-search-hakutiedot hakutiedot))
+      :hakutiedot                (not-empty (get-search-hakutiedot hakutiedot toteutus-metadata))
       :opetustavat               (not-empty (clean-uris (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) [])))
       :opetuskielet              (not-empty (clean-uris opetuskieliUrit))
       :koulutustyypit            (clean-uris koulutustyypit)

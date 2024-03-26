@@ -11,7 +11,7 @@
     <url>https://github.com/Opetushallitus/kouta-indeksoija</url>
     <connection>scm:git:git://github.com/Opetushallitus/kouta-indeksoija.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/Opetushallitus/kouta-indeksoija.git</developerConnection>
-    <tag>881e032400d12fbec07fd3d95b778c12e172a597</tag>
+    <tag>3d572b094e687a5d2e60dd22b2722f37387d0c0e</tag>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -91,7 +91,7 @@
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>clojure</artifactId>
-      <version>1.11.2</version>
+      <version>1.10.0</version>
     </dependency>
     <dependency>
       <groupId>metosin</groupId>
@@ -180,23 +180,8 @@
     </dependency>
     <dependency>
       <groupId>org.clojure</groupId>
-      <artifactId>java.jdbc</artifactId>
-      <version>0.7.0-alpha1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.clojure</groupId>
       <artifactId>core.memoize</artifactId>
-      <version>0.7.1</version>
-    </dependency>
-    <dependency>
-      <groupId>ivarref</groupId>
-      <artifactId>memoize-ttl</artifactId>
-      <version>2020.09.01</version>
-    </dependency>
-    <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>9.4-1200-jdbc41</version>
+      <version>1.0.257</version>
     </dependency>
     <dependency>
       <groupId>base64-clj</groupId>
@@ -236,7 +221,7 @@
     <dependency>
       <groupId>oph</groupId>
       <artifactId>clj-log</artifactId>
-      <version>0.3.1-SNAPSHOT</version>
+      <version>0.3.2-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.clojure</groupId>
@@ -246,22 +231,22 @@
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-slf4j-impl</artifactId>
-      <version>2.17.0</version>
+      <version>2.20.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-api</artifactId>
-      <version>2.17.0</version>
+      <version>2.20.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-core</artifactId>
-      <version>2.17.0</version>
+      <version>2.20.0</version>
     </dependency>
     <dependency>
       <groupId>clj-log4j2</groupId>
       <artifactId>clj-log4j2</artifactId>
-      <version>0.3.0</version>
+      <version>0.4.0</version>
     </dependency>
     <dependency>
       <groupId>ring-cors</groupId>
@@ -321,12 +306,6 @@
       <groupId>pjstadig</groupId>
       <artifactId>humane-test-output</artifactId>
       <version>0.11.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>cloud.localstack</groupId>
-      <artifactId>localstack-utils</artifactId>
-      <version>0.1.22</version>
       <scope>test</scope>
     </dependency>
     <dependency>
