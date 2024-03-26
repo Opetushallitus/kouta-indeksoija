@@ -1,14 +1,15 @@
 (ns mocks.konfo-backend-mocks
-  (:require
-   [clj-log.access-log]
-   [kouta-indeksoija-service.fixture.common-oids :refer :all]
-   [clj-test-utils.elasticsearch-docker-utils :as ed-utils]
-   [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
-   [mocks.export-elastic-data :refer [export-elastic-data]]))
+  (:require [clj-log.access-log]
+            [clj-test-utils.elasticsearch-docker-utils :as ed-utils]
+            [kouta-indeksoija-service.fixture.common-oids :refer :all]
+            [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
+            [kouta-indeksoija-service.test-tools :refer [set-fixed-time]]
+            [mocks.export-elastic-data :refer [export-elastic-data]]))
+
 
 (defn -main []
   (ed-utils/start-elasticsearch)
-
+  (set-fixed-time "2023-10-11T01:00:00")
   (fixture/init)
   (fixture/add-sorakuvaus-mock sorakuvausId :tila "julkaistu" :nimi "Kiva SORA-kuvaus")
 
