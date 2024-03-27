@@ -81,7 +81,8 @@
                    :injections [(require 'pjstadig.humane-test-output)
                                 (pjstadig.humane-test-output/activate!)]}
              :test {:env {:test "true"} :dependencies [[net.java.dev.jna/jna "5.12.1"]
-                                                       [oph/clj-test-utils "0.5.5-SNAPSHOT"]]
+                                                       [oph/clj-test-utils "0.5.5-SNAPSHOT"]
+                                                       [lambdaisland/kaocha "1.87.1366"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
                                "-Daws.secretKey=randomKeyForLocalstack"]
@@ -91,7 +92,8 @@
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
                                       [net.java.dev.jna/jna "5.12.1"]
-                                      [oph/clj-test-utils "0.5.5-SNAPSHOT"]]
+                                      [oph/clj-test-utils "0.5.5-SNAPSHOT"]
+                                      [lambdaisland/kaocha "1.87.1366"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"
                                   "-Daws.accessKeyId=randomKeyIdForLocalstack"
@@ -103,10 +105,10 @@
              :jar-with-test-fixture {:source-paths ["src", "test"]
                                      :jar-exclusions [#"perf|resources|mocks"]}} ;TODO: Better exclusion
   :aliases {"dev" ["with-profile" "+dev" "ring" "server"]
-            "test" ["with-profile" "+test" "test"]
+            "test" ["with-profile" "+test" ["run" "-m" "kouta-indeksoija-service.kaocha/run"]]
             "deploy" ["with-profile" "+jar-with-test-fixture" "deploy"]
             "install" ["with-profile" "+jar-with-test-fixture" "install"]
-            "ci-test" ["with-profile" "+ci-test" "test"]
+            "ci-test" ["with-profile" "+test" ["run" "-m" "kouta-indeksoija-service.kaocha/run"]]
             "eastwood" ["eastwood" "{:test-paths []}"]
             "cloverage" ["with-profile" "+test" "cloverage"]
             "uberjar" ["do" "clean" ["ring" "uberjar"]]

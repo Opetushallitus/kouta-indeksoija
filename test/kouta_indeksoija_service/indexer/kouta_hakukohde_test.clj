@@ -13,6 +13,7 @@
             [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]))
 
+(use-fixtures :once fixture/reload-kouta-indexer-fixture)
 (use-fixtures :each common-indexer-fixture)
 
 (deftest index-hakukohde-test

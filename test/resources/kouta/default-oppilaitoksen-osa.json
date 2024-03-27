@@ -15,13 +15,17 @@
         "osoite": {
           "fi": "Hermannin rantatie 66"
         },
-        "postinumeroKoodiUri": "posti_00100#2"
+        "postinumeroKoodiUri": {
+          "fi": "posti_00100#2"
+        }
       },
       "kayntiosoite": {
         "osoite": {
           "fi": "Hermannin käyntiosoite 67"
         },
-        "postinumeroKoodiUri": "posti_00220#2"
+        "postinumeroKoodiUri": {
+          "fi": "posti_00220#2"
+        }
       },
       "puhelinnumero": {
         "fi": ""

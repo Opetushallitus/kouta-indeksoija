@@ -226,16 +226,25 @@
                                       :muokkaaja "1.2.246.562.24.62301161440"
                                       :modified "2019-02-05T09:49:23")
 
-  (fixture/add-oppilaitoksen-osa-mock oppilaitoksen-osa-oid2
-                                      oppilaitos-oid
-                                      :tila "julkaistu"
-                                      :muokkaaja "1.2.246.562.24.62301161440"
-                                      :modified "2019-02-05T09:49:23")
+  (fixture/add-oppilaitoksen-osa-mock
+   (let [organisaatio-with-children (fixture/->keywordized-json (slurp "test/resources/organisaatiot/1.2.246.562.10.10101010102-kouta.json"))]
+     (-> fixture/default-oppilaitos-map
+         (merge {:organisaatio oppilaitoksen-osa-oid2
+                 :oid oppilaitos-oid2
+                 :tila "julkaistu"
+                 :muokkaaja "1.2.246.562.24.62301161440"
+                 :modified "2019-02-05T09:49:23"})
+         (assoc-in [:_enrichedData :organisaatio] organisaatio-with-children))))
 
-  (fixture/add-oppilaitos-mock oppilaitos-oid2
-                               :tila "julkaistu"
-                               :muokkaaja "1.2.246.562.24.62301161440"
-                               :modified "2019-02-05T09:49:23")
+  (fixture/add-oppilaitos-mock
+   (let [organisaatio-with-children (fixture/->keywordized-json (slurp "test/resources/organisaatiot/1.2.246.562.10.10101010101-kouta.json"))]
+     (-> fixture/default-oppilaitos-map
+         (merge {:organisaatio oppilaitos-oid
+                 :oid oppilaitos-oid2
+                 :tila "julkaistu"
+                 :muokkaaja "1.2.246.562.24.62301161440"
+                 :modified "2019-02-05T09:49:23"})
+         (assoc-in [:_enrichedData :organisaatio] organisaatio-with-children))))
 
   (fixture/add-oppilaitoksen-osa-mock oppilaitoksen2-osa-oid
                                       oppilaitos-oid2
@@ -245,7 +254,7 @@
 
 (defn common-indexer-fixture
   [tests]
+  (fixture/teardown)
   (admin/initialize-indices)
   (add-mock-kouta-data)
-  (tests)
-  (fixture/teardown))
+  (tests))

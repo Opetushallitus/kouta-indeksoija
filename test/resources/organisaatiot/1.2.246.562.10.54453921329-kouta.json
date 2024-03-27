@@ -1,0 +1,59 @@
+{
+  "oid": "1.2.246.562.10.54453921329",
+  "parentOids": [
+    "1.2.246.562.10.54453921329",
+    "1.2.246.562.10.00000000001"
+  ],
+  "oppilaitostyyppiUri": "oppilaitostyyppi_42#1",
+  "nimi": {
+    "sv": "54453921329 universitet",
+    "fi": "54453921329 Yliopisto",
+    "en": "University of 54453921329"
+  },
+  "kieletUris": [
+    "oppilaitoksenopetuskieli_1#1",
+    "oppilaitoksenopetuskieli_2#1",
+    "oppilaitoksenopetuskieli_4#1"
+  ],
+  "yhteystiedot": {
+    "nimi": {
+      "sv": "54453921329 universitet",
+      "fi": "54453921329 Yliopisto",
+      "en": "University of 54453921329"
+    },
+    "postiosoite": {
+      "osoite": {
+        "fi": "Kivatie 1",
+        "sv": "kivavägen 1"
+      },
+      "postinumeroKoodiUri": {
+        "fi": "posti_04230#2",
+        "sv": "posti_04230#2"
+      }
+    },
+    "kayntiosoite": {
+      "osoite": {
+        "fi": "Kivatie 1",
+        "sv": "kivavägen 1"
+      },
+      "postinumeroKoodiUri": {
+        "fi": "posti_04230#2",
+        "sv": "posti_04230#2"
+      }
+    },
+    "puhelinnumero": {
+      "fi": "123444",
+      "sv": "123444"
+    },
+    "sahkoposti": {
+      "sv": "aku.ankka@ankkalinnankoulu.fi",
+      "fi": "aku.ankka@ankkalinnankoulu.fi"
+    }
+  },
+  "kotipaikkaUri": "kunta_091",
+  "children": [],
+  "organisaatiotyyppiUris": [
+    "organisaatiotyyppi_02"
+  ],
+  "status": "AKTIIVINEN"
+}

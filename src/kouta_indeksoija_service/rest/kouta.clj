@@ -144,10 +144,14 @@
   (if (some? id) (get-doc-with-cache "sorakuvaus" id execution-id) nil))
 
 (defn- get-oppilaitos
-  [oid execution-id]
-  (cas-authenticated-get-as-json
+  ([oid execution-id]
+   (cas-authenticated-get-as-json
     (resolve-url :kouta-backend.oppilaitos.oid oid)
     {}))
+  ([oid yhteystiedotForOsat execution-id]
+   (cas-authenticated-get-as-json
+     (resolve-url :kouta-backend.oppilaitos.oid oid)
+     {:query-params {:yhteystiedotForOsat yhteystiedotForOsat}})))
 
 (def get-oppilaitos-with-cache
   (with-fifo-ttl-cache get-oppilaitos kouta-cache-time-millis kouta-cache-size))

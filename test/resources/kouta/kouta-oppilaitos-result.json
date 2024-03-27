@@ -86,10 +86,9 @@
                 "fi": "Hermannin rantatie 66"
               },
               "postinumero": {
-                "koodiUri": "posti_00100#2",
-                "nimi": {
-                  "fi": "posti_00100#2 nimi fi",
-                  "sv": "posti_00100#2 nimi sv"
+                "fi": {
+                  "koodiUri": "posti_00100#2",
+                  "nimi": "posti_00100#2 nimi fi"
                 }
               }
             },
@@ -98,10 +97,9 @@
                 "fi": "Hermannin käyntiosoite 67"
               },
               "postinumero": {
-                "koodiUri": "posti_00220#2",
-                "nimi": {
-                  "fi": "posti_00220#2 nimi fi",
-                  "sv": "posti_00220#2 nimi sv"
+                "fi": {
+                  "koodiUri": "posti_00220#2",
+                  "nimi": "posti_00220#2 nimi fi"
                 }
               }
             },
@@ -118,56 +116,58 @@
               "fi": "hermanni@posti.fi"
             }
           },
-          "yhteystiedot": [
-            {
-              "nimi": {
-                "fi": "nimi",
-                "sv": "nimi sv"
+          "yhteystiedot": {
+            "nimi": {
+              "fi": "Hermannin testiyhteystieto",
+              "sv": "Hermannis testkontakt"
+            },
+            "postiosoite": {
+              "osoite": {
+                "fi": "Kivatie 1",
+                "sv": "kivavägen 1"
               },
-              "postiosoite": {
-                "osoite": {
-                  "fi": "Kivatie 1",
-                  "sv": "kivavägen 1"
-                },
-                "postinumero": {
+              "postinumero": {
+                "sv": {
                   "koodiUri": "posti_04230#2",
-                  "nimi": {
-                    "fi": "posti_04230#2 nimi fi",
-                    "sv": "posti_04230#2 nimi sv"
-                  }
-                }
-              },
-              "postiosoiteStr": {
-                "fi": "Kivatie 1, 04230 Espoo",
-                "sv": "kivavägen 1, 04230 Aalto"
-              },
-              "kayntiosoite": {
-                "osoite": {
-                  "fi": "Kivatie 1",
-                  "sv": "kivavägen 1"
+                  "nimi": "posti_04230#2 nimi sv"
                 },
-                "postinumero": {
+                "fi": {
                   "koodiUri": "posti_04230#2",
-                  "nimi": {
-                    "fi": "posti_04230#2 nimi fi",
-                    "sv": "posti_04230#2 nimi sv"
-                  }
+                  "nimi": "posti_04230#2 nimi fi"
                 }
-              },
-              "kayntiosoiteStr": {
-                "fi": "Kivatie 1, 04230 Espoo",
-                "sv": "kivavägen 1, 04230 Esbo"
-              },
-              "puhelinnumero": {
-                "fi": "123",
-                "sv": "123"
-              },
-              "sahkoposti": {
-                "fi": "aku.ankka@ankkalinnankoulu.fi",
-                "sv": "aku.ankka@ankkalinnankoulu.fi"
               }
+            },
+            "postiosoiteStr": {
+              "fi": "Kivatie 1, 04230 Posti_04230#2 nimi fi",
+              "sv": "kivavägen 1, 04230 Posti_04230#2 nimi sv"
+            },
+            "kayntiosoite": {
+              "osoite": {
+                "fi": "Kivatie 1",
+                "sv": "kivavägen 1"
+              },
+              "postinumero": {
+                "sv": {
+                  "koodiUri": "posti_04230#2",
+                  "nimi": "posti_04230#2 nimi sv"
+                },
+                "fi": {
+                  "koodiUri": "posti_04230#2",
+                  "nimi": "posti_04230#2 nimi fi"
+                }
+              }
+            },
+            "kayntiosoiteStr": {
+              "fi": "Kivatie 1, 04230 Posti_04230#2 nimi fi",
+              "sv": "kivavägen 1, 04230 Posti_04230#2 nimi sv"
+            },
+            "puhelinnumero": {
+              "fi": ""
+            },
+            "sahkoposti": {
+              "fi": "hermanni@posti.fi"
             }
-          ],
+          },
           "opiskelijoita": 100,
           "kampus": {
             "fi": "Kampus fi",
@@ -262,19 +262,22 @@
           "koodiUri": "oppilaitoksenopetuskieli_1#1",
           "nimi": {
             "fi": "oppilaitoksenopetuskieli_1#1 nimi fi",
-            "sv": "oppilaitoksenopetuskieli_1#1 nimi sv"}
+            "sv": "oppilaitoksenopetuskieli_1#1 nimi sv"
+          }
         },
         {
           "koodiUri": "oppilaitoksenopetuskieli_2#1",
           "nimi": {
             "fi": "oppilaitoksenopetuskieli_2#1 nimi fi",
-            "sv": "oppilaitoksenopetuskieli_2#1 nimi sv"}
+            "sv": "oppilaitoksenopetuskieli_2#1 nimi sv"
+          }
         },
         {
           "koodiUri": "oppilaitoksenopetuskieli_4#1",
           "nimi": {
             "fi": "oppilaitoksenopetuskieli_4#1 nimi fi",
-            "sv": "oppilaitoksenopetuskieli_4#1 nimi sv"}
+            "sv": "oppilaitoksenopetuskieli_4#1 nimi sv"
+          }
         }
       ],
       "kotipaikka": {
@@ -325,56 +328,60 @@
       "tiedekuntia": 2,
       "opiskelijoita": 100,
       "korkeakouluja": 1,
-      "yhteystiedot": [
-        {
-          "nimi": {
-            "fi": "Tanhualan Yliopisto",
-            "sv": "Tanhuala universitet"
+      "yhteystiedot": {
+        "nimi": {
+          "fi": "Tanhualan Yliopisto",
+          "sv": "Tanhuala universitet"
+        },
+        "postiosoite": {
+          "osoite": {
+            "fi": "Kivatie 1",
+            "sv": "kivavägen 1"
           },
-          "postiosoite": {
-            "osoite": {
-              "fi": "Kivatie 1",
-              "sv": "kivavägen 1"
-            },
-            "postinumero": {
+          "postinumero": {
+            "fi": {
               "koodiUri": "posti_04230#2",
-              "nimi": {
-                "fi": "posti_04230#2 nimi fi",
-                "sv": "posti_04230#2 nimi sv"
-              }
-            }
-          },
-          "postiosoiteStr": {
-            "fi": "Kivatie 1, 04230 Espoo",
-            "sv": "kivavägen 1, 04230 Aalto"
-          },
-          "kayntiosoite": {
-            "osoite": {
-              "fi": "Kivatie 1",
-              "sv": "kivavägen 1"
+              "nimi": "posti_04230#2 nimi fi"
             },
-            "postinumero": {
+            "sv": {
               "koodiUri": "posti_04230#2",
-              "nimi": {
-                "fi": "posti_04230#2 nimi fi",
-                "sv": "posti_04230#2 nimi sv"
-              }
+              "nimi": "posti_04230#2 nimi sv"
             }
-          },
-          "kayntiosoiteStr": {
-            "fi": "Kivatie 1, 04230 Espoo",
-            "sv": "kivavägen 1, 04230 Esbo"
-          },
-          "puhelinnumero": {
-            "fi": "123",
-            "sv": "123"
-          },
-          "sahkoposti": {
-            "fi": "aku.ankka@ankkalinnankoulu.fi",
-            "sv": "aku.ankka@ankkalinnankoulu.fi"
           }
+        },
+        "postiosoiteStr": {
+          "fi": "Kivatie 1, 04230 Posti_04230#2 nimi fi",
+          "sv": "kivavägen 1, 04230 Posti_04230#2 nimi sv"
+        },
+        "kayntiosoite": {
+          "osoite": {
+            "fi": "Kivatie 1",
+            "sv": "kivavägen 1"
+          },
+          "postinumero": {
+            "sv": {
+              "koodiUri": "posti_04230#2",
+              "nimi": "posti_04230#2 nimi sv"
+            },
+            "fi": {
+              "koodiUri": "posti_04230#2",
+              "nimi": "posti_04230#2 nimi fi"
+            }
+          }
+        },
+        "kayntiosoiteStr": {
+          "fi": "Kivatie 1, 04230 Posti_04230#2 nimi fi",
+          "sv": "kivavägen 1, 04230 Posti_04230#2 nimi sv"
+        },
+        "puhelinnumero": {
+          "fi": "123",
+          "sv": "123"
+        },
+        "sahkoposti": {
+          "fi": "aku.ankka@ankkalinnankoulu.fi",
+          "sv": "aku.ankka@ankkalinnankoulu.fi"
         }
-      ],
+      },
       "hakijapalveluidenYhteystiedot": {
         "nimi": {
           "fi": "nimi",
@@ -386,10 +393,13 @@
             "sv": "kivavägen 1"
           },
           "postinumero": {
-            "koodiUri": "posti_04230#2",
-            "nimi": {
-              "fi": "posti_04230#2 nimi fi",
-              "sv": "posti_04230#2 nimi sv"
+            "sv": {
+              "koodiUri": "posti_04230#2",
+              "nimi": "posti_04230#2 nimi sv"
+            },
+            "fi": {
+              "koodiUri": "posti_04230#2",
+              "nimi": "posti_04230#2 nimi fi"
             }
           }
         },

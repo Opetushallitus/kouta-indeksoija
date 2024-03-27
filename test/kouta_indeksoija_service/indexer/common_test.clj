@@ -17,3 +17,14 @@
   (testing "Check that langs not in kielivalinta is cleaned from form"
     (compare-json (no-timestamp (json "kouta-hakukohde-result-only-fi"))
                   (no-timestamp (common/clean-langs-not-in-kielivalinta (json "kouta-hakukohde-result-kielivalinta-fi"))))))
+
+(deftest is_postinumerokoodiuri?-test
+  (testing "returns true for postinumerokoodiuri without version"
+    (is (= true (common/is-postinumerokoodiuri? "posti_90500"))))
+
+  (testing "returns true for postinumerokoodiuri with version"
+    (is (= true (common/is-postinumerokoodiuri? "posti_90500#2"))))
+
+  (testing "returns false for non-postinumerokoodiuri string"
+    (is (= false (common/is-postinumerokoodiuri? "tutkintonimikekk_411#2"))))
+)

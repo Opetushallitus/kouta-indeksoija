@@ -1,9 +1,11 @@
 (ns kouta-indeksoija-service.cache.hierarkia-test
   (:require [clojure.test :refer :all]
             [kouta-indeksoija-service.test-tools :as tools]
+            [kouta-indeksoija-service.fixture.common-indexer-fixture :refer [common-indexer-fixture]]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as o]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]))
-(import '(java.util.concurrent Executors))
+
+(use-fixtures :each common-indexer-fixture)
 
 (defonce use-alternative-hierarkia (atom false))
 
@@ -208,6 +210,7 @@
           (is (= "1.2.246.562.10.37753840224" (:parentToimipisteOid (get @res "1.2.246.562.10.24134663046"))))
           (is (= "1.2.246.562.10.39218317368" (:parentOid (get @res "1.2.246.562.10.38836199083"))))
           (is (= "1.2.246.562.10.94639300915" (:parentToimipisteOid (get @res "1.2.246.562.10.38836199083")))))))
+
     (testing "Clearing hierarkia cache causes refresh"
       (is (= "AKTIIVINEN" (:status (cache/get-hierarkia-item "1.2.246.562.10.80117936338"))))
       (is (= "AKTIIVINEN" (:status (cache/get-hierarkia-item "1.2.246.562.10.33553959546"))))

@@ -56,10 +56,10 @@
   [oids execution-id]
   (let [entries (koulutus/do-index oids execution-id)
         not-poistetut (filter not-poistettu? entries)
-        koulutus-oids-to-index (get-oids :oid (mapcat :tarjoajat entries))
+        tarjoaja-oids (get-oids :oid (mapcat :tarjoajat entries))
         oppilaitos-oids-to-index (organisaatio-tool/resolve-organisaatio-oids-to-index
                                   (hierarkia/get-hierarkia-cached)
-                                  koulutus-oids-to-index)]
+                                  tarjoaja-oids)]
     (koulutus-search/do-index oids execution-id)
     (eperuste/do-index (eperuste-ids-on-koulutukset not-poistetut) execution-id)
     (tutkinnonosa/do-index (tutkinnonosa-ids-on-koulutukset not-poistetut) execution-id)
@@ -90,14 +90,17 @@
         koulutus-oids (get-oids :koulutusOid toteutus-entries)
         haut    (mapcat #(kouta-backend/list-haut-by-toteutus-with-cache % execution-id) oids)
         koulutus-entries (filter not-poistettu? (koulutus/do-index koulutus-oids execution-id))
-        tarjoaja-organisaatiot (get-oids :oid (mapcat :tarjoajat toteutus-entries))]
+        tarjoaja-organisaatiot (get-oids :oid (mapcat :tarjoajat toteutus-entries))
+        oppilaitos-oids-to-index (organisaatio-tool/resolve-organisaatio-oids-to-index
+                                  (hierarkia/get-hierarkia-cached)
+                                  tarjoaja-organisaatiot)]
     (when (seq opintokokonaisuus-oids)
       (toteutus/do-index opintokokonaisuus-oids execution-id))
     (koulutus-search/do-index koulutus-oids execution-id)
     (haku/do-index (get-oids :oid haut) execution-id)
     (osaamisalakuvaus/do-index (eperuste-ids-on-koulutukset koulutus-entries) execution-id)
-    (oppilaitos/do-index tarjoaja-organisaatiot execution-id)
-    (oppilaitos-search/do-index tarjoaja-organisaatiot execution-id)
+    (oppilaitos/do-index oppilaitos-oids-to-index execution-id)
+    (oppilaitos-search/do-index oppilaitos-oids-to-index execution-id)
     toteutus-entries))
 
 (defn index-toteutus
@@ -279,7 +282,10 @@
 (defn index-all-kouta
   []
   (let [start-and-execution-id (str "MASSA-" (. System (currentTimeMillis)))
-        oids (kouta-backend/all-kouta-oids)]
+        oids (kouta-backend/all-kouta-oids)
+        oppilaitos-oids-to-index (organisaatio-tool/resolve-organisaatio-oids-to-index
+                                  (hierarkia/get-hierarkia-cached)
+                                  (:oppilaitokset oids))]
     (log/info (str "ID:" start-and-execution-id " Indeksoidaan kouta-backendistä kaikki."))
     (let [koulutus-entries (koulutus/do-index (:koulutukset oids) start-and-execution-id)
           not-poistetut-koulutus-entries (filter not-poistettu? koulutus-entries)]
@@ -290,7 +296,7 @@
     (haku/do-index (:haut oids) start-and-execution-id)
     (hakukohde/do-index (:hakukohteet oids) start-and-execution-id)
     (valintaperuste/do-index (:valintaperusteet oids) start-and-execution-id)
-    (oppilaitos/do-index (:oppilaitokset oids) start-and-execution-id)
+    (oppilaitos/do-index oppilaitos-oids-to-index start-and-execution-id)
     (sorakuvaus/do-index (:sorakuvaukset oids) start-and-execution-id)
     (oppilaitos-search/do-index (:oppilaitokset oids) start-and-execution-id)
     (log/info (str "ID:" start-and-execution-id " Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) (Long. (re-find #"\d+" start-and-execution-id))) " ms."))))

@@ -113,10 +113,13 @@
                 "sv": "kivavägen 1"
               },
               "postinumero": {
-                "koodiUri": "posti_04230#2",
-                "nimi": {
-                  "fi": "posti_04230#2 nimi fi",
-                  "sv": "posti_04230#2 nimi sv"
+                "fi": {
+                  "koodiUri": "posti_04230#2",
+                  "nimi": "posti_04230#2 nimi fi"
+                },
+                "sv": {
+                  "koodiUri": "posti_04230#2",
+                  "nimi": "posti_04230#2 nimi sv"
                 }
               }
             },
@@ -279,10 +282,13 @@
             "sv": "kivavägen 1"
           },
           "postinumero": {
-            "koodiUri": "posti_04230#2",
-            "nimi": {
-              "fi": "posti_04230#2 nimi fi",
-              "sv": "posti_04230#2 nimi sv"
+            "fi": {
+              "koodiUri": "posti_04230#2",
+              "nimi": "posti_04230#2 nimi fi"
+            },
+            "sv": {
+              "koodiUri": "posti_04230#2",
+              "nimi": "posti_04230#2 nimi sv"
             }
           }
         },
@@ -312,10 +318,13 @@
                 "sv": "kivavägen 1"
               },
               "postinumero": {
-                "koodiUri": "posti_04230#2",
-                "nimi": {
-                  "fi": "posti_04230#2 nimi fi",
-                  "sv": "posti_04230#2 nimi sv"
+                "fi": {
+                  "koodiUri": "posti_04230#2",
+                  "nimi": "posti_04230#2 nimi fi"
+                },
+                "sv": {
+                  "koodiUri": "posti_04230#2",
+                  "nimi": "posti_04230#2 nimi sv"
                 }
               }
             },
@@ -408,10 +417,14 @@
               "sv": "kivavägen 1"
             },
             "postinumero": {
-              "koodiUri": "posti_04230#2",
-              "nimi": {
-                "fi": "posti_04230#2 nimi fi",
-                "sv": "posti_04230#2 nimi sv"
+              "fi": {
+                "koodiUri": "posti_04230#2",
+                "nimi": "posti_04230#2 nimi fi"
+              },
+              "sv": {
+                "koodiUri": "posti_04230#2",
+                "nimi": "posti_04230#2 nimi sv"
+
               }
             }
           },

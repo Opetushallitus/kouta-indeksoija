@@ -316,7 +316,10 @@
           "fi" : "Kivatie 1",
           "sv" : "kivavägen 1"
         },
-        "postinumeroKoodiUri" : "posti_04230#2"
+        "postinumeroKoodiUri" : {
+          "fi": "posti_04230#2",
+          "sv": "posti_04230#2"
+        }
       },
       "aika" : {
         "alkaa" : "2022-01-27T09:49",

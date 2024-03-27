@@ -9,6 +9,7 @@
             [mocks.notifier-target-mock :as notifier-target-mock]
             [kouta-indeksoija-service.queue.queue :as queue]))
 
+(use-fixtures :once fixture/reload-kouta-indexer-fixture)
 (use-fixtures :each notifier-target-mock/notifier-mock-fixture)
 
 (use-fixtures :once (fn [tests] (admin/initialize-indices) (tests)) common-indexer-fixture)

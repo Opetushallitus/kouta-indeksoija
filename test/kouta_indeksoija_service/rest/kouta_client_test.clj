@@ -2,6 +2,13 @@
   (:require [clojure.test :refer :all]
             [kouta-indeksoija-service.rest.kouta :as kouta]))
 
+;; tyhjennetään cachet reloadilla
+(defn reload-rest-kouta-fixture [f]
+  (require 'kouta-indeksoija-service.rest.kouta :reload)
+  (f))
+
+(use-fixtures :once reload-rest-kouta-fixture)
+
 (def call-count (atom 0))
 
 (use-fixtures :each (fn [test]

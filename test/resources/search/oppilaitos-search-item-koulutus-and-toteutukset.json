@@ -129,6 +129,97 @@
         "maakunta_01"
       ],
       "koulutustyypit": [
+        "muut-ammatilliset",
+        "amm-tutkinnon-osa"
+      ],
+      "koulutus_organisaationimi": {
+        "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",
+        "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"
+      },
+      "opetuskielet": [
+        "oppilaitoksenopetuskieli_1",
+        "oppilaitoksenopetuskieli_2"
+      ],
+      "koulutusalat": [
+        "kansallinenkoulutusluokitus2016koulutusalataso1_01",
+        "kansallinenkoulutusluokitus2016koulutusalataso1_02",
+        "kansallinenkoulutusluokitus2016koulutusalataso2_01",
+        "kansallinenkoulutusluokitus2016koulutusalataso2_02"
+      ],
+      "koulutusnimi": {
+        "fi": "Hevosalan tutkinnon osat fi",
+        "sv": "Hevosalan tutkinnon osat sv"
+      },
+      "koulutusOid": "1.2.246.562.13.00000000000000000096",
+      "nimi": {
+        "fi": "Hevosalan tutkinnon osat fi",
+        "sv": "Hevosalan tutkinnon osat sv"
+      },
+      "kuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
+      "onkoTuleva": true,
+      "hasJotpaRahoitus": false,
+      "isTyovoimakoulutus": false,
+      "isTaydennyskoulutus": false,
+      "oppilaitosOid": "1.2.246.562.10.77777777799",
+      "lukiopainotukset": [],
+      "lukiolinjaterityinenkoulutustehtava": [],
+      "osaamisalat": [],
+      "metadata": {
+        "tutkintonimikkeet": [],
+        "koulutustyypit": [],
+        "koulutustyyppi": "amm-tutkinnon-osa",
+        "tutkinnonOsat": [
+          {
+            "eperuste": 123,
+            "koulutus": {
+              "koodiUri": "koulutus_371101#1",
+              "nimi": {
+                "fi": "koulutus_371101#1 nimi fi",
+                "sv": "koulutus_371101#1 nimi sv"
+              }
+            },
+            "opintojenLaajuusNumero": 50,
+            "opintojenLaajuus": {
+              "koodiUri": "opintojenlaajuus_50",
+              "nimi": {
+                "fi": "opintojenlaajuus_50 nimi fi",
+                "sv": "opintojenlaajuus_50 nimi sv"
+              }
+            },
+            "opintojenLaajuusyksikko": {
+              "koodiUri": "opintojenlaajuusyksikko_6",
+              "nimi": {
+                "fi": "opintojenlaajuusyksikko_6 nimi fi",
+                "sv": "opintojenlaajuusyksikko_6 nimi sv"
+              }
+            },
+            "tutkinnonOsat": {
+              "koodiUri": "tutkinnonosat_12345",
+              "nimi": {
+                "fi": "tutkinnonosat_12345 nimi fi",
+                "sv": "tutkinnonosat_12345 nimi sv"
+              }
+            }
+          }
+        ],
+        "kunnat": [
+          {
+            "koodiUri": "kunta_091",
+            "nimi": {
+              "fi": "kunta_091 nimi fi",
+              "sv": "kunta_091 nimi sv"
+            }
+          }
+        ]
+      },
+      "paatellytAlkamiskaudet": []
+    },
+    {
+      "sijainti": [
+        "kunta_091",
+        "maakunta_01"
+      ],
+      "koulutustyypit": [
         "amm",
         "muu-amm-tutkinto"
       ],
@@ -509,97 +600,6 @@
         "suunniteltuKestoKuukausina": 46
       },
       "paatellytAlkamiskaudet": ["2024-kevat"]
-    },
-    {
-      "sijainti": [
-        "kunta_091",
-        "maakunta_01"
-      ],
-      "koulutustyypit": [
-        "muut-ammatilliset",
-        "amm-tutkinnon-osa"
-      ],
-      "koulutus_organisaationimi": {
-        "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",
-        "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"
-      },
-      "opetuskielet": [
-        "oppilaitoksenopetuskieli_1",
-        "oppilaitoksenopetuskieli_2"
-      ],
-      "koulutusalat": [
-        "kansallinenkoulutusluokitus2016koulutusalataso1_01",
-        "kansallinenkoulutusluokitus2016koulutusalataso1_02",
-        "kansallinenkoulutusluokitus2016koulutusalataso2_01",
-        "kansallinenkoulutusluokitus2016koulutusalataso2_02"
-      ],
-      "koulutusnimi": {
-        "fi": "Hevosalan tutkinnon osat fi",
-        "sv": "Hevosalan tutkinnon osat sv"
-      },
-      "koulutusOid": "1.2.246.562.13.00000000000000000096",
-      "nimi": {
-        "fi": "Hevosalan tutkinnon osat fi",
-        "sv": "Hevosalan tutkinnon osat sv"
-      },
-      "kuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
-      "onkoTuleva": true,
-      "hasJotpaRahoitus": false,
-      "isTyovoimakoulutus": false,
-      "isTaydennyskoulutus": false,
-      "oppilaitosOid": "1.2.246.562.10.77777777799",
-      "lukiopainotukset": [],
-      "lukiolinjaterityinenkoulutustehtava": [],
-      "osaamisalat": [],
-      "metadata": {
-        "tutkintonimikkeet": [],
-        "koulutustyypit": [],
-        "koulutustyyppi": "amm-tutkinnon-osa",
-        "tutkinnonOsat": [
-          {
-            "eperuste": 123,
-            "koulutus": {
-              "koodiUri": "koulutus_371101#1",
-              "nimi": {
-                "fi": "koulutus_371101#1 nimi fi",
-                "sv": "koulutus_371101#1 nimi sv"
-              }
-            },
-            "opintojenLaajuusNumero": 50,
-            "opintojenLaajuus": {
-              "koodiUri": "opintojenlaajuus_50",
-              "nimi": {
-                "fi": "opintojenlaajuus_50 nimi fi",
-                "sv": "opintojenlaajuus_50 nimi sv"
-              }
-            },
-            "opintojenLaajuusyksikko": {
-              "koodiUri": "opintojenlaajuusyksikko_6",
-              "nimi": {
-                "fi": "opintojenlaajuusyksikko_6 nimi fi",
-                "sv": "opintojenlaajuusyksikko_6 nimi sv"
-              }
-            },
-            "tutkinnonOsat": {
-              "koodiUri": "tutkinnonosat_12345",
-              "nimi": {
-                "fi": "tutkinnonosat_12345 nimi fi",
-                "sv": "tutkinnonosat_12345 nimi sv"
-              }
-            }
-          }
-        ],
-        "kunnat": [
-          {
-            "koodiUri": "kunta_091",
-            "nimi": {
-              "fi": "kunta_091 nimi fi",
-              "sv": "kunta_091 nimi sv"
-            }
-          }
-        ]
-      },
-      "paatellytAlkamiskaudet": []
     }
   ],
   "nimi": {

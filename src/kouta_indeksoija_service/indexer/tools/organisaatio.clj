@@ -19,7 +19,8 @@
 
 (defn contains-organisaatiotyyppi?
   [organisaatio organisaatiotyyppi]
-  (not (empty? (filter #(= organisaatiotyyppi %) (:organisaatiotyypit organisaatio)))))
+  (not (empty? (filter #(= organisaatiotyyppi %) (or (:organisaatiotyypit organisaatio)
+                                                     (:organisaatiotyyppiUris organisaatio))))))
 
 (defn oppilaitos?
   [organisaatio]
@@ -40,7 +41,9 @@
 
 (defn valid-oppilaitostyyppi?
   [organisaatio]
-  (let [organisaatiotyypit (set (:organisaatiotyypit organisaatio))]
+  (let [organisaatiotyypit (set (if (seq (:organisaatiotyypit organisaatio))
+                                  (:organisaatiotyypit organisaatio)
+                                  (:organisaatiotyyppiUris organisaatio)))]
     (empty? (intersection invalid-organisaatiotyypit organisaatiotyypit))))
 
 (defn indexable?

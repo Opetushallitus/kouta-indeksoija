@@ -1,11 +1,15 @@
 (ns kouta-indeksoija-service.elastic.admin-test
   (:require [clojure.test :refer :all]
             [kouta-indeksoija-service.elastic.settings :as settings]
+            [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
+            [kouta-indeksoija-service.fixture.common-indexer-fixture :refer :all]
             [kouta-indeksoija-service.elastic.admin :as admin]
             [kouta-indeksoija-service.test-tools :refer [debug-pretty]]
             [clj-elasticsearch.elastic-utils :refer [elastic-url elastic-get]]
             [clj-http.client :as http]
             [clojure.string :refer [starts-with?]]))
+
+(use-fixtures :once (fn [t] (fixture/restart-elasticsearch t)))
 
 (defn- find-hakukohde-index
   []
@@ -40,7 +44,7 @@
 
     (testing "get cluster health"
       (is (= true (first (admin/healthcheck)))))
-    
+
     (testing "auto create index settings is correctly set"
       (is (= {} (-> (elastic-url "_cluster" "settings") (elastic-get) :persistent)))
       (is (admin/initialize-cluster-settings))

@@ -41,8 +41,20 @@
   [json]
   (walk/postwalk sort-primitive-array json))
 
+(defn order-object-arrays-for-comparison
+  [json sort-by-key-path]
+  (sort-by (apply comp sort-by-key-path) json))
+
 (defn compare-json
-  [expected actual]
-  (let [ordered-expected (order-primitive-arrays-for-comparison expected)
-        ordered-actual (order-primitive-arrays-for-comparison actual)]
-    (is (= ordered-expected ordered-actual))))
+  ([expected actual]
+   (let [ordered-expected (order-primitive-arrays-for-comparison expected)
+         ordered-actual (order-primitive-arrays-for-comparison actual)]
+     (is (= ordered-expected ordered-actual))))
+  ([expected actual object-array-sort-path sort-by-key-path]
+   (let [ordered-expected (order-primitive-arrays-for-comparison expected)
+         ordered-actual (order-primitive-arrays-for-comparison actual)
+         ordered-search-terms (order-object-arrays-for-comparison
+                                (get-in ordered-actual object-array-sort-path)
+                                sort-by-key-path)]
+     (is (= ordered-expected
+            (assoc-in ordered-actual object-array-sort-path ordered-search-terms))))))

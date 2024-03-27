@@ -7,8 +7,11 @@
             [clj-test-utils.generic :refer [run-proc]]
             [kouta-indeksoija-service.queue.sqs :refer [queue delete-message send-message purge-queue]]
             [kouta-indeksoija-service.test-tools :refer [contains-same-elements-in-any-order?]]
+            [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
             [kouta-indeksoija-service.queue.notification-queue :as notification-queue]))
 
+
+(use-fixtures :once (fn [t] (fixture/restart-elasticsearch t)))
 
 (defonce test-long-poll-time 5)
 

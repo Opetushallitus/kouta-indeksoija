@@ -15,7 +15,7 @@
      :osoite "Otakaari 1"}
     {:osoiteTyyppi "posti"
      :kieli "kieli_fi#1"
-     :postinumeroUri "posti_00076"
+     :postinumeroUri "posti_00076#2"
      :postitoimipaikka "AALTO"
      :osoite "PL 11110"}
     {:kieli "kieli_fi#1"
@@ -35,7 +35,7 @@
      :osoite "12 Example Street\nNortholt\nLondon\nUB5 4AS\nUK"}
     {:osoiteTyyppi "posti"
      :kieli "kieli_sv#1"
-     :postinumeroUri "posti_00076#2"
+     :postinumeroUri "posti_00077#2"
      :postitoimipaikka "AALTO"
      :osoite "PB 11110"}
     {:kieli "kieli_sv#1"
@@ -89,11 +89,11 @@
                         :osoite "PL 11110"}
                        {:osoiteTyyppi "posti"
                         :kieli "kieli_sv#1"
-                        :postinumeroUri "posti_00076"
+                        :postinumeroUri "posti_00077"
                         :postitoimipaikka "AALTO"
                         :osoite "PB 11110"}]]
       (is (= {:osoite {:fi "PL 11110" :sv "PB 11110"}
-              :postinumeroKoodiUri "posti_00076"}
+              :postinumeroKoodiUri {:fi "posti_00076", :sv  "posti_00077"}}
              (oppilaitos/create-kielistetty-osoitetieto postiosoite languages))))))
 
 (deftest create-kielistetty-osoite-str
@@ -155,12 +155,12 @@
            (:puhelinnumero (nth (oppilaitos/parse-yhteystiedot oppilaitos-response languages) 0)))))
 
   (testing "returns postiosoite_str map with addresses for all languages"
-    (is (= {:fi "PL 11110, 00076 Aalto" :sv "PB 11110, 00076 Aalto" :en "1 Example Street, Northolt, London, UB5 4AS, UK"}
+    (is (= {:fi "PL 11110, 00076 Aalto" :sv "PB 11110, 00077 Aalto" :en "1 Example Street, Northolt, London, UB5 4AS, UK"}
            (:postiosoiteStr (nth (oppilaitos/parse-yhteystiedot oppilaitos-response languages) 0)))))
 
   (testing "returns postiosoite with kielistetty osoite and postinumeroKoodiUri"
     (is (= {:osoite {:fi "PL 11110" :sv "PB 11110"}
-            :postinumeroKoodiUri "posti_00076"}
+            :postinumeroKoodiUri {:fi "posti_00076#2" :sv  "posti_00077#2"}}
            (:postiosoite (nth (oppilaitos/parse-yhteystiedot oppilaitos-response languages) 0)))))
 
   (testing "returns kayntiosoite_str map with addresses for all languages"
@@ -168,10 +168,32 @@
            (:kayntiosoiteStr (nth (oppilaitos/parse-yhteystiedot oppilaitos-response languages) 0))))))
 
 (deftest create-osoite-str-for-hakijapalvelut
-  (testing "creates osoite string for fi and en languages"
-    (is (= {:en "PO BOX 4000, 00076 Espoo" :fi "PL 4000, 00076 Espoo" }
-           (oppilaitos/create-osoite-str-for-hakijapalvelut {:en "PO BOX 4000" :fi "PL 4000"} "00076" {:fi "ESPOO" :sv "ESBO" :en "ESPOO"}))))
+  (testing "creates osoite string for fi, sv and en languages"
+    (is (= {:en "PO BOX 4000, 00078 Espoo" :fi "PL 4000, 00076 Espoo" :sv "PB 4000, 00077 Esbo"}
+           (oppilaitos/create-osoite-str-for-hakijapalvelut {:en "PO BOX 4000" :fi "PL 4000" :sv  "PB 4000"}
+                                                            {:en {:koodiUri "posti_00078#2"
+                                                                  :koodiArvo "00078"
+                                                                  :nimi {:en "ESPOO" :fi "ESPOO" :sv "ESBO"}}
+                                                             :fi {:koodiUri "posti_00076#2"
+                                                                  :koodiArvo "00076"
+                                                                  :nimi {:en "ESPOO" :fi "ESPOO" :sv "ESBO"}}
+                                                             :sv {:koodiUri "posti_00077#2"
+                                                                  :koodiArvo "00077"
+                                                                  :nimi {:en "ESPOO" :fi "ESPOO" :sv "ESBO"}}}))))
 
-  (testing "sets finnish language postitoimipaikka as the default"
-    (is (= {:en "PO BOX 4000, 00076 Espoo" :fi "PL 4000, 00076 Espoo" }
-           (oppilaitos/create-osoite-str-for-hakijapalvelut {:en "PO BOX 4000" :fi "PL 4000"} "00076" {:fi "ESPOO" :sv "ESBO"})))) )
+  (testing "sets finnish language postitoimipaikka as the default when postitoimipaikka doesn't have an english name"
+    (is (= {:en "PO BOX 4000, 00078 Espoo" :fi "PL 4000, 00076 Espoo"}
+           (oppilaitos/create-osoite-str-for-hakijapalvelut {:en "PO BOX 4000" :fi "PL 4000"}
+                                                            {:fi {:koodiUri "posti_00076#2"
+                                                                  :koodiArvo "00076"
+                                                                  :nimi {:fi "ESPOO" :sv "ESBO"}}
+                                                             :en {:koodiUri "posti_00078#2"
+                                                                  :koodiArvo "00078"
+                                                                  :nimi {:fi "ESPOO" :sv "ESBO"}}}))))
+
+  (testing "doesn't add postitoimipaikka to address if address doesn't have postinumero"
+    (is (= {:en "1234 Main Street, Some Town Somewhere" :fi "PL 4000, 00076 Espoo"}
+           (oppilaitos/create-osoite-str-for-hakijapalvelut {:en "1234 Main Street, Some Town Somewhere" :fi "PL 4000"}
+                                                            {:fi {:koodiUri "posti_00076#2"
+                                                                  :koodiArvo "00076"
+                                                                  :nimi {:fi "ESPOO" :sv "ESBO"}}})))))

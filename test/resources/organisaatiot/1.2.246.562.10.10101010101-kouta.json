@@ -1,0 +1,220 @@
+{
+  "oid": "1.2.246.562.10.10101010101",
+  "parentOids": [
+    "1.2.246.562.10.10101010101",
+    "1.2.246.562.10.10101010100",
+    "1.2.246.562.10.00000000001"
+  ],
+  "oppilaitostyyppiUri": "oppilaitostyyppi_42#1",
+  "nimi": {
+    "sv": "Tanhuala universitet",
+    "fi": "Tanhualan Yliopisto",
+    "en": "University of Tanhuala"
+  },
+  "kieletUris": [
+    "oppilaitoksenopetuskieli_1#1",
+    "oppilaitoksenopetuskieli_2#1",
+    "oppilaitoksenopetuskieli_4#1"
+  ],
+  "yhteystiedot": {
+    "nimi": {
+      "fi": "Tanhualan Yliopisto",
+      "sv": "Tanhuala universitet",
+      "en": "University of Tanhuala"
+    },
+    "postiosoite": {
+      "osoite": {
+        "fi": "Kivatie 1",
+        "sv": "kivavägen 1"
+      },
+      "postinumeroKoodiUri": {
+        "fi": "posti_04230#2",
+        "sv": "posti_04230#2"
+      }
+    },
+    "kayntiosoite": {
+      "osoite": {
+        "fi": "Kivatie 1",
+        "sv": "kivavägen 1"
+      },
+      "postinumeroKoodiUri": {
+        "fi": "posti_04230#2",
+        "sv": "posti_04230#2"
+      }
+    },
+    "puhelinnumero": {
+      "fi": "123",
+      "sv": "123"
+    },
+    "sahkoposti": {
+      "sv": "aku.ankka@ankkalinnankoulu.fi",
+      "fi": "aku.ankka@ankkalinnankoulu.fi"
+    }
+  },
+  "kotipaikkaUri": "kunta_091",
+  "children": [
+    {
+      "oid": "1.2.246.562.10.10101010102",
+      "parentOids": [
+        "1.2.246.562.10.10101010102",
+        "1.2.246.562.10.10101010101",
+        "1.2.246.562.10.10101010100",
+        "1.2.246.562.10.00000000001"
+      ],
+      "nimi": {
+        "sv": "Tanhuala universitet, Farmaceutiska fakulteten",
+        "fi": "Tanhualan yliopisto, Farmasian tiedekunta",
+        "en": "University of Tanhuala, Faculty of Pharmacy"
+      },
+      "kieletUris": [
+        "oppilaitoksenopetuskieli_1#1"
+      ],
+      "kotipaikkaUri": "kunta_091",
+      "yhteystiedot": {
+        "nimi": {
+          "fi": "Hermannin testiyhteystieto",
+          "sv": "Hermannis testkontakt",
+          "en": "University of Hermanni"
+        },
+        "postiosoite": {
+          "osoite": {
+            "fi": "Kivatie 1",
+            "sv": "kivavägen 1"
+          },
+          "postinumeroKoodiUri": {
+            "fi": "posti_04230#2",
+            "sv": "posti_04230#2"
+          }
+        },
+        "kayntiosoite": {
+          "osoite": {
+            "fi": "Kivatie 1",
+            "sv": "kivavägen 1"
+          },
+          "postinumeroKoodiUri": {
+            "fi": "posti_04230#2",
+            "sv": "posti_04230#2"
+          }
+        },
+        "puhelinnumero": {
+          "fi": ""
+        },
+        "sahkoposti": {
+          "fi": "hermanni@posti.fi"
+        }
+      },
+      "children": [
+        {
+          "oid": "1.2.246.562.10.10101010109",
+          "parentOids": [
+            "1.2.246.562.10.10101010109",
+            "1.2.246.562.10.10101010102",
+            "1.2.246.562.10.10101010101",
+            "1.2.246.562.10.10101010100",
+            "1.2.246.562.10.00000000001"
+          ],
+          "nimi": {
+            "sv": "Tanhuala universitet, Farmaceutiska fakulteten extra",
+            "fi": "Tanhualan yliopisto, Farmasian tiedekunta extra",
+            "en": "University of Tanhuala, Faculty of Pharmacy extra"
+          },
+          "kieletUris": [
+            "oppilaitoksenopetuskieli_1#1",
+            "oppilaitoksenopetuskieli_2#1",
+            "oppilaitoksenopetuskieli_4#1"
+          ],
+          "kotipaikkaUri": "kunta_091",
+          "children": [],
+          "organisaatiotyyppiUris": [
+            "organisaatiotyyppi_03"
+          ],
+          "status": "AKTIIVINEN"
+        }
+      ],
+      "organisaatiotyyppiUris": [
+        "organisaatiotyyppi_03"
+      ],
+      "status": "AKTIIVINEN"
+    },
+    {
+      "oid": "1.2.246.562.10.10101010103",
+      "parentOids": [
+        "1.2.246.562.10.10101010103",
+        "1.2.246.562.10.10101010101",
+        "1.2.246.562.10.10101010100",
+        "1.2.246.562.10.00000000001"
+      ],
+      "nimi": {
+        "sv": "Tanhuala universitet, Veterinärmedicinska fakulteten",
+        "fi": "Tanhualan yliopisto, Eläinlääketieteellinen tiedekunta",
+        "en": "University of Tanhuala, Faculty of Veterinary Medicine"
+      },
+      "kieletUris": [
+        "oppilaitoksenopetuskieli_1#1",
+        "oppilaitoksenopetuskieli_2#1",
+        "oppilaitoksenopetuskieli_4#1"
+      ],
+      "kotipaikkaUri": "kunta_091",
+      "children": [],
+      "organisaatiotyyppiUris": [
+        "organisaatiotyyppi_03"
+      ],
+      "status": "AKTIIVINEN"
+    },
+    {
+      "oid": "1.2.246.562.10.10101010104",
+      "parentOids": [
+        "1.2.246.562.10.10101010104",
+        "1.2.246.562.10.10101010101",
+        "1.2.246.562.10.10101010100",
+        "1.2.246.562.10.00000000001"
+      ],
+      "nimi": {
+        "sv": "foo",
+        "fi": "bar",
+        "en": "foobar"
+      },
+      "kieletUris": [
+        "oppilaitoksenopetuskieli_1#1",
+        "oppilaitoksenopetuskieli_2#1",
+        "oppilaitoksenopetuskieli_4#1"
+      ],
+      "kotipaikkaUri": "kunta_091",
+      "children": [],
+      "organisaatiotyyppiUris": [
+        "organisaatiotyyppi_06"
+      ],
+      "status": "AKTIIVINEN"
+    },
+    {
+      "oid": "1.2.246.562.10.10101010109",
+      "parentOids": [
+        "1.2.246.562.10.10101010109",
+        "1.2.246.562.10.10101010102",
+        "1.2.246.562.10.10101010101",
+        "1.2.246.562.10.10101010100",
+        "1.2.246.562.10.00000000001"
+      ],
+      "nimi": {
+        "sv": "Tanhuala universitet, Farmaceutiska fakulteten extra",
+        "fi": "Tanhualan yliopisto, Farmasian tiedekunta extra",
+        "en": "University of Tanhuala, Faculty of Pharmacy extra"
+      },
+      "kieletUris": [
+        "oppilaitoksenopetuskieli_1#1",
+        "oppilaitoksenopetuskieli_2#1",
+        "oppilaitoksenopetuskieli_4#1"
+      ],
+      "kotipaikkaUri": "kunta_091",
+      "children": [],
+      "organisaatiotyyppiUris": [
+        "organisaatiotyyppi_03"
+      ],
+      "status": "AKTIIVINEN"
+    }
+  ],
+  "organisaatiotyyppiUris": [
+    "organisaatiotyyppi_02"
+  ],
+  "status": "AKTIIVINEN"
+}

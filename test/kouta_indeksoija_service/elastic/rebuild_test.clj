@@ -3,12 +3,13 @@
             [cheshire.core :as cheshire]
             [kouta-indeksoija-service.elastic.admin :as admin]
             [kouta-indeksoija-service.elastic.tools :as t]
+            [kouta-indeksoija-service.fixture.common-indexer-fixture :refer :all]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
             [clj-elasticsearch.elastic-connect :as e]
             [clj-elasticsearch.elastic-utils :as u]
             [clojure.string :refer [starts-with?]]))
 
-(use-fixtures :once (fn [t] (t) (fixture/reset-indices)))
+(use-fixtures :once (fn [t] (fixture/restart-elasticsearch t)))
 
 (defonce all-index-names (vec (sort (map first admin/indices-settings-and-mappings))))
 

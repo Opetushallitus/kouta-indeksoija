@@ -73,19 +73,24 @@ Kirjoitushetken esimerkki konfigista, joka toimii untuva-testiympäristöä vast
 Testiympäristöä voi vaihtaa laittamalla yllä olevasta configista untuva sanojen paikalle toisen testiympäristön nimen.
 Cas-salasanan saa kaivettua untuvan ympäristökohtaisesta reposta opintopolku.yml tiedostosta kohdasta `kouta_indeksoija_cas_password`
 
-Jos et tiedä mitä tämä tarkoittaa, kysy neuvoa kehitystiimiltä tai OPH:n ylläpidolta. 
+Jos et tiedä mitä tämä tarkoittaa, kysy neuvoa kehitystiimiltä tai OPH:n ylläpidolta.
 
 ### 3.2. Testien ajaminen
 
-Testit saa ajettua komentoriviltä komennolla `lein test`
+Testit ajetaan [Kaocha test runnerilla](https://cljdoc.org/d/lambdaisland/kaocha/1.87.1366/doc/readme).
+Kaikki testit saa ajettua komentoriviltä komennolla `lein test`.
 
-Yksittäisen testitiedoston saa ajettua `lein test <namespacen nimi>`. 
-Esimerkiksi `lein test kouta-indeksoija-service.indexer.kouta-koulutus-test`
+Yksittäisen testitiedoston saa ajettua lisäämällä `^:focus`-tagin testitiedoston namespace-määrittelyn alkuun, esim.
+`ns ^:focus kouta-indeksoija-service.indexer.kouta-indexer-test`.
 
-Yksittäisen testin saa ajettua `lein test :only <namespacen nimi>/<testin nimi>`. 
-Esimerkiksi `lein test :only kouta-indeksoija-service.indexer.kouta-koulutus-test/index-julkaistu-koulutus-test`
+Yksittäisen testin saa ajettua lisäämällä `^:focus`-tagi ennen ajettavan testin nimeä, esim.
+`deftest ^:focus index-oppilaitos-test`.
+
+Testejä voi ajaa myös watch-modessa komennolla `lein test --watch` eli test runner ajaa testit automaattisesti uudestaan, kun koodia tai testejä muutetaan.
 
 Testit käynnistävät Elasticsearchin docker-kontissa satunnaiseen vapaaseen porttiin.
+Watch-moodissa elasticsearch käynnistetään vain kerran, kun testiajo käynnistetään, ja se pysyy taustalla käynnissä kunnes testiajo lopetetaan.
+(Poikkeuksena muutamat mm. indeksien luomiseen liittyvät testit, jotka vaativat elasticin uudelleenkäynnistyksen testin alussa.)
 
 ### 3.3. Ajaminen lokaalisti
 

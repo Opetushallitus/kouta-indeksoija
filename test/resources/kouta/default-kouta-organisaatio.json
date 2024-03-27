@@ -1,0 +1,112 @@
+{
+  "children": [
+    {
+      "children": [],
+      "kieletUris": [
+        "oppilaitoksenopetuskieli_1#2",
+        "oppilaitoksenopetuskieli_4#2"
+      ],
+      "nimi": {
+        "fi": "Hermannin testiyhteystieto",
+        "sv": "Hermannis testkontakt"
+      },
+      "yhteystiedot": {
+        "nimi": {
+          "fi": "Hermannin testiyhteystieto",
+          "sv": "Hermannis testkontakt"
+        },
+        "postiosoite": {
+          "osoite": {
+            "fi": "Kivatie 1",
+            "sv": "kivavägen 1"
+          },
+          "postinumeroKoodiUri": {
+            "fi": "posti_04230#2",
+            "sv": "posti_04230#2"
+          }
+        },
+        "kayntiosoite": {
+          "osoite": {
+            "fi": "Kivatie 1",
+            "sv": "kivavägen 1"
+          },
+          "postinumeroKoodiUri": {
+            "fi": "posti_04230#2",
+            "sv": "posti_04230#2"
+          }
+        },
+        "puhelinnumero": {
+          "fi": ""
+        },
+        "sahkoposti": {
+          "fi": "hermanni@posti.fi"
+        }
+      },
+      "status": "AKTIIVINEN",
+      "oid": "1.2.246.562.10.10101010102",
+      "parentOids": [
+        "1.2.246.562.10.10101010101",
+        "1.2.246.562.10.00000000001"
+      ],
+      "kotipaikkaUri": "kunta_698",
+      "oppilaitostyyppiUri": "oppilaitostyyppi_41",
+      "organisaatiotyyppiUris": [
+        "organisaatiotyyppi_02"
+      ]
+    }
+  ],
+  "kieletUris": [
+    "oppilaitoksenopetuskieli_1#2",
+    "oppilaitoksenopetuskieli_4#2"
+  ],
+  "nimi": {
+    "fi": "Tanhualan Yliopisto",
+    "sv": "Tanhuala universitet",
+    "en": "University of Tanhuala"
+  },
+  "yhteystiedot": {
+    "nimi": {
+      "fi": "Tanhualan Yliopisto",
+      "sv": "Tanhuala universitet",
+      "en": "University of Tanhuala"
+    },
+    "postiosoite": {
+      "osoite": {
+        "fi": "Kivatie 1",
+        "sv": "kivavägen 1"
+      },
+      "postinumeroKoodiUri": {
+        "fi": "posti_04230#2",
+        "sv": "posti_04230#2"
+      }
+    },
+    "kayntiosoite": {
+      "osoite": {
+        "fi": "Kivatie 1",
+        "sv": "kivavägen 1"
+      },
+      "postinumeroKoodiUri": {
+        "fi": "posti_04230#2",
+        "sv": "posti_04230#2"
+      }
+    },
+    "puhelinnumero": {
+      "fi": "123",
+      "sv": "123"
+    },
+    "sahkoposti": {
+      "sv": "aku.ankka@ankkalinnankoulu.fi",
+      "fi": "aku.ankka@ankkalinnankoulu.fi"
+    }
+  },
+  "status": "AKTIIVINEN",
+  "oid": "1.2.246.562.10.10101010101",
+  "parentOids": [
+    "1.2.246.562.10.00000000001"
+  ],
+  "kotipaikkaUri": "kunta_698",
+  "oppilaitostyyppiUri": "oppilaitostyyppi_41",
+  "organisaatiotyyppiUris": [
+    "organisaatiotyyppi_02"
+  ]
+}
