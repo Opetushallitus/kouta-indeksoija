@@ -18,6 +18,7 @@
     "sv": "kuvaus sv"
   },
   "teemakuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
+  "hakutuloslistauksenKuvake": null,
   "search_terms": [
     {
       "koulutusOid": "1.2.246.562.13.00000000000000000097",
@@ -152,6 +153,7 @@
   "opintojenLaajuusNumeroMax": null,
   "timestamp": 1600944714227,
   "eperuste": 1234,
+  "osaamismerkki": null,
   "koulutustyyppi": "amm-osaamisala",
   "toteutustenTarjoajat": {
     "count": 1,

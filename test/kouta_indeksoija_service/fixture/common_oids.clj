@@ -65,6 +65,8 @@
 (defonce keyword-koulutus-oid17   "1.2.246.562.13.000046")
 (defonce keyword-koulutus-oid18   "1.2.246.562.13.000047")
 
+(defonce osaamismerkki-koulutus-oid "1.2.246.562.13.000048")
+
 
 (defonce sorakuvausId "2ff6700d-087f-4dbf-9e42-7f38948f227a")
 
@@ -107,6 +109,7 @@
 (defonce keyword-toteutus-oid7  "1.2.246.562.17.000026")
 (defonce keyword-toteutus-oid8  "1.2.246.562.17.000027")
 (defonce keyword-toteutus-oid9  "1.2.246.562.17.000028")
+(defonce osaamismerkki-toteutus-oid "1.2.246.562.17.000029")
 
 
 

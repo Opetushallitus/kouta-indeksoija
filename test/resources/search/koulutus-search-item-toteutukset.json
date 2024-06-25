@@ -4,6 +4,7 @@
     "sv": "Kiva kuvaus sv"
   },
   "teemakuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
+  "hakutuloslistauksenKuvake": null,
   "koulutukset": [
     {
       "koodiUri": "koulutus_361104#1",
@@ -393,6 +394,7 @@
   ],
   "timestamp": 1621942122314,
   "eperuste": 1234,
+  "osaamismerkki": null,
   "koulutustyyppi": "amm",
   "toteutustenTarjoajat": {
     "count": 1,

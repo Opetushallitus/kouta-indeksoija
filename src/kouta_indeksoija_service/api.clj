@@ -12,6 +12,7 @@
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus-search]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
+            [kouta-indeksoija-service.indexer.eperuste.osaamismerkki :as osaamismerkki]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :as osaamisalakuvaus]
             [kouta-indeksoija-service.indexer.lokalisointi.lokalisointi :as lokalisointi]
             [kouta-indeksoija-service.lokalisointi.service :as lokalisointi-service]
@@ -74,11 +75,11 @@
      (GET "/healthcheck/deep" [:as request]
        :summary "Palauttaa 500, jos sqs-jonot tai elasticsearch ei ole terveitä"
        (with-access-logging request (let [[sqs-healthy? sqs-body] (sqs/healthcheck)
-             [els-healthy? els-body] (admin/healthcheck)
-             body {:sqs-health sqs-body :elasticsearch-health els-body}]
-         (if (and sqs-healthy? els-healthy?)
-           (ok body)
-           (internal-server-error body)))))
+                                          [els-healthy? els-body] (admin/healthcheck)
+                                          body {:sqs-health sqs-body :elasticsearch-health els-body}]
+                                      (if (and sqs-healthy? els-healthy?)
+                                        (ok body)
+                                        (internal-server-error body)))))
 
      (context "/rebuild" []
        :tags ["rebuild"]
@@ -107,7 +108,7 @@
          :summary "Luo uudelleen yhden indeksin katkotonta uudelleenindeksointia varten."
          :body [index-name String]
          (with-access-logging request (try (ok (admin/initialize-new-index-for-reindexing index-name))
-              (catch IllegalArgumentException e (bad-request (ex-message e))))))
+                                           (catch IllegalArgumentException e (bad-request (ex-message e))))))
 
        (POST "/indices/kouta" [:as request]
          :summary "Luo uudelleen kaikki kouta-datan (ja oppilaitosten!) indeksit katkotonta uudelleenindeksointia varten."
@@ -116,6 +117,10 @@
        (POST "/indices/eperuste" [:as request]
          :summary "Luo uudelleen kaikki eperuste-datan indeksit katkotonta uudelleenindeksointia varten."
          (with-access-logging request (ok (admin/initialize-eperuste-indices-for-reindexing))))
+
+       (POST "/indices/osaamismerkki" [:as request]
+         :summary "Luo uudelleen osaamismerkki-indeksin katkotonta uudelleenindeksointia varten."
+         (with-access-logging request (ok (admin/initialize-osaamismerkki-indices-for-reindexing))))
 
        (POST "/indices/koodisto" [:as request]
          :summary "Luo uudelleen kaikki koodisto-datan indeksit katkotonta uudelleenindeksointia varten."
@@ -145,8 +150,8 @@
          :query-params [{since :- Long 0}]
          :summary "Indeksoi uudet ja muuttuneet koulutukset, toteutukset, hakukohteet, haut ja valintaperusteet kouta-backendistä. Default kaikki."
          (with-access-logging request (ok {:result (if (= 0 since)
-                        (indexer/index-all-kouta)
-                        (indexer/index-since-kouta since))})))
+                                                     (indexer/index-all-kouta)
+                                                     (indexer/index-since-kouta since))})))
 
        (POST "/koulutus" [:as request]
          :summary "Indeksoi koulutuksen tiedot kouta-backendistä."
@@ -308,6 +313,11 @@
          :query-params [oid :- String]
          (with-access-logging request (ok {:result (eperuste/get-from-index oid)})))
 
+       (GET "/osaamismerkki" [:as request]
+         :summary "Hakee yhden osaamismerkin tiedot koodiUrin perusteella."
+         :query-params [koodiUri :- String]
+         (with-access-logging request (ok {:result (osaamismerkki/get-from-index koodiUri)})))
+
        (GET "/osaamisalakuvaus" [:as request]
          :summary "Hakee yhden osaamisalakuvaus oidin (idn) perusteella."
          :query-params [oid :- String]
@@ -390,7 +400,6 @@
          :summary "Käynnistää prosessin, joka lukee muutoksia sqs-jonosta indeksoitavaksi"
          (with-access-logging request (ok (jobs/resume-sqs-job))))
 
-
        (POST "/pause-notification-sqs" [:as request]
          :summary "Keskeyttää prosessin, joka lukee notifikaatioita sqs-jonosta ja lähettää ne ulkoisille integraatioille. HUOM!! Jos prosessin keskeyttää, kouta-tarjonnan muutokset eivät välity ulkoisille integraatiolle."
          (with-access-logging request (ok (jobs/pause-notification-job))))
@@ -431,6 +440,11 @@
          :query-params [oid :- String]
          (with-access-logging request (ok {:result (indexer/index-eperuste oid)})))
 
+       (POST "/osaamismerkki" [:as request]
+         :summary "Indeksoi osaamismerkin"
+         :query-params [koodiUri :- String]
+         (with-access-logging request (ok {:result (indexer/index-osaamismerkki koodiUri)})))
+
        (POST "/organisaatio" [:as request]
          :summary "Indeksoi oppilaitoksen"
          :query-params [oid :- String]
@@ -461,10 +475,19 @@
          :summary "Lisää kaikki aktiiviset oppilaitokset organisaatiopalvelusta  indeksoinnin jonoon"
          (with-access-logging request (ok {:result (queuer/queue-all-oppilaitokset-from-organisaatiopalvelu)})))
 
+       (POST "/osaamismerkit" [:as request]
+         :summary "Lisää kaikki osaamismerkit indeksoinnin jonoon"
+         (with-access-logging request (ok {:result (queuer/queue-all-osaamismerkit)})))
+
        (POST "/eperuste" [:as request]
          :summary "Lisää ePeruste ja sen osaamisalat (oid==id)  indeksoinnin jonoon"
          :query-params [oid :- String]
          (with-access-logging request (ok {:result (queuer/queue-eperuste oid)})))
+
+       (POST "/osaamismerkki" [:as request]
+         :summary "Lisää osaamismerkin indeksoinnin jonoon"
+         :query-params [koodiUri :- String]
+         (with-access-logging request (ok {:result (queuer/queue-osaamismerkki koodiUri)})))
 
        (POST "/oppilaitos" [:as request]
          :summary "Lisää oppilaitos/organisaatio indeksoinnin jonoon"

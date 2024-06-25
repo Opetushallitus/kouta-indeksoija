@@ -1,0 +1,117 @@
+{
+  "opintojenLaajuusyksikko": {
+    "koodiUri": "opintojenlaajuusyksikko_4",
+    "nimi": {
+      "fi": "opintojenlaajuusyksikko_4 nimi fi",
+      "sv": "opintojenlaajuusyksikko_4 nimi sv"
+    }
+  },
+  "opintojenLaajuusNumero": 1.0,
+  "opintojenLaajuusNumeroMin": null,
+  "opintojenLaajuusNumeroMax": null,
+  "kuvaus": {},
+  "teemakuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
+  "hakutuloslistauksenKuvake": "https://konfo-files.hahtuvaopintopolku.fi/koulutus-hakutuloslistauksen-kuvake/1.2.246.562.13.00000000000000008797/4d773fa0-44e7-4efe-89af-a46107cc3962.png",
+  "search_terms": [
+    {
+      "koulutusnimi": {
+        "fi": "Osaamismerkki fi",
+        "sv": "Osaamismerkki sv"
+      },
+      "koulutus_organisaationimi": {
+        "fi": "Oppilaitos fi 1.2.246.562.10.00101010101",
+        "sv": "Oppilaitos sv 1.2.246.562.10.00101010101"
+      },
+      "toteutus_organisaationimi": {
+        "fi": [
+          "Toimipiste fi 1.2.246.562.10.001010101011"
+        ],
+        "sv": [
+          "Toimipiste sv 1.2.246.562.10.001010101011"
+        ]
+      },
+      "sijainti": [
+        "kunta_091",
+        "maakunta_01"
+      ],
+      "koulutusalat": ["kansallinenkoulutusluokitus2016koulutusalataso2_001"],
+      "koulutustyypit": [
+        "vapaa-sivistystyo-osaamismerkki"
+      ],
+      "koulutusOid": "1.2.246.562.13.00000000000000000777",
+      "nimi": {
+        "fi": "Oppilaitos fi 1.2.246.562.10.00101010101",
+        "sv": "Oppilaitos sv 1.2.246.562.10.00101010101"
+      },
+      "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
+      "onkoTuleva": false,
+      "hasJotpaRahoitus": false,
+      "isTyovoimakoulutus": false,
+      "isTaydennyskoulutus": false,
+      "oppilaitosOid": "1.2.246.562.10.00101010101",
+      "lukiopainotukset": [],
+      "lukiolinjaterityinenkoulutustehtava": [],
+      "osaamisalat": [],
+      "metadata": {
+        "koulutustyyppi": "vapaa-sivistystyo-osaamismerkki",
+        "oppilaitosTila": "julkaistu",
+        "kunnat": [
+          {
+            "koodiUri": "kunta_091",
+            "nimi": {
+              "fi": "kunta_091 nimi fi",
+              "sv": "kunta_091 nimi sv"
+            }
+          }
+        ],
+        "jarjestaaUrheilijanAmmKoulutusta": false,
+        "maksullisuustyyppi": "maksuton",
+        "onkoApuraha": false,
+        "opetusajat": [
+          {
+            "koodiUri": "opetusaikakk_5#1",
+            "nimi": {
+              "fi": "opetusaikakk_5#1 nimi fi",
+              "sv": "opetusaikakk_5#1 nimi sv"
+            }
+          }
+        ],
+        "suunniteltuKestoKuukausina": 3,
+        "tutkintonimikkeet": []
+      },
+      "opetuskielet": ["oppilaitoksenopetuskieli_1"],
+      "opetustavat": ["opetuspaikkakk_4"],
+      "paatellytAlkamiskaudet": [],
+      "toteutusNimi": {"fi": "Osaamismerkkitoteutus fi",
+                       "sv": "Osaamismerkkitoteutus sv"},
+      "toteutusOid": "1.2.246.562.17.00000000000000000888"
+    }
+  ],
+  "nimi": {
+    "fi": "Osaamismerkki fi",
+    "sv": "Osaamismerkki sv"
+  },
+  "nimi_sort": {
+    "fi": "Osaamismerkki fi",
+    "sv": "Osaamismerkki sv",
+    "en": "Osaamismerkki fi"
+  },
+  "oid": "1.2.246.562.13.00000000000000000777",
+  "kielivalinta": [
+    "fi",
+    "sv"
+  ],
+  "koulutukset": [],
+  "tutkintonimikkeet": [],
+  "opintojenLaajuus": null,
+  "timestamp": 1601287328081,
+  "eperuste": null,
+  "osaamismerkki": "osaamismerkit_1022#1",
+  "koulutustyyppi": "vapaa-sivistystyo-osaamismerkki",
+  "toteutustenTarjoajat": {
+    "count": 1,
+    "nimi": {"fi": "Oppilaitos fi 1.2.246.562.10.00101010101",
+             "sv": "Oppilaitos sv 1.2.246.562.10.00101010101"}
+  },
+  "isAvoinKorkeakoulutus": null
+}

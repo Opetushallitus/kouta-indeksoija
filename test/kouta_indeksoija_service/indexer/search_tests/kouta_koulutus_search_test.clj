@@ -58,9 +58,9 @@
 
 (deftest add-vapaa-sivistystyo-koulutustyyppi-when-muu
   (testing "If vapaa-sivistystyo-muu, add 'vapaa-sivistystyo' koulutustyyppi"
-      (let [koulutus {:koulutustyyppi "vapaa-sivistystyo-muu"}
-            result (deduce-koulutustyypit koulutus)]
-        (is (= ["vapaa-sivistystyo" "vapaa-sivistystyo-muu"] result)))))
+    (let [koulutus {:koulutustyyppi "vapaa-sivistystyo-muu"}
+          result (deduce-koulutustyypit koulutus)]
+      (is (= ["vapaa-sivistystyo" "vapaa-sivistystyo-muu"] result)))))
 
 (deftest add-koulutustyyppi-when-yo-ope
   (testing "If ope-pedag-opinnot, add 'kk-muu' koulutustyyppi"

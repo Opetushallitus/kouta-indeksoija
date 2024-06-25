@@ -11,6 +11,7 @@
         notification-called (atom false)]
     (with-redefs [env {:lokalisaatio-indexing-cron-string "* 0/30 * ? * *"
                        :organisaatio-indexing-cron-string "* 0 * ? * *"
+                       :osaamismerkki-indexing-cron-string "* 0/5 * ? * *"
                        :queueing-cron-string "*/1 * * ? * *"}
                   kouta-indeksoija-service.queue.queue/index-from-sqs (fn [] (do (reset! sqs-called true) (loop [] (recur))))
                   kouta-indeksoija-service.scheduled.jobs/handle-and-queue-changed-data (fn [] (reset! que-called true))
@@ -20,10 +21,10 @@
       (testing "schedule all jobs"
         (is (= 0 (count (jobs/get-jobs-info))))
         (jobs/schedule-jobs)
-        (is (= 5 (count (jobs/get-jobs-info)))))
+        (is (= 6 (count (jobs/get-jobs-info)))))
 
       (testing "reset all jobs"
-        (is (= 5 (count (jobs/get-jobs-info))))
+        (is (= 6 (count (jobs/get-jobs-info))))
         (jobs/reset-jobs)
         (is (= 0 (count (jobs/get-jobs-info))))))
 
@@ -35,6 +36,7 @@
           (is (= "NORMAL" (job-state jobs/queueing-job-name)))
           (is (= "NORMAL" (job-state jobs/lokalisaatio-indexing-job-name)))
           (is (= "NORMAL" (job-state jobs/organisaatio-indexing-job-name)))
+          (is (= "NORMAL" (job-state jobs/osaamismerkki-indexing-job-name)))
           (is (= "NORMAL" (job-state jobs/sqs-job-name)))
           (is (= "NORMAL" (job-state jobs/notification-job-name)))
           (is (= "NORMAL" (job-state jobs/queueing-job-name)))
@@ -46,6 +48,7 @@
           (is (= "NORMAL" (job-state jobs/queueing-job-name)))
           (is (= "NORMAL" (job-state jobs/lokalisaatio-indexing-job-name)))
           (is (= "NORMAL" (job-state jobs/organisaatio-indexing-job-name)))
+          (is (= "NORMAL" (job-state jobs/osaamismerkki-indexing-job-name)))
           (is (= "PAUSED" (job-state jobs/sqs-job-name)))
           (is (= "NORMAL" (job-state jobs/notification-job-name)))
           (is (= "NORMAL" (job-state jobs/queueing-job-name)))
@@ -57,6 +60,7 @@
           (is (= "NORMAL" (job-state jobs/queueing-job-name)))
           (is (= "NORMAL" (job-state jobs/lokalisaatio-indexing-job-name)))
           (is (= "NORMAL" (job-state jobs/organisaatio-indexing-job-name)))
+          (is (= "NORMAL" (job-state jobs/osaamismerkki-indexing-job-name)))
           (jobs/pause-queueing-job)
           (is (= "PAUSED" (job-state jobs/sqs-job-name)))
           (is (= "PAUSED" (job-state jobs/notification-job-name)))

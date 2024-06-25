@@ -331,6 +331,20 @@
           :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
           :lisatiedot []})
 
+(defonce osaamismerkki-koulutus-metadata
+  {:tyyppi "vapaa-sivistystyo-osaamismerkki"
+   :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}
+   :osaamismerkkiKoodiUri "osaamismerkit_1022#2"
+   :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_4"
+   :opintojenLaajuusNumero 1})
+
+(defonce osaamismerkki-toteutus-metatieto
+  (merge (dissoc (:metadata default-toteutus-map) :osaamisalat :ammatillinenPerustutkintoErityisopetuksena)
+         {:tyyppi           "vapaa-sivistystyo-osaamismerkki"
+          :asiasanat        []
+          :ammattinimikkeet []
+          :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}}))
+
 (defn add-koulutus-mock
   [oid & {:as params}]
   (let [koulutus (fix-default-format (merge default-koulutus-map {:oid oid :organisaatioOid oppilaitos-oid} params))]
@@ -905,6 +919,15 @@
 
                  kouta-indeksoija-service.rest.eperuste/get-osaamisalakuvaukset
                  kouta-indeksoija-service.fixture.external-services/mock-get-osaamisalakuvaukset
+
+                 kouta-indeksoija-service.rest.osaamismerkki/get-doc
+                 kouta-indeksoija-service.fixture.external-services/mock-get-osaamismerkki
+
+                 kouta-indeksoija-service.rest.osaamismerkki/get-doc-with-cache
+                 kouta-indeksoija-service.fixture.external-services/mock-get-osaamismerkki
+
+                 kouta-indeksoija-service.rest.osaamismerkki/fetch-all
+                 kouta-indeksoija-service.fixture.external-services/mock-fetch-all-osaamismerkit
 
                  kouta-indeksoija-service.indexer.tools.search/pohjakoulutusvaatimus-koodi-urit
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-pohjakoulutusvaatimus-koodi-urit
