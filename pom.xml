@@ -276,7 +276,7 @@
     <dependency>
       <groupId>com.amazonaws</groupId>
       <artifactId>aws-java-sdk-sqs</artifactId>
-      <version>1.11.916</version>
+      <version>1.12.677</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
