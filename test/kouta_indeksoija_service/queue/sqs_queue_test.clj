@@ -10,14 +10,9 @@
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
             [kouta-indeksoija-service.queue.notification-queue :as notification-queue]))
 
-
 (use-fixtures :once (fn [t] (fixture/restart-elasticsearch t)))
 
 (defonce test-long-poll-time 5)
-
-;; (def localstack-image (. DockerImageName (parse "localstack/localstack:2.3.0")))
-;; (def localstack-container (delay (-> (LocalStackContainer. localstack-image)
-;;                                      (.withServices (into-array [org.testcontainers.containers.localstack.LocalStackContainer$Service/SQS])))))
 
 (defn- message-bodies [response] (seq (map #(:body %) (:messages response))))
 
