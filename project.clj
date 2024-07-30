@@ -21,7 +21,7 @@
                          [ring/ring-core "1.7.1"]
                          [org.apache.commons/commons-lang3 "3.7"]
                          [com.fasterxml.jackson.core/jackson-core "2.17.2"]
-                         [com.fasterxml.jackson.core/jackson-databind "2.17.2"] 
+                         [com.fasterxml.jackson.core/jackson-databind "2.17.2"]
                          [org.apache.commons/commons-compress "1.26.0"]
                          [org.apache.httpcomponents/httpclient "4.5.13"]
                          [commons-io "2.15.1"]
@@ -55,7 +55,7 @@
                  ;Cas
                  [clj-soup/clojure-soup "0.1.3"]
                  ;;Logging
-                 
+
                  [oph/clj-log "0.3.2-SNAPSHOT" :exclusions [org.scala-lang/scala-library]]
                  [org.clojure/tools.logging "1.1.0"]
                  [org.apache.logging.log4j/log4j-slf4j-impl "2.20.0"]
@@ -70,10 +70,9 @@
          :destroy kouta-indeksoija-service.api/stop
          :browser-uri "kouta-indeksoija/swagger"}
   :profiles {:dev {:dependencies [[javax.servlet/javax.servlet-api "3.1.0"]
-                                  [ring/ring-mock "0.3.0"]
+                                  [ring/ring-mock "0.3.2"]
                                   [org.clojure/tools.namespace "0.2.11"]
-                                  [criterium "0.4.4"]
-                                  [pjstadig/humane-test-output "0.11.0"]]
+                                  [criterium "0.4.4"]]
                    :plugins [[lein-ring "0.12.5"]
                              [jonase/eastwood "0.3.5"]
                              [lein-zprint "1.2.0"]
@@ -85,30 +84,18 @@
                    :ring {:reload-paths ["src"]
                           :port 8100}
                    :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
-                              "-Daws.secretKey=randomKeyForLocalstack"]
-                   :injections [(require 'pjstadig.humane-test-output)
-                                (pjstadig.humane-test-output/activate!)]}
-             :test {:env {:test "true"} :dependencies [[net.java.dev.jna/jna "5.12.1"]
-                                                       [oph/clj-test-utils "0.5.6-SNAPSHOT"]
-                                                       [lambdaisland/kaocha "1.87.1366"]]
+                              "-Daws.secretKey=randomKeyForLocalstack"
+                              "-Daws.region=eu-west-1"]}
+             :test {:env {:test "true"}
+                    :dependencies [[ring/ring-mock "0.3.2"]
+                                   [net.java.dev.jna/jna "5.12.1"]
+                                   [oph/clj-test-utils "0.5.6-SNAPSHOT"]
+                                   [lambdaisland/kaocha "1.87.1366"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
-                               "-Daws.secretKey=randomKeyForLocalstack"]
-                    :injections [(require '[clj-test-utils.elasticsearch-docker-utils :as utils])
-                                 (utils/global-docker-elastic-fixture)]
+                               "-Daws.secretKey=randomKeyForLocalstack"
+                               "-Daws.region=eu-west-1"]
                     :plugins [[lein-test-report "0.2.0"]]}
-             :ci-test {:env {:test "true"}
-                       :dependencies [[ring/ring-mock "0.3.2"]
-                                      [net.java.dev.jna/jna "5.12.1"]
-                                      [oph/clj-test-utils "0.5.6-SNAPSHOT"]
-                                      [lambdaisland/kaocha "1.87.1366"]]
-                       :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
-                                  "-Dconf=ci_resources/config.edn"
-                                  "-Daws.accessKeyId=randomKeyIdForLocalstack"
-                                  "-Daws.secretKey=randomKeyForLocalstack"]
-                       :injections [(require '[clj-test-utils.elasticsearch-docker-utils :as utils])
-                                    (utils/global-docker-elastic-fixture)]
-                       :plugins [[lein-test-report "0.2.0"]]}
              :uberjar {:ring {:port 8080}}
              :jar-with-test-fixture {:source-paths ["src", "test"]
                                      :jar-exclusions [#"perf|resources|mocks"]}} ;TODO: Better exclusion
