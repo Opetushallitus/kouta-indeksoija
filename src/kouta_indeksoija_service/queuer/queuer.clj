@@ -28,7 +28,7 @@
   []
   (organisaatio-cache/clear-hierarkia-cache)
   (let [all-oppilaitokset (organisaatio-cache/get-all-indexable-oppilaitos-oids)]
-    (log/info "Lisätään jonoon " + (count all-oppilaitokset) + " oppilaitosta")
+    (log/info (str "Lisätään jonoon " (count all-oppilaitokset) " oppilaitosta"))
     (doseq [oppilaitokset (partition-all 20 all-oppilaitokset)]
       (queue :oppilaitokset oppilaitokset))))
 
