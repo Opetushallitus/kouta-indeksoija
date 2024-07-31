@@ -437,7 +437,7 @@
   [e k v]
   (postwalk (fn [sub] (if (get sub k) (assoc sub k v) sub)) e))
 
-;; Ellei hakuaikoja ole erikseen annettu -> kaytetaan oletuksia. Oletus-jsonista tulevia arvoja ei kayteta.
+;; Ellei hakuaikoja ole erikseen annettu -> käytetään oletuksia. Oletus-jsonista tulevia arvoja ei kayteta.
 (defn add-haku-mock
   [oid & {:as params}]
   (let [fix-dates (fn [haku] (-> haku

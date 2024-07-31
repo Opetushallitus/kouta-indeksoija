@@ -1,10 +1,8 @@
 (ns mocks.kouta-internal-mocks
-  (:require
-   [clj-log.access-log]
-   [mocks.export-elastic-data :refer [export-elastic-data]]
-   [clj-test-utils.elasticsearch-docker-utils :as ed-utils]
-   [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
-   [kouta-indeksoija-service.fixture.external-services :as mocks]))
+  (:require [clj-log.access-log]
+            [clj-test-utils.elasticsearch-docker-utils :as ed-utils]
+            [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture :refer [default-toteutus-map]]
+            [mocks.export-elastic-data :refer [export-elastic-data]]))
 
 (defonce OphOid             "1.2.246.562.10.00000000001")
 (defonce ParentOid          "1.2.246.562.10.594252633210")
@@ -40,6 +38,8 @@
 
 (defonce valintaPerusteId1  "fa7fcb96-3f80-4162-8d19-5b74731cf90c")
 
+(defonce default-toteutus-metadata (:metadata  default-toteutus-map))
+
 (defn -main []
   (ed-utils/start-elasticsearch)
 
@@ -57,11 +57,11 @@
                              :johtaaTutkintoon false :sorakuvausId sorakuvausId :metadata fixture/aikuisten-perusopetus-koulutus-metadata)
 
   (fixture/add-toteutus-mock ammToteutusOid ammKoulutusOid :tila "julkaistu" :organisaatioOid ChildOid :tarjoajat ChildOid
-                             :metadata {:tyyppi "amm"})
+                             :metadata (merge default-toteutus-metadata {:tyyppi "amm"}))
   (fixture/add-toteutus-mock ammTukinnonosaToteutusOid ammTukinnonosaOid :tila "julkaistu" :organisaatioOid ChildOid :tarjoajat ChildOid
-                             :metadata {:tyyppi "amm-tutkinnon-osa"})
+                             :metadata (merge default-toteutus-metadata {:tyyppi "amm-tutkinnon-osa"}))
   (fixture/add-toteutus-mock ammOsaamisalaToteutusOid ammOsaamisalaOid :tila "julkaistu" :organisaatioOid ChildOid :tarjoajat ChildOid
-                             :metadata {:tyyppi "amm-osaamisala"})
+                             :metadata (merge default-toteutus-metadata {:tyyppi "amm-osaamisala"}))
 
   (fixture/add-haku-mock hakuOid1 :tila "julkaistu" :organisaatioOid ChildOid :hakulomaketyyppi "ataru" :hakulomakeAtaruId ataruId1)
   (fixture/add-haku-mock hakuOid2 :tila "julkaistu" :organisaatioOid ChildOid :hakulomaketyyppi "ataru" :hakulomakeAtaruId ataruId1)
