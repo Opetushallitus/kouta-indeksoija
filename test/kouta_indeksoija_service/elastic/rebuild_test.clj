@@ -120,7 +120,7 @@
 
       (is (= all-index-names (->index-names admin/list-oppija-indices)))
       (is (= all-index-names (->index-names admin/list-virkailija-indices)))
-      (is (= 18 (count (keys (admin/list-indices-and-aliases)))))
+      (is (= 19 (count (keys (admin/list-indices-and-aliases)))))
 
       (is (nil? (get-doc "eperuste-virkailija" "123")))
       (is (= "123" (get-doc "eperuste" "123")))
@@ -140,7 +140,7 @@
       (admin/delete-unused-indices)
       (is (= [] (admin/list-unused-indices)))
       (= (admin/list-virkailija-indices) (admin/list-oppija-indices))
-      (is (= 15 (count (keys (admin/list-indices-and-aliases))))))
+      (is (= 16 (count (keys (admin/list-indices-and-aliases))))))
 
     (testing "should not delete lastqueued or indices starting with dot"
       (e/create-index ".kibana" {} {})

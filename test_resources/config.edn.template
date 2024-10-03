@@ -16,6 +16,7 @@
  :sqs-endpoint "http://localhost:4576"
  :lokalisaatio-indexing-cron-string "* 0/30 * ? * *"
  :organisaatio-indexing-cron-string "* 0 * ? * *"
+ :osaamismerkki-indexing-cron-string "0 0 * ? * *"
  :queueing-cron-string "*/15 * * ? * *"
  :notifier-targets ""
  :kouta-indeksoija-kouta-cache-time-seconds 3600

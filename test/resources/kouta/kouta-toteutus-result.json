@@ -381,5 +381,6 @@
   "koulutustyyppi": "amm",
   "koulutustyyppiPath": "amm/muu-amm-tutkintoon-johtava",
   "liitetytOpintojaksot": [],
-  "kuuluuOpintokokonaisuuksiin": null
+  "kuuluuOpintokokonaisuuksiin": null,
+  "liitetytOsaamismerkit": []
 }

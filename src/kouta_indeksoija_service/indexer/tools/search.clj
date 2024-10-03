@@ -11,7 +11,7 @@
                                                                     erikoistumiskoulutus? get-non-korkeakoulu-koodi-uri julkaistu? kk-opintojakso?
                                                                     kk-opintokokonaisuus? korkeakoulutus? lukio? muu-opintojakso? ope-pedag-opinnot?
                                                                     set-hakukohde-tila-by-related-haku telma? tuva? vapaa-sivistystyo-muu?
-                                                                    vapaa-sivistystyo-opistovuosi? yo?]]
+                                                                    vapaa-sivistystyo-opistovuosi? yo? vapaa-sivistystyo-osaamismerkki?]]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [oppilaitostyyppi-uri-to-tyyppi remove-uri-version]]
             [kouta-indeksoija-service.rest.koodisto :refer [extract-versio
@@ -102,6 +102,7 @@
      (lukio? koulutus)
      (vapaa-sivistystyo-opistovuosi? koulutus)
      (vapaa-sivistystyo-muu? koulutus)
+     (vapaa-sivistystyo-osaamismerkki? koulutus)
      (aikuisten-perusopetus? koulutus))        (get-in koulutus [:metadata :opintojenLaajuusNumero])
     :else nil))
 
@@ -135,6 +136,7 @@
     (tuva? koulutus) koodisto/koodiuri-viikko-laajuusyksikko
     (telma? koulutus) koodisto/koodiuri-osaamispiste-laajuusyksikko
     (vapaa-sivistystyo-opistovuosi? koulutus) koodisto/koodiuri-opintopiste-laajuusyksikko
+    (vapaa-sivistystyo-osaamismerkki? koulutus) koodisto/koodiuri-kurssi-laajuusyksikko
     (or
      (ammatillinen? koulutus) ;ilman ePerustetta
      (vapaa-sivistystyo-muu? koulutus)
@@ -275,6 +277,7 @@
             (and (tuva? koulutus) (not= toteutus-metadata nil)) [koulutustyyppi (if tuva-erityisopetuksena? "tuva-erityisopetus" "tuva-normal")]
             (vapaa-sivistystyo-opistovuosi? koulutus) [koulutustyyppi]
             (vapaa-sivistystyo-muu? koulutus) [koulutustyyppi]
+            (vapaa-sivistystyo-osaamismerkki? koulutus) [koulutustyyppi]
             (amm-ope-erityisope-ja-opo? koulutus) [koulutustyyppi]
             (kk-opintojakso? koulutus) (cond
                                          (and (avoin-korkeakoulutus? koulutus) is-amk?) [koulutustyyppi "amk-opintojakso-avoin"]

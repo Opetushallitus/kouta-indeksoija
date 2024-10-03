@@ -34,6 +34,7 @@
     "sv": "Kiva kuvaus sv"
   },
   "eperuste": 1234,
+  "osaamismerkki": null,
   "teemakuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
   "opintojenLaajuusNumero": 150,
   "opintojenLaajuus": {

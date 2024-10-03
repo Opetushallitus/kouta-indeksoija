@@ -378,5 +378,6 @@
   "koulutustyyppi": "taiteen-perusopetus",
   "koulutustyyppiPath": "taiteen-perusopetus",
   "liitetytOpintojaksot": [],
-  "kuuluuOpintokokonaisuuksiin": null
+  "kuuluuOpintokokonaisuuksiin": null,
+  "liitetytOsaamismerkit": []
 }

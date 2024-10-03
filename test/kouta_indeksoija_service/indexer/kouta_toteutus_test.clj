@@ -119,9 +119,9 @@
       (i/index-toteutukset [toteutus-oid] (. System (currentTimeMillis)))
       (is (nil? (get-doc toteutus/index-name toteutus-oid))))))
 
-(deftest assoc-opintojaksot
-  (testing "returns toteutus with two liitetty opintojakso attached"
-    (fixture/with-mocked-indexing
+(deftest assoc-liitetyt
+  (fixture/with-mocked-indexing
+    (testing "returns toteutus with two liitetty opintojakso attached"
       (let [toteutus {:tila "julkaistu"
                       :koulutusOid "1.2.246.562.13.00000000000000003145"
                       :nimi {:fi "testiopintokokonaisuustoteutus"}
@@ -174,4 +174,39 @@
                                                                   :opintojenLaajuusyksikko {:koodiUri "opintojenlaajuusyksikko_1#1"
                                                                                             :nimi {:sv "opintojenlaajuusyksikko_1#1 nimi sv"
                                                                                                    :fi "opintojenlaajuusyksikko_1#1 nimi fi"}}}}]}]
-        (is (= enriched-toteutus (toteutus/assoc-opintojaksot toteutus liitetyt-opintojaksot)))))))
+        (is (= enriched-toteutus (toteutus/assoc-liitetyt toteutus liitetyt-opintojaksot :liitetytOpintojaksot true)))))
+
+    (testing "returns toteutus with one liitetty osaamismerkki attached"
+      (let [toteutus {:tila "julkaistu"
+                      :koulutusOid "1.2.246.562.13.00000000000000003145"
+                      :nimi {:fi "testi-vst-toteutus"}
+                      :oid "1.2.246.562.17.00000000000000009816"
+                      :metadata {:liitetytOsaamismerkit ["1.2.246.562.17.00000000000000009999"]
+                                 :kuvaus {:fi "<p>Toteutuksen kuvaus</p>"}
+                                 :tyyppi "vapaa-sivistystyo-muu"}
+                      :organisaatioOid "1.2.246.562.10.75204242195"}
+            liitetty-osaamismerkki [{:tila "julkaistu"
+                                     :nimi {:fi "Osaamismerkki: Digitaalinen tiedonhaku"
+                                            :sv "Osaamismerkki: Digital informationssökning"}
+                                     :oid "1.2.246.562.13.00000000000000008797"
+                                     :kielivalinta ["fi" "sv"]
+                                     :metadata {:linkkiEPerusteisiin {}
+                                                :kuvaus {}
+                                                :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_4"
+                                                :opintojenLaajuusNumero 1.0
+                                                :tyyppi "vapaa-sivistystyo-osaamismerkki"
+                                                :osaamismerkkiKoodiUri "osaamismerkit_1022#1"}
+                                     :organisaatioOid "1.2.246.562.10.00000000001"
+                                     :koulutustyyppi "vapaa-sivistystyo-osaamismerkki"}]
+            enriched-toteutus {:tila "julkaistu"
+                               :koulutusOid "1.2.246.562.13.00000000000000003145"
+                               :nimi {:fi "testi-vst-toteutus"}
+                               :oid "1.2.246.562.17.00000000000000009816"
+                               :metadata {:liitetytOsaamismerkit ["1.2.246.562.17.00000000000000009999"]
+                                          :kuvaus {:fi "<p>Toteutuksen kuvaus</p>"}
+                                          :tyyppi "vapaa-sivistystyo-muu"}
+                               :organisaatioOid "1.2.246.562.10.75204242195"
+                               :liitetytOsaamismerkit [{:nimi {:fi "Osaamismerkki: Digitaalinen tiedonhaku"
+                                                               :sv "Osaamismerkki: Digital informationssökning"}
+                                                        :oid "1.2.246.562.13.00000000000000008797"}]}]
+        (is (= enriched-toteutus (toteutus/assoc-liitetyt toteutus liitetty-osaamismerkki :liitetytOsaamismerkit)))))))

@@ -261,5 +261,6 @@
   "koulutustyyppi": "muu-koulutus",
   "koulutustyyppiPath": "muu-koulutus",
   "liitetytOpintojaksot": [],
-  "kuuluuOpintokokonaisuuksiin": null
+  "kuuluuOpintokokonaisuuksiin": null,
+  "liitetytOsaamismerkit": []
 }

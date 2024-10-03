@@ -330,3 +330,19 @@
        (is (= opintojen-laajuusyksikko-nimi "opintojenlaajuusyksikko_2#1 nimi fi"))
        (is (= 5 opintojenLaajuusNumeroMin))
        (is (= 10 opintojenLaajuusNumeroMax))))))
+
+(deftest index-osaamismerkkikoulutus
+  (fixture/with-mocked-indexing
+    (testing "Indexer should index osaamismerkki specific metadata"
+      (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu" :johtaaTutkintoon "false" :koulutustyyppi "vapaa-sivistystyo-osaamismerkki" :metadata fixture/osaamismerkki-koulutus-metadata)
+      (check-all-nil)
+      (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
+      (let [koulutus (get-doc koulutus/index-name koulutus-oid)
+            osaamismerkki (get-in koulutus [:metadata :osaamismerkki])
+            opintojen-laajuusyksikko (get-in koulutus [:metadata :opintojenLaajuusyksikko :koodiUri])
+            opintojen-laajuusyksikko-nimi (get-in koulutus [:metadata :opintojenLaajuusyksikko :nimi :fi])
+            opintojen-laajuusnumero (get-in koulutus [:metadata :opintojenLaajuusNumero])]
+        (is (= "osaamismerkit_1022#2" osaamismerkki))
+        (is (= "opintojenlaajuusyksikko_4" opintojen-laajuusyksikko))
+        (is (= "opintojenlaajuusyksikko_4 nimi fi" opintojen-laajuusyksikko-nimi))
+        (is (= opintojen-laajuusnumero 1))))))

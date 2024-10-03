@@ -303,6 +303,17 @@
 
 (def get-toteutukset-with-cache
   (with-fifo-ttl-cache get-toteutukset
+    kouta-cache-time-millis
+    kouta-cache-size))
+
+(defn- get-koulutukset
+  [oids execution-id]
+  (cas-authenticated-post-as-json
+   (resolve-url :kouta-backend.koulutukset)
+   {:body (json/generate-string oids) :content-type :json}))
+
+(def get-koulutukset-with-cache
+  (with-fifo-ttl-cache get-koulutukset
                        kouta-cache-time-millis
                        kouta-cache-size))
 

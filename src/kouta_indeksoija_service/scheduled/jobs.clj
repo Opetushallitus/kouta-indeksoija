@@ -112,6 +112,14 @@
   []
   (scheduler/schedule-cron-job organisaatio-indexing-job-name organisaatio-indexing-job (:organisaatio-indexing-cron-string env)))
 
+(defjob osaamismerkki-indexing-job [ctx] (indexer/index-all-osaamismerkit))
+
+(defonce osaamismerkki-indexing-job-name "osaamismerkki-indexing")
+
+(defn schedule-osaamismerkki-indexing-job
+  []
+  (scheduler/schedule-cron-job osaamismerkki-indexing-job-name osaamismerkki-indexing-job (:osaamismerkki-indexing-cron-string env)))
+
 (defn pause-organisaatio-indexing-job
   []
   (scheduler/pause-job organisaatio-indexing-job-name))
@@ -126,7 +134,8 @@
   (schedule-queueing-job)
   (schedule-notification-job)
   (schedule-lokalisaatio-indexing-job)
-  (schedule-organisaatio-indexing-job))
+  (schedule-organisaatio-indexing-job)
+  (schedule-osaamismerkki-indexing-job))
 
 (defn get-jobs-info
   []

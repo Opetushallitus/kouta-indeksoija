@@ -17,12 +17,14 @@
 (let [oppilaitos-oid1 "1.2.246.562.10.10101010199"
       oppilaitos-oid2 "1.2.246.562.10.77777777799"
       oppilaitos-oid3 "1.2.246.562.10.39218317368" ;; Helsingin Yliopisto
+      oppilaitos-oid4 "1.2.246.562.10.00101010101"
       koulutus-oid1 "1.2.246.562.13.00000000000000000099"
       koulutus-oid2 "1.2.246.562.13.00000000000000000098"
       koulutus-oid3 "1.2.246.562.13.00000000000000000097"
       koulutus-oid4 "1.2.246.562.13.00000000000000000096"
       koulutus-oid5 "1.2.246.562.13.00000000000000000095"
       koulutus-oid6 "1.2.246.562.13.00000000000000000094"
+      koulutus-oid7 "1.2.246.562.13.00000000000000000777"
       toteutus-oid1 "1.2.246.562.17.00000000000000000099"
       toteutus-oid2 "1.2.246.562.17.00000000000000000098"
       toteutus-oid3 "1.2.246.562.17.00000000000000000195"
@@ -30,6 +32,7 @@
       toteutus-oid5 "1.2.246.562.17.00000000000000000197"
       toteutus-oid6 "1.2.246.562.17.00000000000000000198"
       toteutus-oid7 "1.2.246.562.17.00000000000000000199"
+      toteutus-oid8 "1.2.246.562.17.00000000000000000888"
       haku-oid1 "1.2.246.562.29.00000000000000000001"
       haku-oid2 "1.2.246.562.29.00000000000000000002"
       hakukohde-oid1 "1.2.246.562.20.00000000000000000001"
@@ -44,6 +47,7 @@
     (fixture/add-oppilaitos-mock oppilaitos-oid1 :tila "julkaistu")
     (fixture/add-oppilaitos-mock oppilaitos-oid2 :tila "julkaistu")
     (fixture/add-oppilaitos-mock oppilaitos-oid3 :tila "julkaistu")
+    (fixture/add-oppilaitos-mock oppilaitos-oid4 :tila "julkaistu")
 
     (fixture/add-koulutus-mock koulutus-oid1
                                :tila "julkaistu"
@@ -106,6 +110,24 @@
                                :tarjoajat [oppilaitos-oid2]
                                :metadata (read-json-as-string "test/resources/search/" "koulutus-metadata"))
 
+    (fixture/add-koulutus-mock koulutus-oid7
+                               :tila "julkaistu"
+                               :nimi "Osaamismerkki"
+                               :ePerusteId nil
+                               :koulutuksetKoodiUri []
+                               :tarjoajat [oppilaitos-oid4]
+                               :metadata {:linkkiEPerusteisiin {}
+                                          :kuvaus {}
+                                          :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_4"
+                                          :opintojenLaajuusNumero 1.0
+                                          :isMuokkaajaOphVirkailija true
+                                          :lisatiedot []
+                                          :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_001#1"]
+                                          :tyyppi "vapaa-sivistystyo-osaamismerkki"
+                                          :osaamismerkkiKoodiUri "osaamismerkit_1022#1"}
+                               :organisaatioOid "1.2.246.562.10.00000000001"
+                               :koulutustyyppi "vapaa-sivistystyo-osaamismerkki")
+
     (fixture/add-toteutus-mock toteutus-oid1
                                koulutus-oid2
                                :tila "julkaistu"
@@ -148,6 +170,13 @@
                                :tila "arkistoitu"
                                :nimi "Autototeutus xxx"
                                :tarjoajat [(str oppilaitos-oid2 "24")])
+
+    (fixture/add-toteutus-mock toteutus-oid8
+                               koulutus-oid7
+                               :tila "julkaistu"
+                               :nimi "Osaamismerkkitoteutus"
+                               :tarjoajat [(str oppilaitos-oid4 "1")]
+                               :metadata (fixture/->keywordized-json (read-json-as-string "test/resources/search/" "osaamismerkkitoteutus-metadata")))
 
     (fixture/add-haku-mock haku-oid1
                            :tila "julkaistu"
@@ -265,6 +294,18 @@
         ;(debug-pretty (get-doc koulutus/index-name koulutus-oid4))
         (compare-json (no-timestamp (json json-path "koulutus-search-item-tutkinnon-osa"))
                       (no-timestamp (get-doc koulutus-search/index-name koulutus-oid4))
+                      [:search_terms]
+                      [:fi :toteutusNimi]))))
+
+  (deftest index-osaamismerkki-search-item-test
+    (fixture/with-mocked-indexing
+      (testing "Create correct search item when osaamismerkki"
+        (is (nil? (get-doc koulutus-search/index-name koulutus-oid7)))
+        (i/index-koulutus koulutus-oid7)
+        (i/index-oppilaitos oppilaitos-oid2)
+        ;(debug-pretty (get-doc koulutus/index-name koulutus-oid7))
+        (compare-json (no-timestamp (json json-path "koulutus-search-item-osaamismerkki"))
+                      (no-timestamp (get-doc koulutus-search/index-name koulutus-oid7))
                       [:search_terms]
                       [:fi :toteutusNimi])))))
 

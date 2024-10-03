@@ -152,6 +152,7 @@
   "opintojenLaajuusNumeroMax": null,
   "timestamp": 1600944714227,
   "eperuste": 1234,
+  "osaamismerkki": null,
   "koulutustyyppi": "amm-osaamisala",
   "toteutustenTarjoajat": {
     "count": 1,
