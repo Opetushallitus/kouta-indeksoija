@@ -82,3 +82,52 @@
                         :sv "Kompetensområdet"}
                  :uri "osaamisala_3157"
                  :koodisto "osaamisala"}}])
+
+(defn osaamismerkki
+  [koodi-uri]
+  {:id 9203135
+   :nimi {:_id "9204297"
+           :_tunniste "5596ec44-7305-44a4-a10e-f2cb2f04182e"
+           :fi "Digitaalinen turvallisuus"
+           :sv "Digital säkerhet"}
+   :kuvaus nil
+   :tila :JULKAISTU
+   :kategoria {:id 9202623
+                :nimi {:_id "9202528"
+                        :_tunniste "6d20f392-f411-4e85-9d00-559411a6e4d7"
+                        :fi "Digitaidot"
+                        :sv "Digital kompetens"}
+                :kuvaus nil
+                :liite {:id "ff78de54-0090-484f-87ce-802ea6c70156"
+                         :nimi "digitaidot_eitekstia.png"
+                         :mime "image/png"
+                         :binarydata "iVBORw0KGgoAAAANSUhEUgA"}
+                :muokattu 1707992127262}
+   :koodiUri koodi-uri
+   :osaamistavoitteet [{:id 9203213
+                         :osaamistavoite {:_id "9204298"
+                                           :_tunniste "d3d0a69a-930e-49b7-8355-c3965f998468"
+                                           :fi "osaa toimia turvallisesti digitaalisissa toimintaympäristöissä"
+                                           :sv "kan handla tryggt i digitala verksamhetsmiljöer"}}]
+   :arviointikriteerit [{:id 9203207
+                          :arviointikriteeri {:_id "9204292"
+                                               :_tunniste "5f3884a4-353a-4d5b-95cf-163ba318f8e5"
+                                               :fi "luettelee yleisimpiä tietoturvariskejä"
+                                               :sv "räknar upp de vanligaste datasäkerhetsriskerna"}}
+                         {:id 9203209
+                          :arviointikriteeri {:_id "9204294"
+                                               :_tunniste "8c6e7039-913e-4fa6-b309-271a4f96f256"
+                                               :fi "nimeää henkilötietojen käsittelyyn liittyviä yksilön oikeuksia"
+                                               :sv "ger exempel på individens rättigheter vid behandling av personuppgifter"}}]
+   :voimassaoloAlkaa 1704060000000
+   :voimassaoloLoppuu nil
+   :muokattu 1707992127262
+   :muokkaaja "1.2.246.562.24.16945731101"})
+
+(defn mock-get-osaamismerkki
+  [koodi-uri]
+  (osaamismerkki koodi-uri))
+
+(defn mock-fetch-all-osaamismerkit
+  []
+  [(osaamismerkki "osaamismerkki_1008")])

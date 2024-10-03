@@ -21,6 +21,7 @@
   (fixture/add-koulutus-mock koulutusOid6 :tila "tallennettu" :koulutustyyppi "yo" :nimi "Diplomi-insinööri" :sorakuvausId sorakuvausId :metadata fixture/yo-koulutus-metadata :esikatselu false)
   (fixture/add-koulutus-mock lukio-oid :tila "julkaistu" :koulutustyyppi "lk" :nimi "Lukio" :metadata fixture/lukio-koulutus-metadata :sorakuvausId sorakuvausId)
   (fixture/add-koulutus-mock kk-koulutus-oid :tila "julkaistu" :koulutustyyppi "yo" :nimi "Korkeakoulu" :metadata fixture/yo-koulutus-metadata :sorakuvausId sorakuvausId)
+  (fixture/add-koulutus-mock osaamismerkki-koulutus-oid :tila "julkaistu" :koulutustyyppi "vapaa-sivistystyo-osaamismerkki" :nimi "Osaamismerkki" :metadata fixture/osaamismerkki-koulutus-metadata)
 
   ;; Punkaharjun ja Helsingin yliopistoihin kiinnitetyt koulutukset
   (fixture/add-koulutus-mock traktoriala-oid :koulutustyyppi "amm" :tila "julkaistu" :nimi "Traktorialan koulutus" :tarjoajat [punkaharjun-yliopisto helsingin-yliopisto] :metadata fixture/koulutus-metatieto :sorakuvausId sorakuvausId)
@@ -73,6 +74,7 @@
 
   (fixture/add-toteutus-mock lukio-toteutus-oid lukio-oid     :tila "julkaistu" :nimi "Lukio" :modified "2018-06-05T12:02:23" :metadata fixture/lk-toteutus-metadata)
   (fixture/add-toteutus-mock kk-toteutus-oid    kk-koulutus-oid     :tila "julkaistu" :nimi "Korkeakoulu" :modified "2018-06-05T12:02:23" :metadata fixture/yo-toteutus-metatieto)
+  (fixture/add-toteutus-mock osaamismerkki-toteutus-oid osaamismerkki-koulutus-oid :tila "julkaistu" :nimi "Osaamismerkki" :modified "2018-06-05T12:02:23" :metadata fixture/osaamismerkki-toteutus-metatieto)
 
   ;; Punkaharjun ja Helsingin yliopistoihin kiinnitetyt toteutukset
   (fixture/add-toteutus-mock ponikoulu-oid hevosala-oid               :koulutustyyppi "amm"             :tila "julkaistu" :nimi "Ponikoulu" :tarjoajat [punkaharjun-toimipiste-2] :metadata fixture/oletus-toteutus-metatieto)
@@ -161,8 +163,9 @@
                                                              aakkostus-koulutus-oid1 aakkostus-koulutus-oid2 aakkostus-koulutus-oid3 aakkostus-koulutus-oid3 aakkostus-koulutus-oid4 aakkostus-koulutus-oid5
                                                              keyword-koulutus-oid1 keyword-koulutus-oid2 keyword-koulutus-oid3 keyword-koulutus-oid4 keyword-koulutus-oid5 keyword-koulutus-oid6 keyword-koulutus-oid7
                                                              keyword-koulutus-oid8 keyword-koulutus-oid9 keyword-koulutus-oid10 keyword-koulutus-oid11 keyword-koulutus-oid12 keyword-koulutus-oid13
-                                                             keyword-koulutus-oid14 keyword-koulutus-oid15 keyword-koulutus-oid16 keyword-koulutus-oid17 keyword-koulutus-oid18]
-                                               :toteutukset [toteutusOid1 toteutusOid2 toteutusOid3 toteutusOid4 toteutusOid5 toteutusOid6 lukio-toteutus-oid kk-toteutus-oid]
+                                                             keyword-koulutus-oid14 keyword-koulutus-oid15 keyword-koulutus-oid16 keyword-koulutus-oid17 keyword-koulutus-oid18
+                                                             osaamismerkki-koulutus-oid]
+                                               :toteutukset [toteutusOid1 toteutusOid2 toteutusOid3 toteutusOid4 toteutusOid5 toteutusOid6 lukio-toteutus-oid kk-toteutus-oid osaamismerkki-toteutus-oid]
                                                :haut [hakuOid1 hakuOid2 hakuOid3 hakuOid4 hakuOid5 kk-haku-oid]
                                                :hakukohteet [hakukohdeOid1 hakukohdeOid2 hakukohdeOid3 hakukohdeOid4 hakukohdeOid5 hakukohdeOid6 hakukohdeOid7 kk-hakukohde-oid]
                                                :valintaperusteet [valintaperusteId1 valintaperusteId2 valintaperusteId3 valintaperusteId4 valintaperusteId5 valintaperusteId6]

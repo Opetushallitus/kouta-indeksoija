@@ -11,6 +11,8 @@
 
 (defonce koodiuri-viikko-laajuusyksikko "opintojenlaajuusyksikko_8#1")
 
+(defonce koodiuri-kurssi-laajuusyksikko "opintojenlaajuusyksikko_4")
+
 (defonce koodiuri-ylioppilas-tutkintonimike "tutkintonimikkeet_00001#1")
 
 (defonce koodiuri-koulutusalataso1 "kansallinenkoulutusluokitus2016koulutusalataso1")

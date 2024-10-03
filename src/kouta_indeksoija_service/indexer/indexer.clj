@@ -11,10 +11,12 @@
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
             [kouta-indeksoija-service.indexer.eperuste.tutkinnonosa :as tutkinnonosa]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :as osaamisalakuvaus]
+            [kouta-indeksoija-service.indexer.eperuste.osaamismerkki :as osaamismerkki]
             [kouta-indeksoija-service.indexer.koodisto.koodisto :as koodisto]
             [kouta-indeksoija-service.util.time :refer [long->rfc1123]]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.rest.eperuste :as eperusteet-client]
+            [kouta-indeksoija-service.rest.osaamismerkki :as osaamismerkki-client]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as hierarkia]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.util.tools :refer [get-oids]]
@@ -213,6 +215,15 @@
   (let [execution-id (. System (currentTimeMillis))]
    (index-eperusteet [oid] execution-id)))
 
+(defn index-osaamismerkit
+  [oids execution-id]
+  (osaamismerkki/do-index oids execution-id))
+
+(defn index-osaamismerkki
+  [koodiUri]
+  (let [execution-id (. System (currentTimeMillis))]
+    (index-osaamismerkit [koodiUri] execution-id)))
+
 (defn index-oppilaitokset
   ([oids execution-id]
    (index-oppilaitokset oids execution-id true))
@@ -256,17 +267,19 @@
               (count (:hakukohteet oids)) "hakukohdetta, "
               (count (:valintaperusteet oids)) "valintaperustetta, "
               (count (:sorakuvaukset oids)) "sora-kuvausta, "
-              (count (:eperusteet oids)) "eperustetta osaamisaloineen sekä"
+              (count (:eperusteet oids)) "eperustetta osaamisaloineen,"
+              (count (:osaamismerkit oids)) "osaamismerkkiä sekä"
               (count (:oppilaitokset oids)) "oppilaitosta.")
     (let [ret (cond-> {}
-                      (contains? oids :koulutukset) (assoc :koulutukset (index-koulutukset (:koulutukset oids) execution-id))
-                      (contains? oids :toteutukset) (assoc :toteutukset (index-toteutukset (:toteutukset oids) execution-id))
-                      (contains? oids :haut) (assoc :haut (index-haut (:haut oids) execution-id))
-                      (contains? oids :hakukohteet) (assoc :hakukohteet (index-hakukohteet (:hakukohteet oids) execution-id))
-                      (contains? oids :sorakuvaukset) (assoc :sorakuvaukset (index-sorakuvaukset (:sorakuvaukset oids) execution-id))
-                      (contains? oids :valintaperusteet) (assoc :valintaperusteet (index-valintaperusteet (:valintaperusteet oids) execution-id))
-                      (contains? oids :eperusteet) (assoc :eperusteet (index-eperusteet (:eperusteet oids) execution-id))
-                      (contains? oids :oppilaitokset) (assoc :oppilaitokset (index-oppilaitokset (:oppilaitokset oids) execution-id)))]
+                (contains? oids :koulutukset) (assoc :koulutukset (index-koulutukset (:koulutukset oids) execution-id))
+                (contains? oids :toteutukset) (assoc :toteutukset (index-toteutukset (:toteutukset oids) execution-id))
+                (contains? oids :haut) (assoc :haut (index-haut (:haut oids) execution-id))
+                (contains? oids :hakukohteet) (assoc :hakukohteet (index-hakukohteet (:hakukohteet oids) execution-id))
+                (contains? oids :sorakuvaukset) (assoc :sorakuvaukset (index-sorakuvaukset (:sorakuvaukset oids) execution-id))
+                (contains? oids :valintaperusteet) (assoc :valintaperusteet (index-valintaperusteet (:valintaperusteet oids) execution-id))
+                (contains? oids :eperusteet) (assoc :eperusteet (index-eperusteet (:eperusteet oids) execution-id))
+                (contains? oids :oppilaitokset) (assoc :oppilaitokset (index-oppilaitokset (:oppilaitokset oids) execution-id))
+                (contains? oids :osaamismerkit) (assoc :osaamismerkit (index-osaamismerkit (:osaamismerkit oids) execution-id)))]
       (log/info (str " ID:" execution-id " Indeksointi valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms."))
       ret)))
 
@@ -337,6 +350,13 @@
         execution-id (str "MASSA-" (. System (currentTimeMillis)))]
     (log/info "ID:" execution-id " Indeksoidaan " (count eperusteet) " eperustetta, (o)ids: " eperusteet)
     (index-eperusteet eperusteet execution-id)))
+
+(defn index-all-osaamismerkit
+  []
+  (let [osaamismerkit (osaamismerkki-client/fetch-all)
+        execution-id (str "MASSA-" (. System (currentTimeMillis)))]
+    (log/info "ID:" execution-id " Indeksoidaan " (count osaamismerkit) " osaamismerkkiä, koodiUrit: " osaamismerkit)
+    (index-osaamismerkit osaamismerkit execution-id)))
 
 (defn index-all-oppilaitokset
   []

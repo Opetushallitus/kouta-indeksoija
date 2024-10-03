@@ -126,6 +126,7 @@
                   (assoc :kielivalinta (:kielivalinta koulutus))
                   (dissoc :johtaaTutkintoon :esikatselu :modified :muokkaaja :_enrichedData :externalId :julkinen :tila :metadata :tarjoajat :sorakuvausId :organisaatioOid :ePerusteId)
                   (assoc :eperuste                (:ePerusteId koulutus))
+                  (assoc :osaamismerkki           (get-in koulutus [:metadata :osaamismerkkiKoodiUri]))
                   (assoc :koulutukset             (:koulutuksetKoodiUri koulutus))
                   (assoc :tutkintonimikkeet       (search-tool/tutkintonimike-koodi-urit koulutus))
                   (assoc :kuvaus                  (get-in koulutus [:metadata :kuvaus]))

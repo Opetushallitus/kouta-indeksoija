@@ -393,6 +393,7 @@
   ],
   "timestamp": 1621942122314,
   "eperuste": 1234,
+  "osaamismerkki": null,
   "koulutustyyppi": "amm",
   "toteutustenTarjoajat": {
     "count": 1,

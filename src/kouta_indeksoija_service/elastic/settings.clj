@@ -152,6 +152,26 @@
                                        :norms false
                                        :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}]})
 
+(def osaamismerkki-mappings
+  {:dynamic_templates [{:fi {:match "kieli_fi"
+                             :match_mapping_type "string"
+                             :mapping {:type "text"
+                                       :analyzer "finnish"
+                                       :norms false
+                                       :fields {:keyword {:type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
+                       {:sv {:match "kieli_sv"
+                             :match_mapping_type "string"
+                             :mapping {:type "text"
+                                       :analyzer "swedish"
+                                       :norms false
+                                       :fields {:keyword {:type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
+                       {:en {:match "kieli_en"
+                             :match_mapping_type "string"
+                             :mapping {:type "text"
+                                       :analyzer "english"
+                                       :norms false
+                                       :fields {:keyword {:type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}]})
+
 (def koodisto-mappings
   {:dynamic_templates [{:nested {:match "koodit"
                                  :match_mapping_type "object"

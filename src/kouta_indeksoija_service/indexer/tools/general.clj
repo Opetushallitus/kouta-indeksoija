@@ -75,6 +75,10 @@
   [koulutus]
   (= "vapaa-sivistystyo-muu" (:koulutustyyppi koulutus)))
 
+(defn vapaa-sivistystyo-osaamismerkki?
+  [koulutus]
+  (= "vapaa-sivistystyo-osaamismerkki" (:koulutustyyppi koulutus)))
+
 (defn amm-ope-erityisope-ja-opo?
   [koulutus]
   (= "amm-ope-erityisope-ja-opo" (:koulutustyyppi koulutus)))

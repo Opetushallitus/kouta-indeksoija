@@ -10,6 +10,7 @@
             [kouta-indeksoija-service.indexer.eperuste.eperuste :refer [index-name] :rename {index-name eperuste-index}]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :refer [index-name] :rename {index-name osaamisalakuvaus-index}]
             [kouta-indeksoija-service.indexer.eperuste.tutkinnonosa :refer [index-name] :rename {index-name tutkinnonosa-index}]
+            [kouta-indeksoija-service.indexer.eperuste.osaamismerkki :refer [index-name] :rename {index-name osaamismerkki-index}]
             [kouta-indeksoija-service.indexer.koodisto.koodisto :refer [index-name] :rename {index-name koodisto-index}]
             [kouta-indeksoija-service.indexer.kouta.haku :refer [index-name] :rename {index-name haku-index}]
             [kouta-indeksoija-service.indexer.kouta.hakukohde :refer [index-name] :rename {index-name hakukohde-index}]
@@ -131,6 +132,9 @@
    [tutkinnonosa-index index-settings eperuste-mappings]
    [osaamisalakuvaus-index index-settings eperuste-mappings]])
 
+(defonce osaamismerkki-indices-settings-and-mappings
+  [[osaamismerkki-index index-settings-eperuste osaamismerkki-mappings]])
+
 (defonce koodisto-indices-settings-and-mappings
   [[koodisto-index index-settings koodisto-mappings]])
 
@@ -140,6 +144,7 @@
 (defonce indices-settings-and-mappings
   (into [] (concat kouta-indices-settings-and-mappings
                    eperuste-indices-settings-and-mappings
+                   osaamismerkki-indices-settings-and-mappings
                    koodisto-indices-settings-and-mappings
                    lokalisointi-indices-settings-and-mappings)))
 
@@ -173,6 +178,10 @@
 (defn initialize-eperuste-indices-for-reindexing
   []
   (initialize-new-indices-for-reindexing eperuste-indices-settings-and-mappings))
+
+(defn initialize-osaamismerkki-indices-for-reindexing
+  []
+  (initialize-new-indices-for-reindexing osaamismerkki-indices-settings-and-mappings))
 
 (defn initialize-koodisto-indices-for-reindexing
   []

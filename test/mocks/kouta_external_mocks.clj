@@ -27,6 +27,7 @@
 (defonce koulutusOid4   "1.2.246.562.13.00000000000000000004")
 (defonce koulutusOid5   "1.2.246.562.13.00000000000000000005")
 (defonce koulutusOid6   "1.2.246.562.13.00000000000000000006")
+(defonce koulutusOid7   "1.2.246.562.13.00000000000000000007")
 
 (defonce toteutusOid1   "1.2.246.562.17.00000000000000000001")
 (defonce toteutusOid2   "1.2.246.562.17.00000000000000000002")
@@ -55,6 +56,7 @@
   (fixture/add-koulutus-mock koulutusOid4 :tila "julkaistu" :organisaatio LonelyOid :sorakuvausId sorakuvausId1 :tarjoajat [ChildOid])
   (fixture/add-koulutus-mock koulutusOid5 :tila "julkaistu" :organisaatio ChildOid :koulutustyyppi "amm-muu" :metadata fixture/amm-muu-koulutus-metadata)
   (fixture/add-koulutus-mock koulutusOid6 :tila "julkaistu" :organisaatio ChildOid :koulutustyyppi "aikuisten-perusopetus" :metadata fixture/aikuisten-perusopetus-koulutus-metadata)
+  (fixture/add-koulutus-mock koulutusOid7 :tila "julkaistu" :organisaatio ChildOid :koulutustyyppi "vapaa-sivistystyo-osaamismerkki" :metadata fixture/osaamismerkki-koulutus-metadata)
 
   (fixture/add-toteutus-mock toteutusOid1 koulutusOid1 :tila "julkaistu" :organisaatio ChildOid)
   (fixture/add-toteutus-mock toteutusOid2 koulutusOid1 :tila "julkaistu" :organisaatio LonelyOid :tarjoajat [ChildOid])
@@ -75,7 +77,7 @@
   (fixture/add-hakukohde-mock hakukohdeOid3 toteutusOid2 hakuOid1 :tila "julkaistu" :organisaatio LonelyOid :valintaperusteId valintaPerusteId1)
 
   (fixture/index-oids-without-related-indices {:sorakuvaukset [sorakuvausId1 sorakuvausId2]
-                                               :koulutukset [koulutusOid1 koulutusOid2 koulutusOid3 koulutusOid4 koulutusOid5 koulutusOid6]
+                                               :koulutukset [koulutusOid1 koulutusOid2 koulutusOid3 koulutusOid4 koulutusOid5 koulutusOid6 koulutusOid7]
                                                :toteutukset [toteutusOid1 toteutusOid2]
                                                :haut [hakuOid1 hakuOid2 hakuOid3 hakuOid4 hakuOid5 hakuOid6]
                                                :valintaperusteet [valintaPerusteId1 valintaPerusteId2 valintaPerusteId3]
