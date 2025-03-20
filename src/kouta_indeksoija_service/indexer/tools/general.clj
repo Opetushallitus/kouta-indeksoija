@@ -128,13 +128,16 @@
     (assoc hakukohde :tila (:tila haku))
     hakukohde))
 
+(defn koodiuri-wo-version [koodiuri]
+  (string/replace koodiuri #"#\w+" ""))
+
 (defn remove-version-from-koodiuri
   [entity path-to-koodiuri]
   (let [koodiuri (get-in entity path-to-koodiuri)]
     (if (not (nil? koodiuri))
       (assoc-in entity
                 path-to-koodiuri
-                (string/replace koodiuri #"#\w+" ""))
+                (koodiuri-wo-version koodiuri))
       entity)))
 
 ;esim. pelastusalan koulutuksille syötetään tiedot käsin, koska ei ole ePerustetta
