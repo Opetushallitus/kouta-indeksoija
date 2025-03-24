@@ -49,7 +49,8 @@
   (let [hakukohteen-hakuajat (:hakuajat hakukohde)]
     (assoc hakukohde :hakuajat (if (seq hakukohteen-hakuajat)
                                  hakukohteen-hakuajat
-                                 (:hakuajat haku)))))
+                                 (map #(dissoc % :hakuaika-id)
+                                      (:hakuajat haku))))))
 
 (defn- assoc-sora-data
   [hakukohde sora-tiedot]
