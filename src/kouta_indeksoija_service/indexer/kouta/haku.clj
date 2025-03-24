@@ -35,8 +35,8 @@
 
 (defn- maksullinen-kk-haku? [haku johtaa-tutkintoon?]
   (let [hakuajat-start (map :alkaa (:hakuajat haku))
-        studies-start-term (general/koodiuri-wo-version (get-in haku [:metadata :koulutuksenAlkamiskausi :koodiUri] ""))
-        studies-start-year (Integer/parseInt (get-in haku [:metadata :koulutuksenAlkamisvuosi] "0"))
+        studies-start-term (general/koodiuri-wo-version (get-in haku [:metadata :koulutuksenAlkamiskausi :koulutuksenAlkamiskausi :koodiUri] ""))
+        studies-start-year (Integer/parseInt (get-in haku [:metadata :koulutuksenAlkamiskausi :koulutuksenAlkamisvuosi] "0"))
         kohdejoukko (general/koodiuri-wo-version (get-in haku [:kohdejoukko :koodiUri] ""))
         kohdejoukon-tarkenne (general/koodiuri-wo-version (get-in haku [:kohdejoukonTarkenne :koodiUri] ""))]
     (boolean

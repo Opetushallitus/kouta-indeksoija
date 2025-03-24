@@ -346,10 +346,13 @@
           :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}}))
 
 (defonce maksullinen-kk-haku-metadata
-   {:alkamiskausityyppi "alkamiskausi ja -vuosi"
-    :henkilokohtaisenSuunnitelmanLisatiedot  { }
-    :koulutuksenAlkamiskausiKoodiUri "kausi_s"
-    :koulutuksenAlkamisvuosi "2026"})
+  {:yhteyshenkilot []
+   :tulevaisuudenAikataulu []
+   :koulutuksenAlkamiskausi {:alkamiskausityyppi "alkamiskausi ja -vuosi"
+                             :henkilokohtaisenSuunnitelmanLisatiedot {}
+                             :koulutuksenAlkamiskausiKoodiUri "kausi_s#1"
+                             :koulutuksenAlkamisvuosi "2025"}
+   :isMuokkaajaOphVirkailija true})
 
 (defn add-koulutus-mock
   [oid & {:as params}]
