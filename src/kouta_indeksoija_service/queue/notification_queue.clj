@@ -5,7 +5,7 @@
             [kouta-indeksoija-service.queue.queue :as queue]
             [kouta-indeksoija-service.notifier.notifier :refer [send-notification]]
             [kouta-indeksoija-service.util.tools :refer [get-id]])
-  (:import (com.amazonaws.services.sqs.model QueueDoesNotExistException)))
+  (:import (software.amazon.awssdk.services.sqs.model QueueDoesNotExistException)))
 
 (defn receive-messages-from-notification-queue
   []

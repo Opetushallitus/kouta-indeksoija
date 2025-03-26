@@ -45,11 +45,11 @@
                          [org.apache.logging.log4j/log4j-core "2.24.3"]
                          [clj-log4j2 "0.4.0"]
                          [ring-cors "0.1.13"]
-                         [software.amazon.awssdk/sqs "2.31.6" :exclusions [software.amazon.awssdk/netty-nio-client
-                                                                           software.amazon.awssdk/apache-client]]
-                         [software.amazon.awssdk/sso "2.31.6"]
-                         [software.amazon.awssdk/ssooidc "2.31.6"]
-                         [software.amazon.awssdk/apache-client "2.31.6" :exclusions [commons-logging]]
+                         [software.amazon.awssdk/sqs "2.31.11" :exclusions [software.amazon.awssdk/netty-nio-client
+                                                                            software.amazon.awssdk/apache-client]]
+                         [software.amazon.awssdk/sso "2.31.11"]
+                         [software.amazon.awssdk/ssooidc "2.31.11"]
+                         [software.amazon.awssdk/apache-client "2.31.11" :exclusions [commons-logging]]
                          [org.slf4j/slf4j-api "2.0.17"]
                          [org.slf4j/jcl-over-slf4j "2.0.17"]
 
