@@ -8,7 +8,11 @@
   (when (not (blank? s))
     s))
 
-(defonce sqs-endpoint (or (->not-blank (:sqs-endpoint env)) (->not-blank (:sqs-region env))))
+(defonce sqs-endpoint (->not-blank (:sqs-endpoint env)))
+(defonce sqs-region (->not-blank (:sqs-region env)))
+(defonce localstack-aws-access-key-id (->not-blank (:localstack-aws-access-key-id env)))
+(defonce localstack-aws-secret-access-key (->not-blank (:localstack-aws-secret-access-key env)))
+(defonce test? (parse-boolean (or (:test env) "false")))
 
 (defn priorities
   []

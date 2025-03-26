@@ -7,7 +7,7 @@
             [kouta-indeksoija-service.queue.state :as state]
             [kouta-indeksoija-service.indexer.indexer :as indexer]
             [kouta-indeksoija-service.notifier.notifier :as notifier])
-  (:import (com.amazonaws.services.sqs.model QueueDoesNotExistException)))
+  (:import (software.amazon.awssdk.services.sqs.model QueueDoesNotExistException)))
 
 
 (defn combine-messages
