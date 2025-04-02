@@ -42,6 +42,16 @@
                                  (common/complete-entry)
                                  (common/toteutus->list-item))))
 
+(defn- assoc-hakuajat
+  "Asetetaan hakukohteelle haun hakuajat, jos sillä ei ole omia määriteltyjä
+   hakuaikoja"
+  [hakukohde haku]
+  (let [hakukohteen-hakuajat (:hakuajat hakukohde)]
+    (assoc hakukohde :hakuajat (if (seq hakukohteen-hakuajat)
+                                 hakukohteen-hakuajat
+                                 (map #(dissoc % :hakuaika-id)
+                                      (:hakuajat haku))))))
+
 (defn- assoc-sora-data
   [hakukohde sora-tiedot]
   (assoc
@@ -400,6 +410,7 @@
                                                          (assoc :koulutustyyppi (:koulutustyyppi koulutus))
                                                          (set-hakukohde-tila-by-related-haku haku)
                                                          (assoc :hakuNimi (:nimi haku))
+                                                         (assoc-hakuajat haku)
                                                          (assoc-sora-data sora-kuvaus)
                                                          (assoc-onko-harkinnanvarainen-koulutus toteutus koulutus)
                                                          (assoc-koulutustyypit toteutus koulutus)

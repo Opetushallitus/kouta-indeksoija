@@ -428,3 +428,13 @@
       (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
         (is (= "Oppilaitos fi 1.2.246.562.10.77777777799, Toimipiste fi 1.2.246.562.10.777777777991"
                (get-in hakukohde [:jarjestyspaikkaHierarkiaNimi :fi])))))))
+
+(deftest hakuajat-assigned-from-haku-to-hakukohde
+  (fixture/with-mocked-indexing
+    (testing "Indexer should assign hakuajat from haku to hakukohde"
+      (check-all-nil)
+      (fixture/update-hakukohde-mock hakukohde-oid2 :tila "julkaistu")
+      (i/index-hakukohteet [hakukohde-oid2] (. System (currentTimeMillis)))
+      (is (= "julkaistu" (:tila (get-doc hakukohde/index-name hakukohde-oid2))))
+      (= (:hakuajat (get-doc haku/index-name haku-oid))
+         (:hakuajat (get-doc hakukohde/index-name hakukohde-oid2))))))
