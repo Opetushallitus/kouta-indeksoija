@@ -38,6 +38,11 @@
   [json]
   (dissoc (no-formatoitu-date json) :timestamp))
 
+(defn replace-alkamiskausi
+  [json-string]
+  (string/replace json-string "!!tämän-vuoden-kevät" (str (-> (time/today)
+                                                              (.getYear)
+                                                              (.toString)) "-kevat")))
 (defonce formatter (format/formatters :date-hour-minute))
 
 (defn test-date
@@ -78,9 +83,13 @@
   ([name]
    (read-json-as-string "test/resources/kouta/" name)))
 
+(defn parse-json
+  [json]
+  (cheshire/parse-string json true))
+
 (defn json
   ([path name]
-   (cheshire/parse-string (read-json-as-string path name) true))
+   (parse-json (read-json-as-string path name)))
   ([name]
    (json "test/resources/kouta/" name)))
 
