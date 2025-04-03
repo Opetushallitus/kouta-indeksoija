@@ -2,10 +2,8 @@
   (:refer-clojure :exclude [find])
   (:require [kouta-indeksoija-service.util.urls :refer [resolve-url]]
             [kouta-indeksoija-service.util.cache :refer [with-fifo-ttl-cache]]
-            [clj-log.error-log :refer [with-error-logging]]
             [kouta-indeksoija-service.rest.util :refer [get->json-body]]
             [clojure.tools.logging :as log]
-            [clojure.string :as s]
             [kouta-indeksoija-service.util.time :as time]))
 
 (defn- get-perusteet-page [page-nr last-modified]

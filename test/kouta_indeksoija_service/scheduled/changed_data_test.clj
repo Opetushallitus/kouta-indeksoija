@@ -30,6 +30,10 @@
   [_]
   ["111" "222" "333"])
 
+(defn mock-used-eperusteet
+  []
+  ["222" "333" "444" "555"])
+
 (deftest changed-data-test
   (kouta-indeksoija-service.elastic.admin/initialize-indices)
 
@@ -51,7 +55,8 @@
       (testing "Changed data update should"
         (testing "handle changes correctly when both eperuste- and organisation -changes"
           (with-redefs [kouta-indeksoija-service.rest.organisaatio/find-last-changes mock-organisaatio-changes
-                        kouta-indeksoija-service.rest.eperuste/find-changes mock-eperuste-changes]
+                        kouta-indeksoija-service.rest.eperuste/find-changes mock-eperuste-changes
+                        kouta-indeksoija-service.rest.kouta/list-used-eperuste-ids-with-cache mock-used-eperusteet]
             (fixture/delete-all-elastic-data)
             (reset! test-queue [])
             (jobs/handle-and-queue-changed-data)
@@ -60,11 +65,12 @@
             (is (= muuttunut-oppilaitos-oid2 (:oid (get-doc oppilaitos/index-name muuttunut-oppilaitos-oid2))))
             (is (nil? (:oid (get-doc oppilaitos-search/index-name muuttunut-oppilaitos-oid1)))) ;; ei löydy koulutuksia
             (is (nil? (:oid (get-doc oppilaitos-search/index-name muuttunut-oppilaitos-oid2)))) ;; ei löydy koulutuksia
-            (is (tools/contains-same-elements-in-any-order? ["111" "222" "333"] (-> @test-queue (first) :eperusteet)))))
+            (is (tools/contains-same-elements-in-any-order? ["111" "222" "333" "444" "555"] (-> @test-queue (first) :eperusteet)))))
 
         (testing "handle changes correctly when organisation-changes only"
           (with-redefs [kouta-indeksoija-service.rest.organisaatio/find-last-changes mock-organisaatio-changes
-                        kouta-indeksoija-service.rest.eperuste/find-changes (fn [l] [])]
+                        kouta-indeksoija-service.rest.eperuste/find-changes (fn [l] [])
+                        kouta-indeksoija-service.rest.kouta/list-used-eperuste-ids-with-cache (fn [] [])]
             (fixture/delete-all-elastic-data)
             (reset! test-queue [])
             (jobs/handle-and-queue-changed-data)
@@ -74,17 +80,19 @@
 
         (testing "handle changes correctly when eperuste-changes only"
           (with-redefs [kouta-indeksoija-service.rest.organisaatio/find-last-changes (fn [l] [])
-                        kouta-indeksoija-service.rest.eperuste/find-changes mock-eperuste-changes]
+                        kouta-indeksoija-service.rest.eperuste/find-changes mock-eperuste-changes
+                        kouta-indeksoija-service.rest.kouta/list-used-eperuste-ids-with-cache mock-used-eperusteet]
             (fixture/delete-all-elastic-data)
             (reset! test-queue [])
             (jobs/handle-and-queue-changed-data)
             (is (nil? (:oid (get-doc oppilaitos/index-name muuttunut-oppilaitos-oid1))))
             (is (nil? (:oid (get-doc oppilaitos/index-name muuttunut-oppilaitos-oid2))))
-            (is (tools/contains-same-elements-in-any-order? ["111" "222" "333"] (-> @test-queue (first) :eperusteet)))))
+            (is (tools/contains-same-elements-in-any-order? ["111" "222" "333" "444" "555"] (-> @test-queue (first) :eperusteet)))))
 
         (testing "cope with situation when no changes"
           (with-redefs [kouta-indeksoija-service.rest.organisaatio/find-last-changes (fn [l] [])
-                        kouta-indeksoija-service.rest.eperuste/find-changes (fn [l] [])]
+                        kouta-indeksoija-service.rest.eperuste/find-changes (fn [l] [])
+                        kouta-indeksoija-service.rest.kouta/list-used-eperuste-ids-with-cache (fn [] [])]
             (fixture/delete-all-elastic-data)
             (reset! test-queue [])
             (jobs/handle-and-queue-changed-data)

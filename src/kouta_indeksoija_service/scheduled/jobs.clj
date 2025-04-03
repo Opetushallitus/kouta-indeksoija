@@ -45,7 +45,7 @@
          last-modified (get-last-queued-time)
          organisaatio-changes (organisaatio-hierarkia/get-all-muutetut-organisaatiot-cached last-modified)
          org-change-count (count organisaatio-changes)
-         eperuste-change-count (queuer/queue-eperuste-changes last-modified)
+         eperuste-change-count (queuer/queue-used-or-changed-eperusteet last-modified)
          changes-count (+ eperuste-change-count org-change-count)]
      (when (< 0 org-change-count)
        (organisaatio-hierarkia/clear-hierarkia-cache)

@@ -82,7 +82,7 @@
         "opetuspaikkakk_1",
         "opetuspaikkakk_2"
       ],
-      "paatellytAlkamiskaudet": ["2025-kevat"],
+      "paatellytAlkamiskaudet": ["!!tämän-vuoden-kevät"],
       "toteutusNimi":
       {"fi": "Hevostoteutus 3 fi", "sv": "Hevostoteutus 3 sv"},
       "metadata": {

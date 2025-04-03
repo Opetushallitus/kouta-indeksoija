@@ -15,7 +15,6 @@
             [kouta-indeksoija-service.indexer.koodisto.koodisto :as koodisto]
             [kouta-indeksoija-service.util.time :refer [long->rfc1123]]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
-            [kouta-indeksoija-service.rest.eperuste :as eperusteet-client]
             [kouta-indeksoija-service.rest.osaamismerkki :as osaamismerkki-client]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as hierarkia]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
@@ -31,7 +30,7 @@
 (defn eperuste-ids-on-koulutus
   [koulutus]
   (let [osat (get-in koulutus [:metadata :tutkinnonOsat])]
-    (concat [(:ePerusteId koulutus)] (map :eperusteId osat))))
+    (concat [(:ePerusteId koulutus)] (map :ePerusteId osat))))
 
 (defn eperuste-ids-on-koulutukset
   [entries]
@@ -343,13 +342,6 @@
   []
   (let [execution-id (str "MASSA-" (. System (currentTimeMillis)))]
     (index-sorakuvaukset (:sorakuvaukset (kouta-backend/all-kouta-oids)) execution-id)))
-
-(defn index-all-eperusteet
-  []
-  (let [eperusteet (eperusteet-client/find-all)
-        execution-id (str "MASSA-" (. System (currentTimeMillis)))]
-    (log/info "ID:" execution-id " Indeksoidaan " (count eperusteet) " eperustetta, (o)ids: " eperusteet)
-    (index-eperusteet eperusteet execution-id)))
 
 (defn index-all-osaamismerkit
   []

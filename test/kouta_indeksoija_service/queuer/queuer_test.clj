@@ -30,6 +30,10 @@
   [l]
   ["111" "222" "333"])
 
+(defn mock-used-eperusteet
+  []
+  ["222" "333" "444" "555"])
+
 (deftest queuer-test
   (testing "Queuer should"
     (with-redefs [kouta-indeksoija-service.queue.sqs/queue mock-queue-name
@@ -38,7 +42,8 @@
                   kouta-indeksoija-service.indexer.cache.hierarkia/get-hierarkia-cached mock-organisaatio-hierarkia
                   kouta-indeksoija-service.rest.eperuste/find-changes mock-eperuste-changes
                   kouta-indeksoija-service.queuer.last-queued/get-last-queued-time (fn [] last-modified)
-                  kouta-indeksoija-service.queuer.last-queued/set-last-queued-time (fn [t] (is (< last-modified t)))]
+                  kouta-indeksoija-service.queuer.last-queued/set-last-queued-time (fn [t] (is (< last-modified t)))
+                  kouta-indeksoija-service.rest.kouta/list-used-eperuste-ids-with-cache mock-used-eperusteet]
 
       (testing "queue eperuste"
         (q/queue-eperuste "123")
@@ -61,7 +66,7 @@
         (reset! test-queue []))
 
       (testing "queue changes"
-        (q/queue-eperuste-changes (System/currentTimeMillis))
+        (q/queue-used-or-changed-eperusteet (System/currentTimeMillis))
         (is (= 1 (count @test-queue)))
-        (is (contains-same-elements-in-any-order? ["111" "222" "333"] (-> @test-queue (first) :eperusteet)))
+        (is (contains-same-elements-in-any-order? ["111" "222" "333" "444" "555"] (-> @test-queue (first) :eperusteet)))
         (reset! test-queue [])))))

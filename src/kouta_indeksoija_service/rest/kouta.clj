@@ -2,15 +2,12 @@
   (:require [kouta-indeksoija-service.util.urls :refer [resolve-url]]
             [kouta-indeksoija-service.util.time :refer [long->rfc1123]]
             [kouta-indeksoija-service.rest.cas.session :refer [init-session cas-authenticated-request-as-json]]
-            [clj-log.error-log :refer [with-error-logging]]
             [ring.util.codec :refer [url-encode]]
             [kouta-indeksoija-service.util.cache :refer [with-fifo-ttl-cache]]
             [cheshire.core :as json]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.indexer.tools.general :as general]
-            [kouta-indeksoija-service.util.conf :refer [env]]
-            [clojure.core.memoize :as memo]
-            [clojure.string :as str]))
+            [kouta-indeksoija-service.util.conf :refer [env]]))
 
 (defonce cas-session
   (init-session (resolve-url :kouta-backend.auth-login) false))
@@ -328,3 +325,12 @@
                        kouta-cache-time-millis
                        kouta-cache-size))
 
+(defn- list-used-eperuste-ids
+  [execution-id]
+  (cas-authenticated-get-as-json
+    (resolve-url :kouta-backend.koulutukset.eperuste-ids)))
+
+(def list-used-eperuste-ids-with-cache
+  (with-fifo-ttl-cache list-used-eperuste-ids
+                       kouta-cache-time-millis
+                       kouta-cache-size))
