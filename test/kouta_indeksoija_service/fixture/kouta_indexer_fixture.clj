@@ -345,6 +345,15 @@
           :ammattinimikkeet []
           :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}}))
 
+(defonce maksullinen-kk-haku-metadata
+  {:yhteyshenkilot []
+   :tulevaisuudenAikataulu []
+   :koulutuksenAlkamiskausi {:alkamiskausityyppi "alkamiskausi ja -vuosi"
+                             :henkilokohtaisenSuunnitelmanLisatiedot {}
+                             :koulutuksenAlkamiskausiKoodiUri "kausi_s#1"
+                             :koulutuksenAlkamisvuosi "2025"}
+   :isMuokkaajaOphVirkailija true})
+
 (defn add-koulutus-mock
   [oid & {:as params}]
   (let [koulutus (fix-default-format (merge default-koulutus-map {:oid oid :organisaatioOid oppilaitos-oid} params))]
@@ -652,6 +661,7 @@
                                                  :tila (:tila t)
                                                  :tarjoajat (:tarjoajat t)
                                                  :organisaatioOid (:organisaatioOid t)
+                                                 :johtaaTutkintoon (:johtaaTutkintoon t)
                                                  :muokkaaja (:muokkaaja t)
                                                  :modified (:modified t)))))]
     (map (fn [hk] (->list-item (mock-get-toteutus (:toteutusOid hk) (System/currentTimeMillis)))) (find-hakukohteet hakuOid))))
