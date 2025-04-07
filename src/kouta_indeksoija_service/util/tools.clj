@@ -22,6 +22,10 @@
   [entity]
   (get-in entity [:_enrichedData :esitysnimi] (:nimi entity)))
 
+(defn assoc-hakukohde-nimi-as-esitysnimi
+  [hakukohde]
+  (assoc hakukohde :nimi (get-esitysnimi hakukohde)))
+
 (defn- kouta-organisaatio-jarjestaa-urheilijan-amm-koulutusta?
   [kouta-organisaatio]
   (boolean (get-in kouta-organisaatio [:metadata :jarjestaaUrheilijanAmmKoulutusta])))

@@ -2,15 +2,13 @@
   (:require [kouta-indeksoija-service.util.urls :refer [resolve-url]]
             [kouta-indeksoija-service.util.time :refer [long->rfc1123]]
             [kouta-indeksoija-service.rest.cas.session :refer [init-session cas-authenticated-request-as-json]]
-            [clj-log.error-log :refer [with-error-logging]]
             [ring.util.codec :refer [url-encode]]
             [kouta-indeksoija-service.util.cache :refer [with-fifo-ttl-cache]]
             [cheshire.core :as json]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.indexer.tools.general :as general]
             [kouta-indeksoija-service.util.conf :refer [env]]
-            [clojure.core.memoize :as memo]
-            [clojure.string :as str]))
+            [kouta-indeksoija-service.util.tools :refer [assoc-hakukohde-nimi-as-esitysnimi]]))
 
 (defonce cas-session
   (init-session (resolve-url :kouta-backend.auth-login) false))
@@ -218,7 +216,7 @@
                                                              execution-id)]
                         (-> hakukohde
                             (assoc-pistehistoria pistehistoria)
-                            (koodisto/assoc-hakukohde-nimi-from-koodi)
+                            (assoc-hakukohde-nimi-as-esitysnimi)
                             (general/set-hakukohde-tila-by-related-haku haku))))
                    (:hakukohteet haku))))
               (:haut hakutieto))))

@@ -18,6 +18,14 @@
   (fixture/with-mocked-indexing
     (testing "Indexer should index hakukohteet with original name to haku-index, if hakukohdeKoodiUri not available"
       (check-all-nil)
+      (fixture/update-hakukohde-mock hakukohde-oid
+                                     :nimi {}
+                                     :_enrichedData {:esitysnimi {:fi "Koulutuksen 0 toteutuksen 0 hakukohde 0 fi",
+                                                                  :sv "Koulutuksen 0 toteutuksen 0 hakukohde 0 sv"}})
+      (fixture/update-hakukohde-mock hakukohde-oid2
+                                     :nimi {}
+                                     :_enrichedData {:esitysnimi {:fi "Koulutuksen 0 toteutuksen 2 hakukohde 0 fi",
+                                                                  :sv "Koulutuksen 0 toteutuksen 2 hakukohde 0 sv"}})
       (i/index-haut [haku-oid] (. System (currentTimeMillis)))
       (let [hakukohteet (to-array (:hakukohteet (get-doc haku/index-name haku-oid)))]
         (is (= 2 (alength hakukohteet)))
@@ -37,8 +45,16 @@
   (fixture/with-mocked-indexing
     (testing "Indexer should index hakukohteet with hakukohdeKoodiUri to haku-index, if hakukohdeKoodiUri available"
       (check-all-nil)
-      (fixture/update-hakukohde-mock hakukohde-oid :hakukohdeKoodiUri "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1" :nimi {})
-      (fixture/update-hakukohde-mock hakukohde-oid2 :hakukohdeKoodiUri "hakukohteetperusopetuksenjalkeinenyhteishaku_101#2" :nimi {})
+      (fixture/update-hakukohde-mock hakukohde-oid
+                                     :hakukohdeKoodiUri "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1"
+                                     :nimi {}
+                                     :_enrichedData {:esitysnimi {:fi "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1 nimi fi",
+                                                                  :sv "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1 nimi sv"}})
+      (fixture/update-hakukohde-mock hakukohde-oid2
+                                     :hakukohdeKoodiUri "hakukohteetperusopetuksenjalkeinenyhteishaku_101#2"
+                                     :nimi {}
+                                     :_enrichedData {:esitysnimi {:fi "hakukohteetperusopetuksenjalkeinenyhteishaku_101#2 nimi fi",
+                                                                  :sv "hakukohteetperusopetuksenjalkeinenyhteishaku_101#2 nimi sv"}})
       (i/index-haut [haku-oid] (. System (currentTimeMillis)))
       (let [hakukohteet (to-array (:hakukohteet (get-doc haku/index-name haku-oid)))]
         (is (= 2 (alength hakukohteet)))

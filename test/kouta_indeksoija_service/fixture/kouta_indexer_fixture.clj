@@ -627,7 +627,8 @@
                                                   :jarjestyspaikkaOid (:jarjestyspaikkaOid hk)
                                                   :organisaatioOid (:organisaatioOid hk)
                                                   :muokkaaja (:muokkaaja hk)
-                                                  :modified (:modified hk)))))]
+                                                  :modified (:modified hk)
+                                                  :_enrichedData (:_enrichedData hk)))))]
     (map ->list-item (filter pred (vals @hakukohteet)))))
 
 (defn mock-list-haut-by-toteutus

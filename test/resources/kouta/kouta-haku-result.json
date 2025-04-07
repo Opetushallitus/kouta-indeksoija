@@ -101,8 +101,8 @@
         "sv": "Jokin järjestyspaikka sv"
       },
       "nimi": {
-        "fi": "Koulutuksen 0 toteutuksen 0 hakukohde 0 fi",
-        "sv": "Koulutuksen 0 toteutuksen 0 hakukohde 0 sv"
+        "fi": "Koulutuksen 0 toteutuksen 0 hakukohteen 0 esitysnimi fi",
+        "sv": "Koulutuksen 0 toteutuksen 0 hakukohteen 0 esitysnimi sv"
       },
       "muokkaaja": {
         "oid": "1.2.246.562.24.62301161440",
@@ -179,8 +179,8 @@
         ]
       },
       "nimi": {
-        "fi": "Koulutuksen 0 toteutuksen 2 hakukohde 0 fi",
-        "sv": "Koulutuksen 0 toteutuksen 2 hakukohde 0 sv"
+        "fi": "Koulutuksen 0 toteutuksen 2 hakukohteen 2 esitysnimi fi",
+        "sv": "Koulutuksen 0 toteutuksen 2 hakukohteen 2 esitysnimi sv"
       },
       "jarjestyspaikka": {
         "paikkakunta": {

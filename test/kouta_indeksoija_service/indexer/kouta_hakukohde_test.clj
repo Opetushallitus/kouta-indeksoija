@@ -181,7 +181,11 @@
       (check-all-nil)
       (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :metadata fixture/lk-koulutus-metadata)
       (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata fixture/lk-toteutus-metadata)
-      (fixture/update-hakukohde-mock hakukohde-oid :hakukohdeKoodiUri "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1" :nimi {})
+      (fixture/update-hakukohde-mock hakukohde-oid
+                                     :hakukohdeKoodiUri "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1"
+                                     :nimi {}
+                                     :_enrichedData {:esitysnimi {:fi "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1 nimi fi",
+                                                                  :sv "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1 nimi sv"}})
       (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
       (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
         (is (= (:nimi hakukohde) {:fi "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1 nimi fi",

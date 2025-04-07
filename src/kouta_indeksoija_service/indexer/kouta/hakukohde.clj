@@ -13,7 +13,7 @@
             [kouta-indeksoija-service.indexer.tools.koulutustyyppi :refer [assoc-koulutustyyppi-path]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
-            [kouta-indeksoija-service.util.tools :refer [get-esitysnimi
+            [kouta-indeksoija-service.util.tools :refer [assoc-hakukohde-nimi-as-esitysnimi
                                                          kevat-date?]]))
 
 (def index-name "hakukohde-kouta")
@@ -223,10 +223,6 @@
     (assoc hakukohde :salliikoHakukohdeHarkinnanvaraisuudenKysymisen harkinnanvaraisuus-question-allowed
            :voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita hakukohde-allows-harkinnanvaraiset-applicants)))
 
-(defn- assoc-nimi-as-esitysnimi
-  [hakukohde]
-  (assoc hakukohde :nimi (get-esitysnimi hakukohde)))
-
 (defn- parse-tarkka-ajankohta [time-str]
   (when-let [date (f/parse time-str)]
     {:kausiUri (if (kevat-date? date)
@@ -391,8 +387,7 @@
   (let [hakukohde-from-kouta (kouta-backend/get-hakukohde-with-cache oid execution-id)]
     (if (not-poistettu? hakukohde-from-kouta)
       (let [hakukohde (-> hakukohde-from-kouta
-                          (assoc-nimi-as-esitysnimi)
-                          (koodisto-tools/assoc-hakukohde-nimi-from-koodi)
+                          (assoc-hakukohde-nimi-as-esitysnimi)
                           (complete-painotetut-lukioarvosanat-if-exists)
                           (common/complete-entry))
             haku (kouta-backend/get-haku-with-cache (:hakuOid hakukohde) execution-id)

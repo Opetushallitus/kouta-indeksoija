@@ -1,9 +1,9 @@
 (ns kouta-indeksoija-service.indexer.kouta.haku
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
-            [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.general :as general]
+            [kouta-indeksoija-service.util.tools :refer [assoc-hakukohde-nimi-as-esitysnimi]]
             [clj-time.format :as f]
             [clj-time.core :as t]))
 
@@ -35,7 +35,7 @@
                                             (first (filter #(= (:oid %) (:toteutusOid h)) toteutus-list)))))
             hakukohde-list (vec (map (fn [hk] (-> hk
                                                   (general/set-hakukohde-tila-by-related-haku haku)
-                                                  (koodisto/assoc-hakukohde-nimi-from-koodi)
+                                                  (assoc-hakukohde-nimi-as-esitysnimi)
                                                   (common/complete-entry)
                                                   (assoc-toteutus)))
                                      (filter general/not-poistettu? hakukohde-list-raw)))]
