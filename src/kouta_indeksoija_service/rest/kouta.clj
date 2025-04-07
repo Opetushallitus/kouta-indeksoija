@@ -326,7 +326,7 @@
                        kouta-cache-size))
 
 (defn- list-used-eperuste-ids
-  [execution-id]
+  []
   (cas-authenticated-get-as-json
     (resolve-url :kouta-backend.koulutukset.eperuste-ids)))
 
