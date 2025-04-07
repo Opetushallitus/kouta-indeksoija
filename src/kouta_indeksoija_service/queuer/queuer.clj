@@ -52,8 +52,11 @@
 (defn queue-used-or-changed-eperusteet
   [last-modified]
   (let [eperuste-changes (eperusteet-client/find-changes last-modified)
+        changed-count (count eperuste-changes)
         queued-eperusteet (set (concat eperuste-changes (kouta-client/list-used-eperuste-ids-with-cache)))
         queued-count (count queued-eperusteet)]
-    (when (< 0 queued-count)
+    ;TODO Tarkista koutasta mitkä ePerusteet on otettu käyttöön viimeisimmän päivityskierroksen jälkeen, tämä(kin)
+    ; täytyisi ottaa huomioon kun päätetään tehdäänkö indeksointi vai ei
+    (when (< 0 changed-count)
       (queue :eperusteet queued-eperusteet))
      queued-count))
