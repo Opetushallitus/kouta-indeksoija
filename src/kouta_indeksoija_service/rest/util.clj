@@ -40,7 +40,8 @@
       nil (do (log/error "Got " status " from " method-name ": " url " with error: "
                          (if (instance? Exception response)
                            (.getMessage response)
-                           response))
+                           response)
+                         " with body: " body)
               (if (instance? Exception response)
                 (throw response)
                 (throw (Exception. (str response)))))
