@@ -2,6 +2,7 @@
   (:require [kouta-indeksoija-service.indexer.cache.hierarkia :as organisaatio-cache]
             [kouta-indeksoija-service.rest.eperuste :as eperusteet-client]
             [kouta-indeksoija-service.rest.osaamismerkki :as osaamismerkki-client]
+            [kouta-indeksoija-service.rest.kouta :as kouta-client]
             [clojure.tools.logging :as log]
             [kouta-indeksoija-service.queue.sqs :as sqs]))
 
@@ -48,10 +49,16 @@
   [oid]
   (queue :oppilaitokset [oid]))
 
-(defn queue-eperuste-changes
+(defn queue-used-or-changed-eperusteet
   [last-modified]
   (let [eperuste-changes (eperusteet-client/find-changes last-modified)
-        change-count (count eperuste-changes)]
-    (when (< 0 change-count)
-      (queue :eperusteet eperuste-changes))
-     change-count))
+        changed-count (count eperuste-changes)
+        queued-eperusteet (if (< 0 changed-count)
+                            (set (concat eperuste-changes (kouta-client/list-used-eperuste-ids-with-cache)))
+                            [])
+        queued-count (count queued-eperusteet)]
+    ;TODO Tarkista koutasta mitkä ePerusteet on otettu käyttöön viimeisimmän päivityskierroksen jälkeen, tämä(kin)
+    ; täytyisi ottaa huomioon kun päätetään tehdäänkö indeksointi vai ei
+    (when (< 0 queued-count)
+      (queue :eperusteet queued-eperusteet))
+     queued-count))

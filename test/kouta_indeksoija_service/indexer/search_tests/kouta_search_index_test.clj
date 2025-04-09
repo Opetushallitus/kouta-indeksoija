@@ -1,6 +1,6 @@
 (ns kouta-indeksoija-service.indexer.search-tests.kouta-search-index-test
   (:require [clojure.test :refer :all]
-            [kouta-indeksoija-service.fixture.common-indexer-fixture :refer [common-indexer-fixture no-timestamp json read-json-as-string]]
+            [kouta-indeksoija-service.fixture.common-indexer-fixture :refer [common-indexer-fixture no-timestamp parse-json json read-json-as-string replace-alkamiskausi]]
             [kouta-indeksoija-service.indexer.indexer :as i]
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus-search]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos]
@@ -247,7 +247,10 @@
       (testing "Create correct search item when oppilaitos has koulutukset and toteutukset"
         (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid2)))
         (i/index-oppilaitos oppilaitos-oid2)
-        (compare-json (no-timestamp (json json-path "oppilaitos-search-item-koulutus-and-toteutukset"))
+        (compare-json (no-timestamp
+                        (parse-json
+                          (replace-alkamiskausi
+                            (read-json-as-string json-path "oppilaitos-search-item-koulutus-and-toteutukset"))))
                       (no-timestamp (get-doc oppilaitos/index-name oppilaitos-oid2))
                       [:search_terms]
                       [:fi :nimi]))))
@@ -280,7 +283,9 @@
         (i/index-koulutus koulutus-oid3)
         (i/index-oppilaitos oppilaitos-oid2)
         ;(debug-pretty (get-doc koulutus/index-name koulutus-oid3))
-        (compare-json (no-timestamp (json json-path "koulutus-search-item-osaamisala"))
+        (compare-json (no-timestamp (parse-json
+                                      (replace-alkamiskausi
+                                        (read-json-as-string json-path "koulutus-search-item-osaamisala"))))
                       (no-timestamp (get-doc koulutus-search/index-name koulutus-oid3))
                       [:search_terms]
                       [:fi :toteutusNimi]))))
