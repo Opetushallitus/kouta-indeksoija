@@ -17,7 +17,7 @@
   "Tries to fetch henkilo, retries once if Exception is returned, and
    throws after unsuccessful retry."
   ([oid]
-    (get-henkilo oid 0 nil))
+    (get-henkilo oid 0))
   ([oid retry-count]
     (try
       (-> (resolve-url :oppijanumerorekisteri-service.henkilo.oid oid)
