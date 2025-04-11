@@ -14,9 +14,21 @@
 (defonce henkilo_cache_size 10000)
 
 (defn- get-henkilo
-  [oid]
-  (-> (resolve-url :oppijanumerorekisteri-service.henkilo.oid oid)
-      (cas-authenticated-get-as-json)))
+  "Tries to fetch henkilo, retries once if Exception is returned, and
+   throws after unsuccessful retry."
+  ([oid]
+    (get-henkilo oid 0 nil))
+  ([oid retry-count]
+    (try
+      (-> (resolve-url :oppijanumerorekisteri-service.henkilo.oid oid)
+          (cas-authenticated-get-as-json))
+      (catch Exception e
+        (if (< retry-count 2)
+          (do (log/warn (str "Retrying get-henkilo for oid " oid
+                             " after 3 seconds"))
+              (Thread/sleep 3000)
+              (get-henkilo oid (inc retry-count)))
+          (throw e))))))
 
 (defn- parse-henkilo-nimi
   [henkilo]
