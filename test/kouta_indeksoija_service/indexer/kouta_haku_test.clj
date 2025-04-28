@@ -3,7 +3,6 @@
             [kouta-indeksoija-service.fixture.common-oids :refer :all]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
             [kouta-indeksoija-service.fixture.common-indexer-fixture :refer :all]
-            [kouta-indeksoija-service.fixture.external-services :as mocks]
             [kouta-indeksoija-service.indexer.indexer :as i]
             [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
             [kouta-indeksoija-service.indexer.kouta.haku :as haku]
@@ -39,7 +38,7 @@
     (testing "Indexer should quick-index only haku to haku index"
       (check-all-nil)
       (i/quick-index-haut [haku-oid] (. System (currentTimeMillis)))
-      (is (= (:oid  (get-doc haku/index-name haku-oid)) haku-oid)))))
+      (is (= (:oid (get-doc haku/index-name haku-oid)) haku-oid)))))
 
 (deftest index-hakukohteet-with-hakukohdekoodiuri-to-haku-test
   (fixture/with-mocked-indexing
@@ -119,3 +118,24 @@
       (i/index-haut [ei-julkaistu-haku-oid] (. System (currentTimeMillis)))
       (is (nil? (get-doc haku/index-name ei-julkaistu-haku-oid)))
       (is (nil? (get-doc haku/index-name ei-julkaistun-haun-julkaistu-hakukohde-oid))))))
+
+(deftest maksullinen-kk-haku
+  (fixture/with-mocked-indexing
+    (testing "Indexer should index haku as maksullinen kk-haku in case conditions fulfilled in haku and toteutukset"
+      (check-all-nil)
+      (fixture/update-haku-mock haku-oid :hakuajat [{:alkaa "2024-03-15T09:58" :paattyy "2024-04-15T09:58"}])
+      (i/index-haut [haku-oid] (. System (currentTimeMillis)))
+      (is (= false (:maksullinenKkHaku (get-doc haku/index-name haku-oid))))
+      (fixture/update-haku-mock haku-oid :metadata fixture/maksullinen-kk-haku-metadata)
+      (i/index-haut [haku-oid] (. System (currentTimeMillis)))
+      (is (= false (:maksullinenKkHaku (get-doc haku/index-name haku-oid))))
+      (fixture/update-haku-mock haku-oid :hakuajat [{:alkaa "2025-03-15T09:58" :paattyy "2025-04-15T09:58"}])
+      (i/index-haut [haku-oid] (. System (currentTimeMillis)))
+      (is (= false (:maksullinenKkHaku (get-doc haku/index-name haku-oid))))
+      (fixture/update-haku-mock haku-oid :kohdejoukkoKoodiUri "haunkohdejoukko_12#1")
+      (i/index-haut [haku-oid] (. System (currentTimeMillis)))
+      (is (= false (:maksullinenKkHaku (get-doc haku/index-name haku-oid))))
+      (fixture/update-toteutus-mock toteutus-oid :johtaaTutkintoon true)
+      (i/index-haut [haku-oid] (. System (currentTimeMillis)))
+      (is (= true (:maksullinenKkHaku (get-doc haku/index-name haku-oid)))))))
+

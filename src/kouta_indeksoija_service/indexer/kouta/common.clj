@@ -169,7 +169,7 @@
 (def swedish-format (new-formatter "d.M.yyyy 'kl.' HH:mm"))
 (def english-format (new-formatter "MMM. d, yyyy 'at' hh:mm a z"))
 
-(defn- parse-date-time
+(defn parse-date-time
   [s]
   (let [tz (t/time-zone-for-id "Europe/Helsinki")
         fmt-with-seconds (f/formatter "yyyy-MM-dd'T'HH:mm:ss" tz)
