@@ -130,7 +130,7 @@
                        (-> (GetQueueAttributesRequest/builder)
                            (.queueUrl (queue priority))
                            (.attributeNames (map #(QueueAttributeName/valueOf %)
-                                                 attr))
+                                                 (or attr ["ALL"])))
                            (.build)))
                      (.attributes)))))
 
