@@ -17,6 +17,7 @@
                                                       ReceiveMessageRequest
                                                       SendMessageRequest
                                                       GetQueueAttributesRequest
+                                                      QueueAttributeName
                                                       PurgeQueueRequest
                                                       Message)))
 
@@ -125,10 +126,12 @@
   [priority & attr]
   (with-client (fn [client]
                  (-> client
-                     (.getQueueAttributes (-> (GetQueueAttributesRequest/builder)
-                                              (.queueUrl (queue priority))
-                                              (.attributeNames (vec attr))
-                                              (.build)))
+                     (.getQueueAttributes
+                       (-> (GetQueueAttributesRequest/builder)
+                           (.queueUrl (queue priority))
+                           (.attributeNames (map #(QueueAttributeName/valueOf %)
+                                                 attr))
+                           (.build)))
                      (.attributes)))))
 
 (defn purge-queue
