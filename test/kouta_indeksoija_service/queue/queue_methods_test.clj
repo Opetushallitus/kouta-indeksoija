@@ -1,6 +1,5 @@
 (ns kouta-indeksoija-service.queue.queue-methods-test
   (:require [clojure.test :refer :all]
-            [amazonica.core :as amazonica]
             [cheshire.core :as json]
             [clojure.string :as str]
             [kouta-indeksoija-service.queue.queue :refer :all]))
@@ -58,10 +57,7 @@
 
     (defn- sqs-message
       [body]
-      (amazonica/get-fields
-       (let [msg (new com.amazonaws.services.sqs.model.Message)]
-         (.setBody msg body)
-         msg)))
+      {:body body})
 
     (testing "return json string from message body as map"
       (let [content {:oid "123.123.123" :foobar "bar"}]

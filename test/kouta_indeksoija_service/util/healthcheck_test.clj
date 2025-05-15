@@ -3,13 +3,15 @@
             [ring.mock.request :as mock]
             [kouta-indeksoija-service.api :refer :all]
             [kouta-indeksoija-service.test-tools :refer [debug-pretty]]
-            [kouta-indeksoija-service.fixture.kouta-indexer-fixture :refer [->keywordized-json]]))
+            [kouta-indeksoija-service.fixture.kouta-indexer-fixture :refer [->keywordized-json]])
+  (:import (software.amazon.awssdk.services.sqs.model QueueAttributeName)))
 
 (intern 'clj-log.access-log 'service "kouta-indeksoija")
 
 (defn mock-queue-attributes
   [nr p & a]
-  {:ApproximateNumberOfMessages (str nr) :QueueArn (str "koutaQueue" p)})
+  {(QueueAttributeName/APPROXIMATE_NUMBER_OF_MESSAGES) (str nr)
+   (QueueAttributeName/QUEUE_ARN) (str "koutaQueue" p)})
 
 (defn mock-cluster-health
   [c-health i-health]
