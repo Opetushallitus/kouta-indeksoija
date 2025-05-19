@@ -12,8 +12,10 @@
          :dlq {:name "koutaIndeksoijaDlq" :health-threshold 10}
          :notifications {:name "koutaIndeksoijaNotifications" :health-threshold 10}
          :notifications-dlq {:name "koutaIndeksoijaNotificationsDlq" :health-threshold 10}}
- :sqs-region ""
+ :sqs-region "us-east-1"
  :sqs-endpoint "http://localhost:4566"
+ :localstack-aws-access-key-id "randomKeyIdForLocalstack"
+ :localstack-aws-secret-access-key "randomKeyForLocalstack"
  :lokalisaatio-indexing-cron-string "* 0/30 * ? * *"
  :organisaatio-indexing-cron-string "* 0 * ? * *"
  :osaamismerkki-indexing-cron-string "0 0 * ? * *"

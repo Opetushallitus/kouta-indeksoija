@@ -17,5 +17,7 @@
     (testing "Test that test configuration is correct"
       (let [test-conf-template  (read-string (slurp "./test_resources/config.edn.template"))]
         (is (= (sorted-keys template-conf) (sorted-keys test-conf-template)))
-        (when-let [test-conf (try (read-string (slurp "./test_resources/config.edn")) (catch Exception e nil))]
+        (when-let [test-conf (-> (try (read-string (slurp "./test_resources/config.edn")) (catch Exception e nil))
+                                 (dissoc :localstack-aws-access-key-id
+                                         :localstack-aws-secret-access-key))]
           (is (= (sorted-keys test-conf-template) (sorted-keys test-conf))))))))

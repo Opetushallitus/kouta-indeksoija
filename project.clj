@@ -14,57 +14,95 @@
                                :password :env/artifactory_password
                                :sign-releases false
                                :snapshots true}]]
-  :managed-dependencies [[org.flatland/ordered "1.5.7"]]
-  :dependencies [[org.clojure/clojure "1.11.2"]
-                 [metosin/compojure-api "1.1.13" :exclusions [cheshire
-                                                              com.fasterxml.jackson.core/jackson-core
-                                                              com.fasterxml.jackson.dataformat/jackson-dataformat-smile
-                                                              com.fasterxml.jackson.dataformat/jackson-dataformat-cbor
-                                                              ring/ring-codec
-                                                              clj-time
-                                                              joda-time
-                                                              org.clojure/core.cache
-                                                              org.clojure/core.memoize]]
-                 [com.fasterxml.jackson.core/jackson-annotations "2.17.2"]
-                 [clojurewerkz/quartzite "2.2.0" :exclusions [clj-time]]
-                 [cheshire "5.13.0"]
-                 [clj-http "2.3.0" :exclusions [org.apache.httpcomponents/httpclient]]
-                 [mount "0.1.11"]
-                 [environ "1.1.0"]
-                 [org.clojure/core.memoize "1.0.257"]
-                 [base64-clj "0.1.1"]
-                 [clj-time "0.14.3"]
-                 [org.clojure/algo.generic "0.1.3"]
+  :managed-dependencies [[org.clojure/clojure "1.11.4"]
+                         [metosin/compojure-api "1.1.14" :exclusions [cheshire
+                                                                      com.fasterxml.jackson.core/jackson-core
+                                                                      com.fasterxml.jackson.dataformat/jackson-dataformat-smile
+                                                                      com.fasterxml.jackson.dataformat/jackson-dataformat-cbor
+                                                                      ring/ring-codec
+                                                                      clj-time
+                                                                      joda-time
+                                                                      org.clojure/core.cache
+                                                                      org.clojure/core.memoize]]
+                         [com.fasterxml.jackson.core/jackson-annotations "2.18.3"]
+                         [cheshire "5.13.0"]
+                         [clojurewerkz/quartzite "2.2.0" :exclusions [clj-time]]
+                         [clj-http "3.13.0" :exclusions [org.apache.httpcomponents/httpclient]]
+                         [mount "0.1.21"]
+                         [environ "1.2.0"]
+                         [org.clojure/core.memoize "1.1.266"]
+                         [base64-clj "0.1.1"]
+                         [clj-time "0.15.2"]
+                         [org.clojure/algo.generic "0.1.3"]
+                         [fi.vm.sade.java-utils/java-properties "0.1.0-SNAPSHOT"]
+                         [cprop "0.1.20"]
+                         [oph/clj-elasticsearch "0.5.4-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
+                         [clj-soup/clojure-soup "0.1.3"]
+                         [oph/clj-log "0.3.2-SNAPSHOT"]
+                         [org.clojure/tools.logging "1.3.0"]
+                         [org.apache.logging.log4j/log4j-slf4j2-impl "2.24.3"]
+                         [org.apache.logging.log4j/log4j-api "2.24.3"]
+                         [org.apache.logging.log4j/log4j-core "2.24.3"]
+                         [clj-log4j2 "0.4.0"]
+                         [ring-cors "0.1.13"]
+                         [software.amazon.awssdk/sqs "2.31.11" :exclusions [software.amazon.awssdk/netty-nio-client
+                                                                            software.amazon.awssdk/apache-client]]
+                         [software.amazon.awssdk/sso "2.31.11"]
+                         [software.amazon.awssdk/ssooidc "2.31.11"]
+                         [software.amazon.awssdk/apache-client "2.31.11" :exclusions [commons-logging]]
+                         [org.slf4j/slf4j-api "2.0.17"]
+                         [org.slf4j/jcl-over-slf4j "2.0.17"]
+
+                         ; transitive deps
+                         [com.fasterxml.jackson.core/jackson-databind "2.18.3"]
+                         [commons-fileupload/commons-fileupload "1.5"]
+                         [org.apache.commons/commons-compress "1.22"]
+                         [org.jsoup/jsoup "1.19.1"]
+                         [clj-commons/clj-yaml "1.0.29"]]
+  :dependencies [[org.clojure/clojure]
+                 [metosin/compojure-api]
+                 [com.fasterxml.jackson.core/jackson-annotations]
+                 [clojurewerkz/quartzite]
+                 [cheshire]
+                 [clj-http]
+                 [mount]
+                 [environ]
+                 [org.clojure/core.memoize]
+                 [base64-clj]
+                 [clj-time]
+                 [org.clojure/algo.generic]
                  ;Configuration
-                 [fi.vm.sade.java-utils/java-properties "0.1.0-SNAPSHOT"]
-                 [cprop "0.1.10"]
+                 [fi.vm.sade.java-utils/java-properties]
+                 [cprop]
                  ;Elasticsearch
-                 [oph/clj-elasticsearch "0.5.0-SNAPSHOT"]
+                 [oph/clj-elasticsearch]
                  ;Cas
-                 [clj-soup/clojure-soup "0.1.3"]
+                 [clj-soup/clojure-soup]
                  ;;Logging
-                 [oph/clj-log "0.3.2-SNAPSHOT"]
-                 [org.clojure/tools.logging "1.1.0"]
-                 [org.apache.logging.log4j/log4j-slf4j-impl "2.20.0"]
-                 [org.apache.logging.log4j/log4j-api "2.20.0"]
-                 [org.apache.logging.log4j/log4j-core "2.20.0"]
-                 [clj-log4j2 "0.4.0"]
-                 [ring-cors "0.1.11"]
+                 [oph/clj-log]
+                 [org.clojure/tools.logging]
+                 [org.apache.logging.log4j/log4j-slf4j2-impl]
+                 [org.apache.logging.log4j/log4j-api]
+                 [org.apache.logging.log4j/log4j-core]
+                 [clj-log4j2]
+                 [ring-cors]
                  ;;SQS Handling
-                 [amazonica "0.3.167" :exclusions [com.amazonaws/aws-java-sdk
-                                                  com.amazonaws/amazon-kinesis-client]]
-                 [com.amazonaws/aws-java-sdk-core "1.12.777"]
-                 [com.amazonaws/aws-java-sdk-sqs "1.12.777"]]
+                 [software.amazon.awssdk/sqs]
+                 [software.amazon.awssdk/sso]
+                 [software.amazon.awssdk/ssooidc]
+                 [software.amazon.awssdk/apache-client]
+                 [org.slf4j/slf4j-api]
+                 [org.slf4j/jcl-over-slf4j]]
   :ring {:handler kouta-indeksoija-service.api/app
          :init kouta-indeksoija-service.api/init
          :destroy kouta-indeksoija-service.api/stop
          :browser-uri "kouta-indeksoija/swagger"}
   :profiles {:dev {:dependencies [[javax.servlet/javax.servlet-api "3.1.0"]
-                                  [ring/ring-mock "0.3.0"]
-                                  [org.clojure/tools.namespace "0.2.11"]
-                                  [criterium "0.4.4"]
+                                  [ring/ring-mock "0.4.0"]
+                                  [org.clojure/tools.namespace "1.5.0"]
+                                  [criterium "0.4.6"]
                                   [pjstadig/humane-test-output "0.11.0"]]
-                   :plugins [[lein-ring "0.12.5"]
+                   :plugins [[lein-ring "0.12.6"]
                              [jonase/eastwood "0.3.5"]
                              [lein-zprint "1.2.0"]
                              [lein-kibit "0.1.3" :exclusions [org.clojure/clojure]]
@@ -79,23 +117,21 @@
                    :injections [(require 'pjstadig.humane-test-output)
                                 (pjstadig.humane-test-output/activate!)]}
              :test {:env {:test "true"}
-                    :env-vars {:AWS_REGION "us-east-1"}
-                    :dependencies [[net.java.dev.jna/jna "5.12.1"]
-                                                       [oph/clj-test-utils "0.5.7-SNAPSHOT"]
-                                                       [lambdaisland/kaocha "1.87.1366"]]
+                    :dependencies [[net.java.dev.jna/jna "5.17.0"]
+                                   [oph/clj-test-utils "0.5.7-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
+                                   [lambdaisland/kaocha "1.91.1392"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
                                "-Daws.secretKey=randomKeyForLocalstack"]
                     :injections [(require '[clj-test-utils.elasticsearch-docker-utils :as utils])
                                  (utils/global-docker-elastic-fixture)]
-                    :hooks [leiningen.with-env-vars/auto-inject]
-                    :plugins [[lein-with-env-vars "0.2.0"]
+                    :plugins [[lein-auto "0.1.3"]
+                              [lein-environ "1.2.0"]
                               [lein-test-report "0.2.0"]]}
              :ci-test {:env {:test "true"}
-                       :env-vars {:AWS_REGION "us-east-1"}
-                       :dependencies [[ring/ring-mock "0.3.2"]
+                       :dependencies [[ring/ring-mock "0.4.0"]
                                       [net.java.dev.jna/jna "5.12.1"]
-                                      [oph/clj-test-utils "0.5.7-SNAPSHOT"]
+                                      [oph/clj-test-utils "0.5.7-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
                                       [lambdaisland/kaocha "1.87.1366"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"
@@ -103,8 +139,8 @@
                                   "-Daws.secretKey=randomKeyForLocalstack"]
                        :injections [(require '[clj-test-utils.elasticsearch-docker-utils :as utils])
                                     (utils/global-docker-elastic-fixture)]
-                       :hooks [leiningen.with-env-vars/auto-inject]
-                       :plugins [[lein-with-env-vars "0.2.0"]
+                       :plugins [[lein-auto "0.1.3"]
+                                 [lein-environ "1.2.0"]
                                  [lein-test-report "0.2.0"]]}
              :uberjar {:ring {:port 8080}}
              :jar-with-test-fixture {:source-paths ["src", "test"]

@@ -15,8 +15,11 @@
 
 (defn- get-henkilo
   [oid]
-  (-> (resolve-url :oppijanumerorekisteri-service.henkilo.oid oid)
-      (cas-authenticated-get-as-json)))
+  (try
+    (-> (resolve-url :oppijanumerorekisteri-service.henkilo.oid oid)
+        (cas-authenticated-get-as-json))
+    (catch Exception e
+      (log/info e "Exception when parsing ONR result"))))
 
 (defn- parse-henkilo-nimi
   [henkilo]
