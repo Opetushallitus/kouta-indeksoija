@@ -6,7 +6,6 @@
             [kouta-indeksoija-service.test-tools :refer [set-fixed-time]]
             [mocks.export-elastic-data :refer [export-elastic-data]]))
 
-
 (defn -main []
   (ed-utils/start-elasticsearch)
   (set-fixed-time "2023-10-11T01:00:00")
@@ -33,6 +32,11 @@
   (fixture/add-koulutus-mock amk-oid :tila "julkaistu" :koulutustyyppi "amk" :nimi "Artenomi" :tarjoajat [punkaharjun-yliopisto] :metadata fixture/amk-koulutus-metadata :sorakuvausId sorakuvausId)
   (fixture/add-koulutus-mock lukio-oid2 :tila "julkaistu" :koulutustyyppi "lk" :nimi "Lukio" :tarjoajat [punkaharjun-yliopisto] :metadata fixture/lukio-koulutus-metadata :sorakuvausId sorakuvausId)
   (fixture/add-koulutus-mock amm-muu-oid :tila "julkaistu" :koulutustyyppi "amm-muu" :nimi "Muu ammatillinen" :tarjoajat [punkaharjun-yliopisto] :metadata fixture/amm-muu-koulutus-metadata :sorakuvausId sorakuvausId)
+
+  (fixture/add-koulutus-mock puutarha-koulutus-oid :koulutustyyppi "amm" :tila "julkaistu" :nimi "Puutarha-koulutus" :modified "2025-05-05T12:02:23" :tarjoajat [oppilaitosOid2]
+                             :metadata fixture/koulutus-metatieto :sorakuvausId sorakuvausId)
+  (fixture/add-koulutus-mock tuva-koulutus-oid :koulutustyyppi "tuva" :tila "julkaistu" :nimi "Tuva-koulutus" :modified "2025-05-05T12:02:23" :tarjoajat [oppilaitosOid2]
+                             :metadata fixture/tuva-koulutus-metadata)
 
   (fixture/add-koulutus-mock aakkostus-koulutus-oid1 :koulutustyyppi "aikuisten-perusopetus" :tila "julkaistu" :nimi "Aakkosissa ensimmäinen"   :tarjoajat aakkostus-oppilaitos-oid1
                              :sorakuvausId sorakuvausId :metadata fixture/aikuisten-perusopetus-koulutus-metadata)
@@ -82,6 +86,15 @@
   (fixture/add-toteutus-mock massikkakoulu-oid traktoriala-oid        :koulutustyyppi "amk"             :tila "julkaistu" :nimi "Massikkakoulutus" :tarjoajat [helsingin-toimipiste] :metadata fixture/amk-toteutus-metatieto)
   (fixture/add-toteutus-mock zetorkoulu-oid traktoriala-oid2          :koulutustyyppi "amm"             :tila "julkaistu" :nimi "Zetorkoulutus" :tarjoajat [punkaharjun-toimipiste-2] :metadata fixture/oletus-toteutus-metatieto)
   (fixture/add-toteutus-mock poniosatoteutus-oid hevososaamisala-oid  :koulutustyyppi "amm-osaamisala"  :tila "julkaistu" :nimi "Ponikoulu tutkinnon osa" :tarjoajat [punkaharjun-toimipiste-2] :metadata fixture/amm-osaamisala-toteutus-metatieto)
+
+  (fixture/add-toteutus-mock puutarha-ala-toteutus-erityisopetuksena-oid puutarha-koulutus-oid :koulutustyyppi "amm" :tila "julkaistu" :nimi "Puutarha-ala erityisopetuksena" :tarjoajat [oppilaitosOid2]
+                             :metadata fixture/amm-erityisopetus-toteutus-metatieto)
+  (fixture/add-toteutus-mock puutarha-ala-toteutus-oid puutarha-koulutus-oid :koulutustyyppi "amm" :tila "julkaistu" :nimi "Puutarha-ala tavallinen" :tarjoajat [oppilaitosOid2]
+                             :metadata fixture/amm-toteutus-metatieto)
+  (fixture/add-toteutus-mock tuva-toteutus-erityisopetuksena-oid tuva-koulutus-oid :koulutustyyppi "tuva" :tila "julkaistu" :nimi "Tuva erityisopetuksena" :tarjoajat [oppilaitosOid2]
+                             :metadata fixture/tuva-erityisopetus-toteutus-metatieto)
+  (fixture/add-toteutus-mock tuva-toteutus-oid tuva-koulutus-oid :koulutustyyppi "tuva" :tila "julkaistu" :nimi "Tuva tavallinen" :tarjoajat [oppilaitosOid2]
+                             :metadata fixture/tuva-toteutus-metatieto)
 
   (fixture/add-toteutus-mock aakkostus-toteutus-oid1 aakkostus-koulutus-oid1 :tila "julkaistu" :nimi "Aakkosissa ensimmäinen toteutus" :tarjoajat aakkostus-oppilaitos-oid1 :metadata fixture/aikuisten-perusopetus-toteutus-metatieto)
   (fixture/add-toteutus-mock aakkostus-toteutus-oid2 aakkostus-koulutus-oid2 :tila "julkaistu" :nimi "Aakkosissa toinen toteutus" :tarjoajat aakkostus-oppilaitos-oid2 :metadata fixture/aikuisten-perusopetus-toteutus-metatieto)
@@ -164,8 +177,10 @@
                                                              keyword-koulutus-oid1 keyword-koulutus-oid2 keyword-koulutus-oid3 keyword-koulutus-oid4 keyword-koulutus-oid5 keyword-koulutus-oid6 keyword-koulutus-oid7
                                                              keyword-koulutus-oid8 keyword-koulutus-oid9 keyword-koulutus-oid10 keyword-koulutus-oid11 keyword-koulutus-oid12 keyword-koulutus-oid13
                                                              keyword-koulutus-oid14 keyword-koulutus-oid15 keyword-koulutus-oid16 keyword-koulutus-oid17 keyword-koulutus-oid18
-                                                             osaamismerkki-koulutus-oid]
-                                               :toteutukset [toteutusOid1 toteutusOid2 toteutusOid3 toteutusOid4 toteutusOid5 toteutusOid6 lukio-toteutus-oid kk-toteutus-oid osaamismerkki-toteutus-oid]
+                                                             osaamismerkki-koulutus-oid tuva-koulutus-oid puutarha-koulutus-oid]
+                                               :toteutukset [toteutusOid1 toteutusOid2 toteutusOid3 toteutusOid4 toteutusOid5 toteutusOid6 
+                                                             lukio-toteutus-oid kk-toteutus-oid osaamismerkki-toteutus-oid tuva-toteutus-erityisopetuksena-oid
+                                                             puutarha-ala-toteutus-erityisopetuksena-oid puutarha-ala-toteutus-oid]
                                                :haut [hakuOid1 hakuOid2 hakuOid3 hakuOid4 hakuOid5 kk-haku-oid]
                                                :hakukohteet [hakukohdeOid1 hakukohdeOid2 hakukohdeOid3 hakukohdeOid4 hakukohdeOid5 hakukohdeOid6 hakukohdeOid7 kk-hakukohde-oid]
                                                :valintaperusteet [valintaperusteId1 valintaperusteId2 valintaperusteId3 valintaperusteId4 valintaperusteId5 valintaperusteId6]

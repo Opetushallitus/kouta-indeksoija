@@ -138,7 +138,7 @@
 (def default-valintaperuste-map (->keywordized-json (slurp "test/resources/kouta/default-valintaperuste.json")))
 (def default-sorakuvaus-map (->keywordized-json (slurp "test/resources/kouta/default-sorakuvaus.json")))
 (def default-oppilaitos-map (merge (->keywordized-json (slurp "test/resources/kouta/default-oppilaitos.json"))
-                                       {:_enrichedData {:organisaatio (->keywordized-json (slurp "test/resources/kouta/default-kouta-organisaatio.json"))}}))
+                                   {:_enrichedData {:organisaatio (->keywordized-json (slurp "test/resources/kouta/default-kouta-organisaatio.json"))}}))
 (def default-oppilaitoksen-osa-map (->keywordized-json (slurp "test/resources/kouta/default-oppilaitoksen-osa.json")))
 
 (def lk-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/lk-toteutus-metadata.json")))
@@ -148,7 +148,6 @@
 
 (defonce koulutus-metatieto
   {:tyyppi "amm"
-
    :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso1_01#1"
                           "kansallinenkoulutusluokitus2016koulutusalataso1_02#1"]
    :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}
@@ -173,7 +172,6 @@
    :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_02"]
             :opetustapaKoodiUrit ["opetuspaikkakk_02"]
             :opetusaikaKoodiUrit []}})
-
 
 (defonce amm-toteutus-metatieto
   (merge (:metadata default-toteutus-map)
@@ -204,6 +202,22 @@
             :maksunMaara 500
             :onkoApuraha false}})
 
+(defonce maksuton-amm-opetus
+  {:opetus {:maksullisuustyyppi "maksuton"
+            :maksunMaara nil
+            :maksullisuusKuvaus nil
+            :apuraha nil}
+   :onkoApuraha nil})
+
+(defonce amm-erityisopetus-toteutus-metatieto
+  (merge amm-toteutus-metatieto maksuton-amm-opetus {:ammatillinenPerustutkintoErityisopetuksena true}))
+
+(defonce tuva-erityisopetus-toteutus-metatieto
+  (merge amm-toteutus-metatieto maksuton-amm-opetus {:tyyppi "tuva" :jarjestetaanErityisopetuksena true}))
+
+(defonce tuva-toteutus-metatieto
+  (merge tuva-erityisopetus-toteutus-metatieto {:jarjestetaanErityisopetuksena false}))
+
 (defonce yo-toteutus-metatieto
   (merge (dissoc (:metadata default-toteutus-map) :osaamisalat :ammatillinenPerustutkintoErityisopetuksena)
          {:tyyppi           "yo"
@@ -211,16 +225,15 @@
           :ammattinimikkeet []
           :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}}))
 
-
 (defonce yo-koulutus-metadata
-   {:tyyppi "yo"
-    :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
-    :opintojenLaajuusNumero 26
-    :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
-                           "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
-    :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}
-    :kuvaus {}
-    :lisatiedot []})
+  {:tyyppi "yo"
+   :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
+   :opintojenLaajuusNumero 26
+   :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
+                          "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
+   :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}
+   :kuvaus {}
+   :lisatiedot []})
 
 (defonce lk-koulutus-metadata
   {:tyyppi "lk"
@@ -236,9 +249,8 @@
    :tutkintonimikeKoodiUrit ["tutkintonimikekk_033#1" "tutkintonimikekk_031#1"]
    :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}})
 
-
 (defonce amm-tutkinnon-osa-enriched-data
-         {:esitysnimi {:fi "Autoalan perustutkinto 0 fi (voimaantulo 6.6.2025)", :sv "Autoalan perustutkinto 0 sv (voimaantulo 6.6.2025)"}})
+  {:esitysnimi {:fi "Autoalan perustutkinto 0 fi (voimaantulo 6.6.2025)", :sv "Autoalan perustutkinto 0 sv (voimaantulo 6.6.2025)"}})
 
 (defonce amm-tutkinnon-osa-koulutus-metadata
   {:tyyppi "amm-tutkinnon-osa"
@@ -249,25 +261,25 @@
    :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}})
 
 (defonce amm-osaamisala-koulutus-metadata
-   {:tyyppi "amm-osaamisala"
-    :osaamisalaKoodiUri "osaamisala_01"
-    :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}})
+  {:tyyppi "amm-osaamisala"
+   :osaamisalaKoodiUri "osaamisala_01"
+   :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}})
 
 (defonce amm-muu-koulutus-metadata
-         {:tyyppi "amm-muu"
-          :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
-                                 "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
-          :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_4#1"
-          :opintojenLaajuusNumero 11})
+  {:tyyppi "amm-muu"
+   :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
+                          "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
+   :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_4#1"
+   :opintojenLaajuusNumero 11})
 
 (defonce lukio-koulutus-metadata
-   {:tyyppi "lk"
-    :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso1_001#1"]
-    :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
-    :opintojenLaajuusNumero 25
-    :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}
-    :kuvaus {}
-    :lisatiedot []})
+  {:tyyppi "lk"
+   :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso1_001#1"]
+   :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
+   :opintojenLaajuusNumero 25
+   :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}
+   :kuvaus {}
+   :lisatiedot []})
 
 (defonce tuva-koulutus-metadata
   {:tyyppi "tuva"
@@ -277,28 +289,27 @@
    :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}})
 
 (defonce telma-koulutus-metadata
-         {:tyyppi "telma"
-          :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_6#1"
-          :opintojenLaajuusNumero 41
-          :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
-          :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}})
+  {:tyyppi "telma"
+   :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_6#1"
+   :opintojenLaajuusNumero 41
+   :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
+   :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}})
 
 (defonce vapaa-sivistystyo-muu-metadata
-   {:tyyppi "vapaa-sivistystyo-muu"
-    :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_080#1"]
-    :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_8#1"
-    :opintojenLaajuusNumero 38
-    :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
-    :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}})
-
+  {:tyyppi "vapaa-sivistystyo-muu"
+   :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_080#1"]
+   :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_8#1"
+   :opintojenLaajuusNumero 38
+   :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
+   :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}})
 
 (defonce aikuisten-perusopetus-koulutus-metadata
-         {:tyyppi "aikuisten-perusopetus"
-          :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
-          :opintojenLaajuusNumero 13
-          :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
-          :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}
-          :lisatiedot []})
+  {:tyyppi "aikuisten-perusopetus"
+   :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
+   :opintojenLaajuusNumero 13
+   :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
+   :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}
+   :lisatiedot []})
 
 (defonce kk-opintojakso-koulutus-metadata
   {:tyyppi "kk-opintojakso"
@@ -311,25 +322,24 @@
    :lisatiedot []})
 
 (defonce kk-opintokokonaisuus-koulutus-metadata
-  (merge kk-opintojakso-koulutus-metadata {:tyyppi "kk-opintokokonaisuus" :opintojenLaajuusNumeroMin 24 :opintojenLaajuusNumeroMax 25})
-)
+  (merge kk-opintojakso-koulutus-metadata {:tyyppi "kk-opintokokonaisuus" :opintojenLaajuusNumeroMin 24 :opintojenLaajuusNumeroMax 25}))
 
 (defonce erikoistumiskoulutus-metadata
-         {:tyyppi "erikoistumiskoulutus"
-          :erikoistumiskoulutusKoodiUri "erikoistumiskoulutukset_001#2"
-          :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
-                                 "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
-          :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
-          :opintojenLaajuusNumeroMin 5
-          :opintojenLaajuusNumeroMax 10
-          :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}
-          :lisatiedot []})
+  {:tyyppi "erikoistumiskoulutus"
+   :erikoistumiskoulutusKoodiUri "erikoistumiskoulutukset_001#2"
+   :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
+                          "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
+   :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
+   :opintojenLaajuusNumeroMin 5
+   :opintojenLaajuusNumeroMax 10
+   :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}
+   :lisatiedot []})
 
 (defonce tpo-koulutus-metadata
-         {:tyyppi "taiteen-perusopetus"
-          :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}
-          :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
-          :lisatiedot []})
+  {:tyyppi "taiteen-perusopetus"
+   :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}
+   :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
+   :lisatiedot []})
 
 (defonce osaamismerkki-koulutus-metadata
   {:tyyppi "vapaa-sivistystyo-osaamismerkki"
@@ -364,8 +374,7 @@
   (if (nil? params)
     (swap! koulutukset assoc oid nil)
     (let [koulutus (fix-default-format (merge (get @koulutukset oid) params))]
-      (swap! koulutukset assoc oid koulutus))
-    ))
+      (swap! koulutukset assoc oid koulutus))))
 
 (defn mock-get-koulutus
   [oid execution-id]
@@ -375,14 +384,14 @@
   [koulutus-oids organisaatio-and-child-oids]
   (let [koulutus-oids-set (set koulutus-oids)
         koulutukset (filter
-                      #(contains? koulutus-oids-set (:oid %))
-                      (vals @koulutukset))
+                     #(contains? koulutus-oids-set (:oid %))
+                     (vals @koulutukset))
         koulutusten-toteutukset (filter
-                                  #(contains? koulutus-oids-set (:koulutusOid %))
-                                  (vals @toteutukset))
+                                 #(contains? koulutus-oids-set (:koulutusOid %))
+                                 (vals @toteutukset))
         oppilaitoksen-ja-toimipisteiden-toteutukset (filter
-                                                      #(some (set organisaatio-and-child-oids) (:tarjoajat %))
-                                                      koulutusten-toteutukset)]
+                                                     #(some (set organisaatio-and-child-oids) (:tarjoajat %))
+                                                     koulutusten-toteutukset)]
     (into {} (for [koulutus koulutukset]
                [(:oid koulutus) (assoc koulutus
                                        :toteutukset (filter #(= (:oid koulutus) (:koulutusOid %))
@@ -392,8 +401,8 @@
   [oid execution-id]
   (cond (= oid helsingin-yliopisto) (get-organisaation-koulutukset-ja-toteutukset [traktoriala-oid hevosala-oid] [helsingin-yliopisto helsingin-toimipiste])
         (= oid punkaharjun-yliopisto) (get-organisaation-koulutukset-ja-toteutukset
-                                        [traktoriala-oid hevosala-oid hevostutkinnon-osa-oid hevososaamisala-oid yo-koulutus-oid amk-oid lukio-oid2 amm-muu-oid]
-                                        [punkaharjun-yliopisto punkaharjun-toimipiste-1 punkaharjun-toimipiste-2])
+                                       [traktoriala-oid hevosala-oid hevostutkinnon-osa-oid hevososaamisala-oid yo-koulutus-oid amk-oid lukio-oid2 amm-muu-oid]
+                                       [punkaharjun-yliopisto punkaharjun-toimipiste-1 punkaharjun-toimipiste-2])
         :else (let [oids #{oid, (str oid "1"), (str oid "2"), (str oid "3")}
                     pred (fn [e] (and (= (:tila e) "julkaistu") (some oids (:tarjoajat e))))]
                 (into {}
@@ -424,12 +433,12 @@
   [oids execution-id]
   (let [pred (fn [toteutus]
                (some
-                 (fn [oid]
-                   (some
-                     (fn [tarjoaja-oid]
-                       (= oid tarjoaja-oid))
-                     (:tarjoajat toteutus)))
-                 oids))]
+                (fn [oid]
+                  (some
+                   (fn [tarjoaja-oid]
+                     (= oid tarjoaja-oid))
+                   (:tarjoajat toteutus)))
+                oids))]
     (map :oid (filter pred (vals @toteutukset)))))
 
 (defn add-toteutus-mock
@@ -442,8 +451,7 @@
   (if (nil? params)
     (swap! toteutukset assoc oid nil)
     (let [toteutus (merge (get @toteutukset oid) params)]
-      (swap! toteutukset assoc oid toteutus))
-    ))
+      (swap! toteutukset assoc oid toteutus))))
 
 (defn mock-get-toteutus
   [oid execution-id]
@@ -483,16 +491,16 @@
 (defn update-haku-mock
   [oid & {:as params}]
   (if (nil? params)
-      (swap! haut assoc oid nil)
+    (swap! haut assoc oid nil)
     (let [haku (merge (get @haut oid) params)]
       (swap! haut assoc oid haku))))
 
 (defn mock-get-pistehistoria [tarjoajaOid hakukohdekoodi lukiolinjakoodi execution-id]
   (if (nil? hakukohdekoodi) []
-                            (map #(-> %
-                                      (assoc :tarjoaja tarjoajaOid)
-                                      (assoc :hakukohdekoodi hakukohdekoodi))
-                                 [{:vuosi "2022" :pisteet 6} {:vuosi "2021" :pisteet 8}])))
+      (map #(-> %
+                (assoc :tarjoaja tarjoajaOid)
+                (assoc :hakukohdekoodi hakukohdekoodi))
+           [{:vuosi "2022" :pisteet 6} {:vuosi "2021" :pisteet 8}])))
 
 (defn mock-get-haku
   [oid execution-id]
@@ -531,8 +539,7 @@
   (if (nil? params)
     (swap! hakukohteet assoc oid nil)
     (let [hakukohde (merge (get @hakukohteet oid) params)]
-      (swap! hakukohteet assoc oid hakukohde))
-    ))
+      (swap! hakukohteet assoc oid hakukohde))))
 
 (defn mock-get-hakukohde
   [oid execution-id]
@@ -553,8 +560,7 @@
   (if (nil? params)
     (swap! valintaperusteet assoc id nil)
     (let [valintaperuste (merge (get @valintaperusteet id) params)]
-      (swap! valintaperusteet assoc id valintaperuste))
-    ))
+      (swap! valintaperusteet assoc id valintaperuste))))
 
 (defn mock-get-valintaperuste
   [id execution-id]
@@ -571,8 +577,7 @@
   (if (nil? params)
     (swap! sorakuvaukset assoc id nil)
     (let [sorakuvaus (merge (get @sorakuvaukset id) params)]
-      (swap! sorakuvaukset assoc id sorakuvaus))
-    ))
+      (swap! sorakuvaukset assoc id sorakuvaus))))
 
 (defn add-oppilaitos-mock
   ([oid & {:as params}]
@@ -581,9 +586,9 @@
   ([oppilaitos]
    (let [oid (:oid oppilaitos)]
      (swap! oppilaitokset assoc oid (fix-default-format
-                                      (merge
-                                        oppilaitos
-                                        {:organisaatio oppilaitos-oid :oid oid}))))))
+                                     (merge
+                                      oppilaitos
+                                      {:organisaatio oppilaitos-oid :oid oid}))))))
 
 (defn add-oppilaitos-mock-without-kouta-oppilaitos
   [oid organisaatio-data]
@@ -673,40 +678,40 @@
         find-hakukohteet (fn [tOid] (filter (fn [hk] (= (:toteutusOid hk) tOid)) (vals @hakukohteet)))
         assoc-hakukohde (fn [hk] (let [vp (mock-get-valintaperuste (:valintaperuste hk) (System/currentTimeMillis))]
                                    (into {} (remove (comp nil? second)
-                                             (assoc {}
-                                               :hakuajat (:hakuajat hk)
-                                               :tila (:tila hk)
-                                               :nimi (:nimi hk)
-                                               :hakukohdeOid (:oid hk)
-                                               :hakulomakeKuvaus (:hakulomakeKuvaus hk)
-                                               :kaytetaanHaunAikataulua (:kaytetaanHaunAikataulua hk)
-                                               :pohjakoulutusvaatimusKoodiUrit (:pohjakoulutusvaatimusKoodiUrit hk)
-                                               :pohjakoulutusvaatimusTarkenne (:pohjakoulutusvaatimusTarkenne hk)
-                                               :hakulomaketyyppi (:hakulomaketyyppi hk)
-                                               :hakulomakeLinkki (:hakulomakeLinkki hk)
-                                               :hakulomakeAtaruId (:hakulomakeAtaruId hk)
-                                               :jarjestyspaikkaOid (:jarjestyspaikkaOid hk)
-                                               :organisaatioOid (:organisaatioOid hk)
-                                               :muokkaaja (:muokkaaja hk)
-                                               :modified (:modified hk)
-                                               :esikatselu (:esikatselu hk)
-                                               :valintaperusteId (:valintaperusteId hk)
-                                               :aloituspaikat (get-in hk [:metadata :aloituspaikat])
-                                               :hakukohteenLinja (get-in hk [:metadata :hakukohteenLinja])
-                                               :koulutuksenAlkamiskausi (get-in hk [:metadata :koulutuksenAlkamiskausi])
-                                               :jarjestaaUrheilijanAmmKoulutusta true
-                                               :valintatapaKoodiUrit (map :valintatapaKoodiUri
-                                                                          (get-in vp [:metadata :valintatavat])))))))
+                                                    (assoc {}
+                                                           :hakuajat (:hakuajat hk)
+                                                           :tila (:tila hk)
+                                                           :nimi (:nimi hk)
+                                                           :hakukohdeOid (:oid hk)
+                                                           :hakulomakeKuvaus (:hakulomakeKuvaus hk)
+                                                           :kaytetaanHaunAikataulua (:kaytetaanHaunAikataulua hk)
+                                                           :pohjakoulutusvaatimusKoodiUrit (:pohjakoulutusvaatimusKoodiUrit hk)
+                                                           :pohjakoulutusvaatimusTarkenne (:pohjakoulutusvaatimusTarkenne hk)
+                                                           :hakulomaketyyppi (:hakulomaketyyppi hk)
+                                                           :hakulomakeLinkki (:hakulomakeLinkki hk)
+                                                           :hakulomakeAtaruId (:hakulomakeAtaruId hk)
+                                                           :jarjestyspaikkaOid (:jarjestyspaikkaOid hk)
+                                                           :organisaatioOid (:organisaatioOid hk)
+                                                           :muokkaaja (:muokkaaja hk)
+                                                           :modified (:modified hk)
+                                                           :esikatselu (:esikatselu hk)
+                                                           :valintaperusteId (:valintaperusteId hk)
+                                                           :aloituspaikat (get-in hk [:metadata :aloituspaikat])
+                                                           :hakukohteenLinja (get-in hk [:metadata :hakukohteenLinja])
+                                                           :koulutuksenAlkamiskausi (get-in hk [:metadata :koulutuksenAlkamiskausi])
+                                                           :jarjestaaUrheilijanAmmKoulutusta true
+                                                           :valintatapaKoodiUrit (map :valintatapaKoodiUri
+                                                                                      (get-in vp [:metadata :valintatavat])))))))
         assoc-haku (fn [hOid hks] (if-let [haku (mock-get-haku hOid (System/currentTimeMillis))]
-                                   (assoc {}
-                                     :hakuOid hOid
-                                     :hakutapaKoodiUri (:hakutapaKoodiUri haku)
-                                     :tila (:tila haku)
-                                     :nimi (:nimi haku)
-                                     :hakuajat (:hakuajat haku)
-                                     :koulutuksenAlkamiskausi (get-in haku [:metadata :koulutuksenAlkamiskausi])
-                                     :hakukohteet (vec (map assoc-hakukohde hks)))
-                                   nil))
+                                    (assoc {}
+                                           :hakuOid hOid
+                                           :hakutapaKoodiUri (:hakutapaKoodiUri haku)
+                                           :tila (:tila haku)
+                                           :nimi (:nimi haku)
+                                           :hakuajat (:hakuajat haku)
+                                           :koulutuksenAlkamiskausi (get-in haku [:metadata :koulutuksenAlkamiskausi])
+                                           :hakukohteet (vec (map assoc-hakukohde hks)))
+                                    nil))
         assoc-haut (fn [hkByH] (map (fn [hOid] (assoc-haku hOid (get hkByH hOid))) (keys hkByH)))
         assoc-toteutus (fn [t] (assoc {} :toteutusOid (:oid t)
                                       :haut (vec (assoc-haut (group-by :hakuOid (find-hakukohteet (:oid t)))))))]
@@ -956,7 +961,6 @@
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-organisaatio-by-oid]
      (do ~@body)))
 
-
 (defn mock-get-oppilaitokset
   [oids execution-id]
   (let [oppilaitokset-ja-osat (apply concat
@@ -967,6 +971,6 @@
 (defn index-oids-without-related-indices
   [oids]
   (with-mocked-indexing
-     (with-redefs [kouta-indeksoija-service.rest.kouta/get-last-modified (fn [x] oids)]
-       (indexer/index-all-kouta)))
+    (with-redefs [kouta-indeksoija-service.rest.kouta/get-last-modified (fn [x] oids)]
+      (indexer/index-all-kouta)))
   (refresh-indices))
