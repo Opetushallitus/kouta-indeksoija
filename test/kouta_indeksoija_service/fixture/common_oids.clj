@@ -66,10 +66,10 @@
 (defonce keyword-koulutus-oid18   "1.2.246.562.13.000047")
 
 (defonce osaamismerkki-koulutus-oid "1.2.246.562.13.000048")
-
+(defonce puutarha-koulutus-oid "1.2.246.562.13.000049")
+(defonce tuva-koulutus-oid "1.2.246.562.13.000050")
 
 (defonce sorakuvausId "2ff6700d-087f-4dbf-9e42-7f38948f227a")
-
 
 (defonce hakuOid1    "1.2.246.562.29.0000001")
 (defonce hakuOid2    "1.2.246.562.29.0000002")
@@ -77,7 +77,6 @@
 (defonce hakuOid4    "1.2.246.562.29.0000004")
 (defonce hakuOid5    "1.2.246.562.29.0000005")
 (defonce kk-haku-oid "1.2.246.562.29.0000006")
-
 
 (defonce toteutusOid1           "1.2.246.562.17.000001")
 (defonce toteutusOid2           "1.2.246.562.17.000002")
@@ -110,6 +109,10 @@
 (defonce keyword-toteutus-oid8  "1.2.246.562.17.000027")
 (defonce keyword-toteutus-oid9  "1.2.246.562.17.000028")
 (defonce osaamismerkki-toteutus-oid "1.2.246.562.17.000029")
+(defonce puutarha-ala-toteutus-erityisopetuksena-oid "1.2.246.562.17.000030")
+(defonce tuva-toteutus-erityisopetuksena-oid "1.2.246.562.17.000031")
+(defonce puutarha-ala-toteutus-oid "1.2.246.562.17.000032")
+(defonce tuva-toteutus-oid "1.2.246.562.17.000033")
 
 (defonce hakukohdeOid1     "1.2.246.562.20.0000001")
 (defonce hakukohdeOid2     "1.2.246.562.20.0000002")
@@ -129,7 +132,6 @@
 (defonce valintaperusteId4 "31972648-ebb7-4185-ac64-31fa6b841e37")
 (defonce valintaperusteId5 "31972648-ebb7-4185-ac64-31fa6b841e38")
 (defonce valintaperusteId6 "31972648-ebb7-4185-ac64-31fa6b841e39")
-
 
 (defonce oppilaitosOid1  "1.2.246.562.10.00101010101")
 (defonce oppilaitosOid2  "1.2.246.562.10.00101010102")
