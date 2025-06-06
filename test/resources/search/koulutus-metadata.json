@@ -1,7 +1,17 @@
 {
-  "tyyppi" : "amm",
-  "kuvaus": { "fi" :  "Kiva kuvaus fi", "sv" :  "Kiva kuvaus sv"},
-  "koulutusalaKoodiUrit": ["kansallinenkoulutusluokitus2016koulutusalataso2_054#1",
-                           "kansallinenkoulutusluokitus2016koulutusalataso2_055#1"],
-  "lisatiedot" : []
+  "tyyppi": "amm",
+  "kuvaus": {
+    "fi": "Kiva kuvaus fi",
+    "sv": "Kiva kuvaus sv"
+  },
+  "koulutusalaKoodiUrit": [
+    "kansallinenkoulutusluokitus2016koulutusalataso2_054#1",
+    "kansallinenkoulutusluokitus2016koulutusalataso2_055#1"
+  ],
+  "lisatiedot": [],
+  "luokittelutermit": [
+    "jod-ohjaaja",
+    "ohjaajakoulutus",
+    "koulutukset2025"
+  ]
 }

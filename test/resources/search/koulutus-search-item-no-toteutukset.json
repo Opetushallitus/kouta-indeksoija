@@ -140,5 +140,10 @@
     "count": 0,
     "nimi": null
   },
-  "isAvoinKorkeakoulutus": null
+  "isAvoinKorkeakoulutus": null,
+  "luokittelutermit": [
+    "jod-ohjaaja",
+    "ohjaajakoulutus",
+    "koulutukset2025"
+  ]
 }
