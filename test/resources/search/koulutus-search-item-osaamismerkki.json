@@ -33,7 +33,9 @@
         "kunta_091",
         "maakunta_01"
       ],
-      "koulutusalat": ["kansallinenkoulutusluokitus2016koulutusalataso2_001"],
+      "koulutusalat": [
+        "kansallinenkoulutusluokitus2016koulutusalataso2_001"
+      ],
       "koulutustyypit": [
         "vapaa-sivistystyo-osaamismerkki"
       ],
@@ -78,11 +80,17 @@
         "suunniteltuKestoKuukausina": 3,
         "tutkintonimikkeet": []
       },
-      "opetuskielet": ["oppilaitoksenopetuskieli_1"],
-      "opetustavat": ["opetuspaikkakk_4"],
+      "opetuskielet": [
+        "oppilaitoksenopetuskieli_1"
+      ],
+      "opetustavat": [
+        "opetuspaikkakk_4"
+      ],
       "paatellytAlkamiskaudet": [],
-      "toteutusNimi": {"fi": "Osaamismerkkitoteutus fi",
-                       "sv": "Osaamismerkkitoteutus sv"},
+      "toteutusNimi": {
+        "fi": "Osaamismerkkitoteutus fi",
+        "sv": "Osaamismerkkitoteutus sv"
+      },
       "toteutusOid": "1.2.246.562.17.00000000000000000888"
     }
   ],
@@ -109,8 +117,11 @@
   "koulutustyyppi": "vapaa-sivistystyo-osaamismerkki",
   "toteutustenTarjoajat": {
     "count": 1,
-    "nimi": {"fi": "Oppilaitos fi 1.2.246.562.10.00101010101",
-             "sv": "Oppilaitos sv 1.2.246.562.10.00101010101"}
+    "nimi": {
+      "fi": "Oppilaitos fi 1.2.246.562.10.00101010101",
+      "sv": "Oppilaitos sv 1.2.246.562.10.00101010101"
+    }
   },
-  "isAvoinKorkeakoulutus": null
+  "isAvoinKorkeakoulutus": null,
+  "luokittelutermit": null
 }

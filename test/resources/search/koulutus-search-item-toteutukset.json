@@ -194,7 +194,9 @@
         "koulutustyyppi": "amm",
         "suunniteltuKestoKuukausina": 0
       },
-      "paatellytAlkamiskaudet": ["2042-kevat"]
+      "paatellytAlkamiskaudet": [
+        "2042-kevat"
+      ]
     },
     {
       "oppilaitosOid": "1.2.246.562.10.77777777799",
@@ -358,7 +360,9 @@
         "koulutustyyppi": "amm",
         "suunniteltuKestoKuukausina": 46
       },
-      "paatellytAlkamiskaudet": ["2042-kevat"]
+      "paatellytAlkamiskaudet": [
+        "2042-kevat"
+      ]
     }
   ],
   "nimi": {
@@ -402,5 +406,10 @@
       "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"
     }
   },
-  "isAvoinKorkeakoulutus": null
+  "isAvoinKorkeakoulutus": null,
+  "luokittelutermit": [
+    "jod-ohjaaja",
+    "ohjaajakoulutus",
+    "koulutukset2025"
+  ]
 }

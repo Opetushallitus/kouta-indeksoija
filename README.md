@@ -145,7 +145,7 @@ sellainen tarve tulee.
 
 ---
 
-Kun Elasticsearch ja sqs-jonot ovat pyörimässä indeksoijan saa käyntiin komennolla `lein dev`
+Kun Elasticsearch ja sqs-jonot ovat pyörimässä indeksoijan saa käyntiin komennolla `AWS_ACCESS_KEY_ID=randomKeyIdForLocalstack AWS_SECRET_ACCESS_KEY=randomKeyForLocalstack lein dev`
 
 Tämä avaa swaggerin selaimeen osoitteeseen `http://localhost:8100/kouta-indeksoija/swagger/index.html`
 

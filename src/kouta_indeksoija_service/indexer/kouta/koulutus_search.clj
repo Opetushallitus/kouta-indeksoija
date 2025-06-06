@@ -133,6 +133,7 @@
                   (assoc :teemakuva               (:teemakuva koulutus))
                   (assoc :koulutustyyppi          (:koulutustyyppi koulutus))
                   (assoc :isAvoinKorkeakoulutus   (get-in koulutus [:metadata :isAvoinKorkeakoulutus]))
+                  (assoc :luokittelutermit        (get-in koulutus [:metadata :luokittelutermit]))
                   (assoc :opintojenLaajuus        (search-tool/opintojen-laajuus-koodi-uri koulutus))
                   (assoc :opintojenLaajuusNumero  (search-tool/opintojen-laajuus-numero koulutus))
                   (assoc :opintojenLaajuusNumeroMin (search-tool/opintojen-laajuus-numero-min koulutus))
