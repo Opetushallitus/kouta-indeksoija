@@ -29,7 +29,7 @@
   [cas-session opts]
   (let [session-id (:session-id cas-session)]
     (-> opts
-        (assoc :follow-redirects true :throw-exceptions false)
+        (assoc :follow-redirects false :throw-exceptions false)
         (assoc-in [:cookies (if (:jsession? cas-session) "JSESSIONID" "session")] {:value @session-id :path "/"}))))
 
 (defn cas-authenticated-request
