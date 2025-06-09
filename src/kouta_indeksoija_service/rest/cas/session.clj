@@ -23,6 +23,7 @@
 (defn- reset
   [cas-session]
   (let [session-id (:session-id cas-session)]
+    (log/info "Resetting cas session:" cas-session)
     (reset! session-id (cas-session-id/get-id (:service cas-session) (:jsession? cas-session)))))
 
 (defn- assoc-cas-session-params
@@ -34,10 +35,13 @@
 
 (defn cas-authenticated-request
   ([cas-session opts]
+   (log/info "cas-session" cas-session)
    (when (empty? cas-session)
+     (log/info "cas-session EMPTY")
      (reset cas-session))
    (let [http (fn [] (request (assoc-cas-session-params cas-session opts)))
          res (http)]
+     (log/info "res" res)
      (if (some #(= % (:status res)) error-codes-causing-session-reset)
        (do (reset cas-session)
            (http))
@@ -48,9 +52,11 @@
 (defn cas-authenticated-request-as-json
   ([cas-client method url opts]
    (let [method-name (upper-case (str method))]
-     (log/debug method-name " => " url)
+     (log/info method-name " => " url)
+     (log/info opts)
      (try
        (let [response (cas-authenticated-request cas-client method url (assoc opts :as :json :throw-exceptions false))]
+         (log/info "response:" response)
          (handle-error url method-name response))
        (catch Exception e (handle-error url method-name e) (throw e)))))
   ([cas-client method url]

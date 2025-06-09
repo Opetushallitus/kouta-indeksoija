@@ -32,6 +32,8 @@
 
 (defn handle-error
   [url method-name response]
+  (log/info url "=>" method-name)
+  (log/info response)
   (let [status   (:status response)
         body     (:body response)]
     (case status
