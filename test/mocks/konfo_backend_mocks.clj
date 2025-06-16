@@ -23,13 +23,13 @@
   (fixture/add-koulutus-mock osaamismerkki-koulutus-oid :tila "julkaistu" :koulutustyyppi "vapaa-sivistystyo-osaamismerkki" :nimi "Osaamismerkki" :metadata fixture/osaamismerkki-koulutus-metadata)
 
   ;; Punkaharjun ja Helsingin yliopistoihin kiinnitetyt koulutukset
-  (fixture/add-koulutus-mock traktoriala-oid :koulutustyyppi "amm" :tila "julkaistu" :nimi "Traktorialan koulutus" :tarjoajat [punkaharjun-yliopisto helsingin-yliopisto] :metadata fixture/koulutus-metatieto :sorakuvausId sorakuvausId)
-  (fixture/add-koulutus-mock hevosala-oid :koulutustyyppi "amm" :tila "julkaistu" :nimi "Hevosalan koulutus" :modified "2018-05-05T12:02:23" :tarjoajat [punkaharjun-yliopisto helsingin-yliopisto] :metadata fixture/koulutus-metatieto :sorakuvausId sorakuvausId)
+  (fixture/add-koulutus-mock traktoriala-oid :koulutustyyppi "amm" :tila "julkaistu" :nimi "Traktorialan koulutus" :tarjoajat [punkaharjun-yliopisto helsingin-yliopisto] :metadata (merge fixture/koulutus-metatieto {:luokittelutermit ["ohjaaja"]}) :sorakuvausId sorakuvausId)
+  (fixture/add-koulutus-mock hevosala-oid :koulutustyyppi "amm" :tila "julkaistu" :nimi "Hevosalan koulutus" :modified "2018-05-05T12:02:23" :tarjoajat [punkaharjun-yliopisto helsingin-yliopisto] :metadata (merge fixture/koulutus-metatieto {:luokittelutermit ["ohjaaja"]}) :sorakuvausId sorakuvausId)
   (fixture/add-koulutus-mock traktoriala-oid2 :koulutustyyppi "amm" :tila "julkaistu" :nimi "Traktorialan koulutus" :metadata fixture/koulutus-metatieto :sorakuvausId sorakuvausId :tarjoajat [])
   (fixture/add-koulutus-mock hevostutkinnon-osa-oid :koulutustyyppi "amm-tutkinnon-osa" :koulutuksetKoodiUri nil :ePerusteId nil :tila "julkaistu" :johtaaTutkintoon false :nimi "Hevosalan tutkinnon osa koulutus" :tarjoajat [punkaharjun-yliopisto] :sorakuvausId sorakuvausId :metadata fixture/amm-tutkinnon-osa-koulutus-metadata)
   (fixture/add-koulutus-mock hevososaamisala-oid :koulutustyyppi "amm-osaamisala" :tila "julkaistu" :johtaaTutkintoon false :nimi "Hevosalan osaamisala koulutus" :tarjoajat [punkaharjun-yliopisto] :metadata fixture/amm-osaamisala-koulutus-metadata :sorakuvausId sorakuvausId)
   (fixture/add-koulutus-mock yo-koulutus-oid :tila "julkaistu" :koulutustyyppi "yo" :nimi "Arkkitehti" :tarjoajat [punkaharjun-yliopisto] :metadata fixture/yo-koulutus-metadata :sorakuvausId sorakuvausId)
-  (fixture/add-koulutus-mock amk-oid :tila "julkaistu" :koulutustyyppi "amk" :nimi "Artenomi" :tarjoajat [punkaharjun-yliopisto] :metadata fixture/amk-koulutus-metadata :sorakuvausId sorakuvausId)
+  (fixture/add-koulutus-mock amk-oid :tila "julkaistu" :koulutustyyppi "amk" :nimi "Artenomi" :tarjoajat [punkaharjun-yliopisto] :metadata (merge fixture/amk-koulutus-metadata {:luokittelutermit ["ohjaaja"]}) :sorakuvausId sorakuvausId)
   (fixture/add-koulutus-mock lukio-oid2 :tila "julkaistu" :koulutustyyppi "lk" :nimi "Lukio" :tarjoajat [punkaharjun-yliopisto] :metadata fixture/lukio-koulutus-metadata :sorakuvausId sorakuvausId)
   (fixture/add-koulutus-mock amm-muu-oid :tila "julkaistu" :koulutustyyppi "amm-muu" :nimi "Muu ammatillinen" :tarjoajat [punkaharjun-yliopisto] :metadata fixture/amm-muu-koulutus-metadata :sorakuvausId sorakuvausId)
 
@@ -37,6 +37,8 @@
                              :metadata fixture/koulutus-metatieto :sorakuvausId sorakuvausId)
   (fixture/add-koulutus-mock tuva-koulutus-oid :koulutustyyppi "tuva" :tila "julkaistu" :nimi "Tuva-koulutus" :modified "2025-05-05T12:02:23" :tarjoajat [oppilaitosOid2]
                              :metadata fixture/tuva-koulutus-metadata)
+
+  (fixture/add-koulutus-mock koulutusOid7 :koulutustyyppi "amm" :tila "julkaistu" :nimi "Amm koulutus jolla luokittelutermi muttei toteutusta" :modified "2018-05-05T12:02:23" :metadata (merge fixture/koulutus-metatieto {:luokittelutermit ["ohjaaja"]}) :sorakuvausId sorakuvausId)
 
   (fixture/add-koulutus-mock aakkostus-koulutus-oid1 :koulutustyyppi "aikuisten-perusopetus" :tila "julkaistu" :nimi "Aakkosissa ensimmäinen"   :tarjoajat aakkostus-oppilaitos-oid1
                              :sorakuvausId sorakuvausId :metadata fixture/aikuisten-perusopetus-koulutus-metadata)
@@ -172,13 +174,13 @@
   (fixture/add-oppilaitoksen-osa-mock oppilaitoksenOsaOid4 oppilaitosOid2 :tila "tallennettu" :esikatselu true :organisaatio oppilaitoksenOsaOid4)
   (fixture/add-oppilaitoksen-osa-mock oppilaitoksenOsaOid5 oppilaitosOid2 :tila "tallennettu" :esikatselu false :organisaatio oppilaitoksenOsaOid5)
 
-  (fixture/index-oids-without-related-indices {:koulutukset [koulutusOid1 koulutusOid2 koulutusOid3 koulutusOid4 koulutusOid5 koulutusOid6 lukio-oid kk-koulutus-oid
+  (fixture/index-oids-without-related-indices {:koulutukset [koulutusOid1 koulutusOid2 koulutusOid3 koulutusOid4 koulutusOid5 koulutusOid6 koulutusOid7 lukio-oid kk-koulutus-oid
                                                              aakkostus-koulutus-oid1 aakkostus-koulutus-oid2 aakkostus-koulutus-oid3 aakkostus-koulutus-oid3 aakkostus-koulutus-oid4 aakkostus-koulutus-oid5
                                                              keyword-koulutus-oid1 keyword-koulutus-oid2 keyword-koulutus-oid3 keyword-koulutus-oid4 keyword-koulutus-oid5 keyword-koulutus-oid6 keyword-koulutus-oid7
                                                              keyword-koulutus-oid8 keyword-koulutus-oid9 keyword-koulutus-oid10 keyword-koulutus-oid11 keyword-koulutus-oid12 keyword-koulutus-oid13
                                                              keyword-koulutus-oid14 keyword-koulutus-oid15 keyword-koulutus-oid16 keyword-koulutus-oid17 keyword-koulutus-oid18
                                                              osaamismerkki-koulutus-oid tuva-koulutus-oid puutarha-koulutus-oid]
-                                               :toteutukset [toteutusOid1 toteutusOid2 toteutusOid3 toteutusOid4 toteutusOid5 toteutusOid6 
+                                               :toteutukset [toteutusOid1 toteutusOid2 toteutusOid3 toteutusOid4 toteutusOid5 toteutusOid6
                                                              lukio-toteutus-oid kk-toteutus-oid osaamismerkki-toteutus-oid tuva-toteutus-erityisopetuksena-oid
                                                              puutarha-ala-toteutus-erityisopetuksena-oid puutarha-ala-toteutus-oid]
                                                :haut [hakuOid1 hakuOid2 hakuOid3 hakuOid4 hakuOid5 kk-haku-oid]
