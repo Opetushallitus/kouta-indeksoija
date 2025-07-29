@@ -27,7 +27,6 @@
   [uris]
   (vec (map remove-uri-version uris)))
 
-
 (defn combine-koulutusala-koodi-urit-with-yla-koulutusala
   [koulutusala]
   (concat [koulutusala] (koodisto/koulutusalan-ylakoulutusalat koulutusala)))
@@ -215,7 +214,6 @@
                                        (map :koodiUri))]
     (tutkintotyyppi->koulutustyyppi (distinct tutkintotyyppi-koodi-urit))))
 
-
 (defn- muu-ammatillinen-tutkinto-koulutus? [koulutus koulutustyyppikoodit]
   (and (ammatillinen? koulutus) (empty? (intersection (set koulutustyyppikoodit) (set ammatilliset-koulutustyyppi-koodirit)))))
 
@@ -252,12 +250,12 @@
 (defn- add-legacy-koulutustyypit
   [koulutus koulutustyypit]
   (cond
-    (or (vapaa-sivistystyo-opistovuosi? koulutus)(vapaa-sivistystyo-muu? koulutus)) (concat ["vapaa-sivistystyo"] koulutustyypit)
-    (amm-ope-erityisope-ja-opo? koulutus) (concat ["amk-muu"] koulutustyypit )
+    (or (vapaa-sivistystyo-opistovuosi? koulutus) (vapaa-sivistystyo-muu? koulutus)) (concat ["vapaa-sivistystyo"] koulutustyypit)
+    (amm-ope-erityisope-ja-opo? koulutus) (concat ["amk-muu"] koulutustyypit)
     (kk-opintojakso? koulutus) (concat koulutustyypit ["kk-muu" (if (avoin-korkeakoulutus? koulutus) "kk-opintojakso-avoin" "kk-opintojakso-normal")])
     (kk-opintokokonaisuus? koulutus) (concat koulutustyypit ["kk-muu" (if (avoin-korkeakoulutus? koulutus) "kk-opintokokonaisuus-avoin" "kk-opintokokonaisuus-normal")])
-    (or (erikoistumiskoulutus? koulutus)(erikoislaakari? koulutus)(ope-pedag-opinnot? koulutus)) (concat ["kk-muu"] koulutustyypit)
-    (or (amm-osaamisala? koulutus)(amm-tutkinnon-osa? koulutus)(telma? koulutus)(amm-muu? koulutus)) (concat ["muut-ammatilliset"] koulutustyypit)
+    (or (erikoistumiskoulutus? koulutus) (erikoislaakari? koulutus) (ope-pedag-opinnot? koulutus)) (concat ["kk-muu"] koulutustyypit)
+    (or (amm-osaamisala? koulutus) (amm-tutkinnon-osa? koulutus) (telma? koulutus) (amm-muu? koulutus)) (concat ["muut-ammatilliset"] koulutustyypit)
     :else koulutustyypit))
 
 (defn deduce-koulutustyypit
@@ -271,8 +269,7 @@
          related-to-korkeakoulutustyyppi (fn [tyyppi oppilaitos-oid] (let [tyyppi-item (some #(when (= (:koulutustyyppi %) tyyppi) %) korkeakoulutus-tyypit)]
                                                                        (and tyyppi-item (or (empty? (:tarjoajat tyyppi-item)) (some #(= oppilaitos-oid %) (:tarjoajat tyyppi-item))))))
          is-amk? (related-to-korkeakoulutustyyppi "amk" (:oid oppilaitos))
-         is-yo?  (related-to-korkeakoulutustyyppi "yo" (:oid oppilaitos))
-         ]
+         is-yo?  (related-to-korkeakoulutustyyppi "yo" (:oid oppilaitos))]
      (->> (cond
             (and (tuva? koulutus) (not= toteutus-metadata nil)) [koulutustyyppi (if tuva-erityisopetuksena? "tuva-erityisopetus" "tuva-normal")]
             (vapaa-sivistystyo-opistovuosi? koulutus) [koulutustyyppi]
@@ -376,7 +373,7 @@
   (->> (filter julkaistu? (:haut hakutieto))
        (mapcat (fn [haku]
                  (->> (filter julkaistu? (:hakukohteet haku))
-                      (map (fn [hakukohde] 
+                      (map (fn [hakukohde]
                              (when (not (:kaytetaanHaunAlkamiskautta hakukohde))
                                (stringify-alkamiskausi (get-in hakukohde [:koulutuksenAlkamiskausi])))))
                       (prepend-if #(some nil? %) (stringify-alkamiskausi (get-in haku [:koulutuksenAlkamiskausi]))))))
@@ -497,6 +494,7 @@
       :hasJotpaRahoitus          (get toteutus-metadata :hasJotpaRahoitus false)
       :isTyovoimakoulutus        (get toteutus-metadata :isTyovoimakoulutus false)
       :isTaydennyskoulutus       (get toteutus-metadata :isTaydennyskoulutus false)
+      :isPieniOsaamiskokonaisuus (get toteutus-metadata :isPieniOsaamiskokonaisuus false)
       :jarjestaaUrheilijanAmmKoulutusta jarjestaa-urheilijan-amm-koulutusta
       :paatellytAlkamiskaudet    (get-toteutuksen-paatellyt-alkamiskaudet toteutus hakutiedot)})))
 

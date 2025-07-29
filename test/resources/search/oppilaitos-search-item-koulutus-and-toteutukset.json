@@ -9,7 +9,9 @@
     "sv": "Esittely sv"
   },
   "logo": "https://testi.fi/oppilaitos-logo/oid/logo.png",
-  "organisaatiotyypit": ["organisaatiotyyppi_02"],
+  "organisaatiotyypit": [
+    "organisaatiotyyppi_02"
+  ],
   "search_terms": [
     {
       "sijainti": [
@@ -58,6 +60,7 @@
       "hasJotpaRahoitus": false,
       "isTyovoimakoulutus": false,
       "isTaydennyskoulutus": false,
+      "isPieniOsaamiskokonaisuus": false,
       "oppilaitosOid": "1.2.246.562.10.77777777799",
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
@@ -160,6 +163,7 @@
       "hasJotpaRahoitus": false,
       "isTyovoimakoulutus": false,
       "isTaydennyskoulutus": false,
+      "isPieniOsaamiskokonaisuus": false,
       "oppilaitosOid": "1.2.246.562.10.77777777799",
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
@@ -328,6 +332,7 @@
       "hasJotpaRahoitus": false,
       "isTyovoimakoulutus": false,
       "isTaydennyskoulutus": false,
+      "isPieniOsaamiskokonaisuus": false,
       "oppilaitosOid": "1.2.246.562.10.77777777799",
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
@@ -358,7 +363,9 @@
         ],
         "suunniteltuKestoKuukausina": 0
       },
-      "paatellytAlkamiskaudet": ["2042-kevat"]
+      "paatellytAlkamiskaudet": [
+        "2042-kevat"
+      ]
     },
     {
       "sijainti": [
@@ -472,6 +479,7 @@
       "hasJotpaRahoitus": false,
       "isTyovoimakoulutus": false,
       "isTaydennyskoulutus": false,
+      "isPieniOsaamiskokonaisuus": false,
       "oppilaitosOid": "1.2.246.562.10.77777777799",
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
@@ -503,7 +511,9 @@
         ],
         "suunniteltuKestoKuukausina": 46
       },
-      "paatellytAlkamiskaudet": ["2042-kevat"]
+      "paatellytAlkamiskaudet": [
+        "2042-kevat"
+      ]
     },
     {
       "sijainti": [
@@ -533,8 +543,10 @@
           "robottiautomatiikka"
         ]
       },
-      "toteutusNimi":
-      {"fi": "Hevostoteutus 3 fi", "sv": "Hevostoteutus 3 sv"},
+      "toteutusNimi": {
+        "fi": "Hevostoteutus 3 fi",
+        "sv": "Hevostoteutus 3 sv"
+      },
       "koulutusalat": [
         "kansallinenkoulutusluokitus2016koulutusalataso1_01",
         "kansallinenkoulutusluokitus2016koulutusalataso1_02",
@@ -568,6 +580,7 @@
       "hasJotpaRahoitus": false,
       "isTyovoimakoulutus": false,
       "isTaydennyskoulutus": false,
+      "isPieniOsaamiskokonaisuus": true,
       "oppilaitosOid": "1.2.246.562.10.77777777799",
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
@@ -599,7 +612,9 @@
         ],
         "suunniteltuKestoKuukausina": 46
       },
-      "paatellytAlkamiskaudet": ["!!tämän-vuoden-kevät"]
+      "paatellytAlkamiskaudet": [
+        "!!tämän-vuoden-kevät"
+      ]
     }
   ],
   "nimi": {
