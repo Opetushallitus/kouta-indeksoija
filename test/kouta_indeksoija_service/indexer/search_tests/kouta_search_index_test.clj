@@ -151,7 +151,8 @@
                                koulutus-oid3
                                :tila "julkaistu"
                                :nimi "Hevostoteutus 3"
-                               :tarjoajat [(str oppilaitos-oid2 "2")])
+                               :tarjoajat [(str oppilaitos-oid2 "2")]
+                               :metadata (fixture/->keywordized-json (read-json-as-string "test/resources/search/" "osaamisala-toteutus-metadata")))
 
     (fixture/add-toteutus-mock toteutus-oid5
                                koulutus-oid4
@@ -248,9 +249,9 @@
         (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid2)))
         (i/index-oppilaitos oppilaitos-oid2)
         (compare-json (no-timestamp
-                        (parse-json
-                          (replace-alkamiskausi
-                            (read-json-as-string json-path "oppilaitos-search-item-koulutus-and-toteutukset"))))
+                       (parse-json
+                        (replace-alkamiskausi
+                         (read-json-as-string json-path "oppilaitos-search-item-koulutus-and-toteutukset"))))
                       (no-timestamp (get-doc oppilaitos/index-name oppilaitos-oid2))
                       [:search_terms]
                       [:fi :nimi]))))
@@ -284,8 +285,8 @@
         (i/index-oppilaitos oppilaitos-oid2)
         ;(debug-pretty (get-doc koulutus/index-name koulutus-oid3))
         (compare-json (no-timestamp (parse-json
-                                      (replace-alkamiskausi
-                                        (read-json-as-string json-path "koulutus-search-item-osaamisala"))))
+                                     (replace-alkamiskausi
+                                      (read-json-as-string json-path "koulutus-search-item-osaamisala"))))
                       (no-timestamp (get-doc koulutus-search/index-name koulutus-oid3))
                       [:search_terms]
                       [:fi :toteutusNimi]))))
