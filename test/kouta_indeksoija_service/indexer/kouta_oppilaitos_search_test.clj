@@ -90,6 +90,7 @@
               :isTyovoimakoulutus false
               :hasJotpaRahoitus false
               :isTaydennyskoulutus false
+              :isPieniOsaamiskokonaisuus true
               :opetus {:opetustapaKoodiUrit ["opetuspaikkakk_1#1"]
                        :maksullisuustyyppi "maksuton" :maksullisuusKuvaus {:fi "Maksullisuuskuvaus"}
                        :opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_1#2"]
@@ -135,6 +136,7 @@
    :isTyovoimakoulutus false
    :hasJotpaRahoitus false
    :isTaydennyskoulutus false
+   :isPieniOsaamiskokonaisuus false
    :koulutusnimi {:fi "Opistovuosi oppivelvollisille kansanopistoissa"
                   :sv "Folkhögskoleåret för läropliktiga"}
    :metadata {:koulutustyypit []
@@ -176,6 +178,7 @@
    :isTyovoimakoulutus false
    :hasJotpaRahoitus false
    :isTaydennyskoulutus false
+   :isPieniOsaamiskokonaisuus true
    :koulutusnimi {:fi "Opistovuosi oppivelvollisille kansanopistoissa"
                   :sv "Folkhögskoleåret för läropliktiga"}
    :jarjestaaUrheilijanAmmKoulutusta false
