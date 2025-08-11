@@ -26,6 +26,7 @@
 (defonce koulutusOid4             "1.2.246.562.13.000004")
 (defonce koulutusOid5             "1.2.246.562.13.000005")
 (defonce koulutusOid6             "1.2.246.562.13.000006")
+(defonce koulutusOid7             "1.2.246.562.13.000007")
 
 (defonce lukio-oid                "1.2.246.562.13.000008")
 (defonce kk-koulutus-oid          "1.2.246.562.13.000009")

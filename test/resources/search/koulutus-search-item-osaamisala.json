@@ -64,8 +64,12 @@
       "oppilaitosOid": "1.2.246.562.10.77777777799",
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
-      "opetuskielet": ["oppilaitoksenopetuskieli_1"],
-      "osaamisalat": ["osaamisala_0001"],
+      "opetuskielet": [
+        "oppilaitoksenopetuskieli_1"
+      ],
+      "osaamisalat": [
+        "osaamisala_0001"
+      ],
       "ammattinimikkeet": {
         "fi": [
           "insinööri",
@@ -82,9 +86,13 @@
         "opetuspaikkakk_1",
         "opetuspaikkakk_2"
       ],
-      "paatellytAlkamiskaudet": ["!!tämän-vuoden-kevät"],
-      "toteutusNimi":
-      {"fi": "Hevostoteutus 3 fi", "sv": "Hevostoteutus 3 sv"},
+      "paatellytAlkamiskaudet": [
+        "!!tämän-vuoden-kevät"
+      ],
+      "toteutusNimi": {
+        "fi": "Hevostoteutus 3 fi",
+        "sv": "Hevostoteutus 3 sv"
+      },
       "metadata": {
         "koulutustyyppi": "amm",
         "oppilaitosTila": "julkaistu",
@@ -161,5 +169,6 @@
       "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"
     }
   },
-  "isAvoinKorkeakoulutus": null
+  "isAvoinKorkeakoulutus": null,
+  "luokittelutermit": null
 }
