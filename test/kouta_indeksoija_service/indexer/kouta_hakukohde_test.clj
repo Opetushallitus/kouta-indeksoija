@@ -327,7 +327,7 @@
 
 (deftest index-hakukohde-yps-eramus-mundus-test
   (fixture/with-mocked-indexing
-    (testing "Indexer should index hakukohde with yps if jatkotutkintohaku"
+    (testing "Indexer should index hakukohde with yps if erasmus mundus"
       (check-all-nil)
       (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "yo" :johtaaTutkintoon "true" :metadata fixture/yo-koulutus-metadata)
       (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu" :kaytetaanHaunAlkamiskautta "false" :alkamiskausiKoodiUri "kausi_s#1" :alkamisvuosi "2020")
