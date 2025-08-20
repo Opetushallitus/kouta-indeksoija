@@ -11,7 +11,7 @@
     <url>https://github.com/Opetushallitus/kouta-indeksoija</url>
     <connection>scm:git:git://github.com/Opetushallitus/kouta-indeksoija.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/Opetushallitus/kouta-indeksoija.git</developerConnection>
-    <tag>6185467ec63c247fe700b1f7ada769e092dffe40</tag>
+    <tag>dffdd4a9c2c4b255e81842556115dacde7277099</tag>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -305,7 +305,7 @@
       <dependency>
         <groupId>commons-fileupload</groupId>
         <artifactId>commons-fileupload</artifactId>
-        <version>1.5</version>
+        <version>1.6.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -321,6 +321,11 @@
         <groupId>clj-commons</groupId>
         <artifactId>clj-yaml</artifactId>
         <version>1.0.29</version>
+      </dependency>
+      <dependency>
+        <groupId>io.netty</groupId>
+        <artifactId>netty-codec-http2</artifactId>
+        <version>4.1.124.Final</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
