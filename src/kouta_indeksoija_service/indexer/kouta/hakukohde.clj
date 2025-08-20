@@ -101,6 +101,17 @@
    (:kohdejoukonTarkenneKoodiUri haku)
    "haunkohdejoukontarkenne_3#"))
 
+(defn- erasmus-mundus-tarkenne?
+  [haku]
+  (str/starts-with?
+    (:kohdejoukonTarkenneKoodiUri haku)
+    "haunkohdejoukontarkenne_010#"))
+
+(defn- yps-tarkenne?
+  [haku]
+  (or (jatkotutkintohaku-tarkenne? haku)
+      (erasmus-mundus-tarkenne? haku)))
+
 (defn- ->ei-yps
   [syy]
   {:voimassa false :syy syy})
@@ -130,7 +141,7 @@
          (->ei-yps "Koulutuksen alkamiskausi on ennen syksyä 2016")
 
          (and (some-kohdejoukon-tarkenne? haku)
-              (not (jatkotutkintohaku-tarkenne? haku)))
+              (not (yps-tarkenne? haku)))
          (->ei-yps (str "Haun kohdejoukon tarkenne on "
                         (:kohdejoukonTarkenneKoodiUri haku)))
 

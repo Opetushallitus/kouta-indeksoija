@@ -325,6 +325,17 @@
        (is (= "Hakukohde on yhden paikan säännön piirissä" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
        (is (= true (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
 
+(deftest index-hakukohde-yps-eramus-mundus-test
+  (fixture/with-mocked-indexing
+    (testing "Indexer should index hakukohde with yps if erasmus mundus"
+      (check-all-nil)
+      (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "yo" :johtaaTutkintoon "true" :metadata fixture/yo-koulutus-metadata)
+      (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu" :kaytetaanHaunAlkamiskautta "false" :alkamiskausiKoodiUri "kausi_s#1" :alkamisvuosi "2020")
+      (fixture/update-haku-mock haku-oid :tila "julkaistu" :kohdejoukonTarkenneKoodiUri "haunkohdejoukontarkenne_010#1")
+      (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
+      (is (= "Hakukohde on yhden paikan säännön piirissä" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
+      (is (= true (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
+
 (deftest index-hakukohde-yps-no-tarkenne-test
    (fixture/with-mocked-indexing
     (testing "Indexer should index hakukohde with yps if no tarkenne"
