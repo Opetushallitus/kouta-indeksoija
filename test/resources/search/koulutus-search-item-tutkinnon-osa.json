@@ -84,6 +84,7 @@
       "hasJotpaRahoitus": false,
       "isTyovoimakoulutus": false,
       "isTaydennyskoulutus": false,
+      "isPieniOsaamiskokonaisuus": false,
       "oppilaitosOid": "1.2.246.562.10.77777777799",
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
