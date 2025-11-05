@@ -219,36 +219,12 @@ nosta major versiota (6.2.0 -> 7.0.0).
 
 ### 4.3. Buildaus kehityshaarasta
 
-Travis tekee buildin jokaisesta pushista ja siirtää luodut paketit opetushallituksen [artifactoryyn](https://artifactory.opintopolku.fi/artifactory/#browse/search/maven).
-Paketti luodaan aina master-haarasta. Mikäli tulee tarve sadaa paketointi kehityshaarasta, täytyy muuttaa
-`./.travis.yml` -tiedostoa. Tällainen tilanne voi olla esimerkiksi jos tekee muutoksia kouta-indeksoijan tietomalliin
-eikä vielä halua mergetä muutoksia masteriin, mutta tarvitsisi uutta tietomallia kuitenkin esimerkiksi 
-kouta-internalin, kouta-externalin tai konfo-backendin kehityshaaroissa.
-
-Tarvittava muutos `travis.yml` tiedostoon on tällainen:
-
-(myös tiedoston git historiasta voi katsoa mallia)
-
-```
-...
-  - provider: script
-    script: lein deploy
-    skip_cleanup: true
-    on:
-      branch: <branchin-nimi>
-...
-```
-
 Mikäli haluaa uuden version paketin vain lokaalia kehitystä varten, saa sen luotua komennolla `lein install`, joka luo paketin
 lokaaliin Maven repoon.
 
 ### 4.3. Lokit
 
 Indeksoijan lokit löytyvät AWS:n cloudwatchista log groupista <testiympäristön nimi>-app-kouta-indeksoija (esim. hahtuva-app-kouta-indeksoija). Lisäohjeita näihin ylläpidolta.
-
-### 4.4. Continuous integration
-
-https://travis-ci.com/github/Opetushallitus/kouta-indeksoija
 
 ## 5. Troubleshooting
 
