@@ -48,7 +48,7 @@
 
 (deftest index-taiteen-perusopetus-toteutus-test
   (fixture/with-mocked-indexing
-   (testing "Indexer should index taiteen perusopetus -toteutus to toteutus index"
+   (testing "Indexer should index taiteen perusopetus toteutus to toteutus index"
      (check-all-nil)
      (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu")
      (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "taiteen-perusopetus" :metadata fixture/tpo-koulutus-metadata)

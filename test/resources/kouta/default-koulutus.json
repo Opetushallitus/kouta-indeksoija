@@ -1,32 +1,38 @@
 {
-  "tila" : "julkaistu",
-  "johtaaTutkintoon" : true,
-  "teemakuva" : "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
-  "tarjoajat" : "1.2.246.562.10.67476956288, 1.2.246.562.10.594252633210",
-  "sorakuvausId" : "0a13c0cf-676c-407a-a972-7dd21204dbc5",
-  "esikatselu" : false,
-  "modified" : "2022-01-26T11:58:40",
-  "ePerusteId" : 1234,
-  "koulutuksetKoodiUri" : "koulutus_371101#1",
-  "nimi" : "nimi",
-  "muokkaaja" : "1.2.246.562.24.10000000000",
-  "externalId" : 987654321,
-  "kielivalinta" : "fi,sv",
-  "julkinen" : false,
-  "organisaatio" : "1.2.246.562.10.67476956288",
-  "metadata" : {
-    "tyyppi" : "amm",
-    "kuvaus" : {
-      "fi" : "kuvaus",
-      "sv" : "kuvaus sv"
+  "tila": "julkaistu",
+  "johtaaTutkintoon": true,
+  "teemakuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
+  "tarjoajat": "1.2.246.562.10.67476956288, 1.2.246.562.10.594252633210",
+  "sorakuvausId": "0a13c0cf-676c-407a-a972-7dd21204dbc5",
+  "esikatselu": false,
+  "modified": "2022-01-26T11:58:40",
+  "ePerusteId": 1234,
+  "koulutuksetKoodiUri": "koulutus_371101#1",
+  "nimi": "nimi",
+  "muokkaaja": "1.2.246.562.24.10000000000",
+  "externalId": 987654321,
+  "kielivalinta": "fi,sv",
+  "julkinen": false,
+  "organisaatio": "1.2.246.562.10.67476956288",
+  "metadata": {
+    "tyyppi": "amm",
+    "kuvaus": {
+      "fi": "kuvaus",
+      "sv": "kuvaus sv"
     },
-    "lisatiedot" : [ {
-      "otsikkoKoodiUri" : "koulutuksenlisatiedot_03#1",
-      "teksti" : {
-        "fi" : "Opintojen lisätieto ",
-        "sv" : "Opintojen lisätieto sv"
+    "osaamistavoitteet": {
+      "fi": "osaamistavoitteet",
+      "sv": "osaamistavoitteet sv"
+    },
+    "lisatiedot": [
+      {
+        "otsikkoKoodiUri": "koulutuksenlisatiedot_03#1",
+        "teksti": {
+          "fi": "Opintojen lisätieto ",
+          "sv": "Opintojen lisätieto sv"
+        }
       }
-    } ]
+    ]
   },
-  "koulutustyyppi" : "amm"
+  "koulutustyyppi": "amm"
 }
