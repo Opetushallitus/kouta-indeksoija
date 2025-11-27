@@ -1,7 +1,9 @@
 {
   "tila": "julkaistu",
   "externalId": "1122334455",
-  "haut": ["1.2.246.562.29.00000000000000000001"],
+  "haut": [
+    "1.2.246.562.29.00000000000000000001"
+  ],
   "tarjoajat": [
     {
       "nimi": {
@@ -200,6 +202,10 @@
   "metadata": {
     "tyyppi": "amm",
     "kuvaus": {},
+    "osaamistavoitteet": {
+      "fi": "osaamistavoitteet",
+      "sv": "osaamistavoitteet sv"
+    },
     "osaamisalat": [
       {
         "koodi": {

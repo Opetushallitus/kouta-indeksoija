@@ -1,125 +1,152 @@
 {
-  "tila" : "julkaistu",
-  "teemakuva" : "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
-  "tarjoajat" : ["1.2.246.562.10.67476956288", "1.2.246.562.10.594252633210"],
-  "esikatselu" : false,
-  "modified" : "2022-01-26T11:58:40",
-  "nimi" : "nimi",
-  "muokkaaja" : "1.2.246.562.24.10000000000",
-  "externalId" : 1122334455,
-  "kielivalinta" : "fi,sv",
-  "organisaatio" : "1.2.246.562.10.67476956288",
-  "metadata" : {
-    "tyyppi" : "amm",
-    "kuvaus" : { },
-    "osaamisalat" : [ {
-      "koodiUri" : "osaamisala_0001#1",
-      "linkki" : {
-        "fi" : "http://osaamisala.fi/linkki/fi",
-        "sv" : "http://osaamisala.fi/linkki/sv"
-      },
-      "otsikko" : {
-        "fi" : "Katso osaamisalan tarkempi kuvaus tästä",
-        "sv" : "Katso osaamisalan tarkempi kuvaus tästä sv"
-      }
-    } ],
-    "opetus" : {
-      "opetustapaKoodiUrit" : [ "opetuspaikkakk_1#1", "opetuspaikkakk_2#1" ],
-      "maksullisuustyyppi" : "maksullinen",
-      "apuraha" : {
-        "min" : 100,
-        "max" : 200,
-        "yksikko" : "euro",
-        "kuvaus" : {
-          "fi" : "apurahakuvaus fi",
-          "sv" : "apurahakuvaus sv"
-        }
-      },
-      "maksunMaara" : 200.5,
-      "maksullisuusKuvaus" : {
-        "fi" : "Maksullisuuskuvaus fi",
-        "sv" : "Maksullisuuskuvaus sv"
-      },
-      "opetuskieliKoodiUrit" : [ "oppilaitoksenopetuskieli_1#1" ],
-      "suunniteltuKestoKuvaus" : {
-        "fi" : "Keston kuvaus fi",
-        "sv" : "Keston kuvaus sv"
-      },
-      "koulutuksenAlkamiskausi" : {
-        "alkamiskausityyppi" : "alkamiskausi ja -vuosi",
-        "henkilokohtaisenSuunnitelmanLisatiedot" : {
-          "fi" : "Jotakin lisätietoa",
-          "sv" : "Jotakin lisätietoa sv"
+  "tila": "julkaistu",
+  "teemakuva": "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
+  "tarjoajat": [
+    "1.2.246.562.10.67476956288",
+    "1.2.246.562.10.594252633210"
+  ],
+  "esikatselu": false,
+  "modified": "2022-01-26T11:58:40",
+  "nimi": "nimi",
+  "muokkaaja": "1.2.246.562.24.10000000000",
+  "externalId": 1122334455,
+  "kielivalinta": "fi,sv",
+  "organisaatio": "1.2.246.562.10.67476956288",
+  "metadata": {
+    "tyyppi": "amm",
+    "kuvaus": {},
+    "osaamistavoitteet": {
+      "fi": "osaamistavoitteet",
+      "sv": "osaamistavoitteet sv"
+    },
+    "osaamisalat": [
+      {
+        "koodiUri": "osaamisala_0001#1",
+        "linkki": {
+          "fi": "http://osaamisala.fi/linkki/fi",
+          "sv": "http://osaamisala.fi/linkki/sv"
         },
-        "koulutuksenAlkamiskausiKoodiUri" : "kausi_k#1",
-        "koulutuksenAlkamisvuosi" : "2022"
-      },
-      "suunniteltuKestoVuodet" : 3,
-      "onkoApuraha" : true,
-      "opetusaikaKoodiUrit" : [ "opetusaikakk_1#1" ],
-      "lisatiedot" : [ {
-        "otsikkoKoodiUri" : "koulutuksenlisatiedot_03#1",
-        "teksti" : {
-          "fi" : "Opintojen rakenteen kuvaus",
-          "sv" : "Rakenne kuvaus sv"
+        "otsikko": {
+          "fi": "Katso osaamisalan tarkempi kuvaus tästä",
+          "sv": "Katso osaamisalan tarkempi kuvaus tästä sv"
         }
-      }, {
-        "otsikkoKoodiUri" : "koulutuksenlisatiedot_03#1",
-        "teksti" : {
-          "fi" : "Sisältö kuvaus",
-          "sv" : "Sisältö kuvaus sv"
+      }
+    ],
+    "opetus": {
+      "opetustapaKoodiUrit": [
+        "opetuspaikkakk_1#1",
+        "opetuspaikkakk_2#1"
+      ],
+      "maksullisuustyyppi": "maksullinen",
+      "apuraha": {
+        "min": 100,
+        "max": 200,
+        "yksikko": "euro",
+        "kuvaus": {
+          "fi": "apurahakuvaus fi",
+          "sv": "apurahakuvaus sv"
         }
-      } ],
-      "suunniteltuKestoKuukaudet" : 10,
-      "opetustapaKuvaus" : {
-        "fi" : "Opetustapakuvaus fi",
-        "sv" : "Opetustapakuvaus sv"
       },
-      "opetuskieletKuvaus" : {
-        "fi" : "Kielikuvaus fi",
-        "sv" : "Kielikuvaus sv"
+      "maksunMaara": 200.5,
+      "maksullisuusKuvaus": {
+        "fi": "Maksullisuuskuvaus fi",
+        "sv": "Maksullisuuskuvaus sv"
       },
-      "opetusaikaKuvaus" : {
-        "fi" : "Opetusaikakuvaus fi",
-        "sv" : "Opetusaikakuvaus sv"
+      "opetuskieliKoodiUrit": [
+        "oppilaitoksenopetuskieli_1#1"
+      ],
+      "suunniteltuKestoKuvaus": {
+        "fi": "Keston kuvaus fi",
+        "sv": "Keston kuvaus sv"
+      },
+      "koulutuksenAlkamiskausi": {
+        "alkamiskausityyppi": "alkamiskausi ja -vuosi",
+        "henkilokohtaisenSuunnitelmanLisatiedot": {
+          "fi": "Jotakin lisätietoa",
+          "sv": "Jotakin lisätietoa sv"
+        },
+        "koulutuksenAlkamiskausiKoodiUri": "kausi_k#1",
+        "koulutuksenAlkamisvuosi": "2022"
+      },
+      "suunniteltuKestoVuodet": 3,
+      "onkoApuraha": true,
+      "opetusaikaKoodiUrit": [
+        "opetusaikakk_1#1"
+      ],
+      "lisatiedot": [
+        {
+          "otsikkoKoodiUri": "koulutuksenlisatiedot_03#1",
+          "teksti": {
+            "fi": "Opintojen rakenteen kuvaus",
+            "sv": "Rakenne kuvaus sv"
+          }
+        },
+        {
+          "otsikkoKoodiUri": "koulutuksenlisatiedot_03#1",
+          "teksti": {
+            "fi": "Sisältö kuvaus",
+            "sv": "Sisältö kuvaus sv"
+          }
+        }
+      ],
+      "suunniteltuKestoKuukaudet": 10,
+      "opetustapaKuvaus": {
+        "fi": "Opetustapakuvaus fi",
+        "sv": "Opetustapakuvaus sv"
+      },
+      "opetuskieletKuvaus": {
+        "fi": "Kielikuvaus fi",
+        "sv": "Kielikuvaus sv"
+      },
+      "opetusaikaKuvaus": {
+        "fi": "Opetusaikakuvaus fi",
+        "sv": "Opetusaikakuvaus sv"
       }
     },
-    "asiasanat" : [ {
-      "kieli" : "fi",
-      "arvo" : "robotiikka"
-    }, {
-      "kieli" : "fi",
-      "arvo" : "robottiautomatiikka"
-    } ],
-    "ammattinimikkeet" : [ {
-      "kieli" : "fi",
-      "arvo" : "insinööri"
-    }, {
-      "kieli" : "fi",
-      "arvo" : "koneinsinööri"
-    } ],
-    "yhteyshenkilot" : [ {
-      "nimi" : {
-        "fi" : "Aku Ankka",
-        "sv" : "Aku Ankka"
+    "asiasanat": [
+      {
+        "kieli": "fi",
+        "arvo": "robotiikka"
       },
-      "titteli" : {
-        "fi" : "titteli",
-        "sv" : "titteli sv"
-      },
-      "sahkoposti" : {
-        "fi" : "aku.ankka@ankkalinnankoulu.fi",
-        "sv" : "aku.ankka@ankkalinnankoulu.fi"
-      },
-      "puhelinnumero" : {
-        "fi" : "123",
-        "sv" : "123"
-      },
-      "wwwSivu" : {
-        "fi" : "http://opintopolku.fi",
-        "sv" : "http://studieinfo.fi"
+      {
+        "kieli": "fi",
+        "arvo": "robottiautomatiikka"
       }
-    } ],
-    "ammatillinenPerustutkintoErityisopetuksena" : false
+    ],
+    "ammattinimikkeet": [
+      {
+        "kieli": "fi",
+        "arvo": "insinööri"
+      },
+      {
+        "kieli": "fi",
+        "arvo": "koneinsinööri"
+      }
+    ],
+    "yhteyshenkilot": [
+      {
+        "nimi": {
+          "fi": "Aku Ankka",
+          "sv": "Aku Ankka"
+        },
+        "titteli": {
+          "fi": "titteli",
+          "sv": "titteli sv"
+        },
+        "sahkoposti": {
+          "fi": "aku.ankka@ankkalinnankoulu.fi",
+          "sv": "aku.ankka@ankkalinnankoulu.fi"
+        },
+        "puhelinnumero": {
+          "fi": "123",
+          "sv": "123"
+        },
+        "wwwSivu": {
+          "fi": "http://opintopolku.fi",
+          "sv": "http://studieinfo.fi"
+        }
+      }
+    ],
+    "ammatillinenPerustutkintoErityisopetuksena": false
   }
 }
