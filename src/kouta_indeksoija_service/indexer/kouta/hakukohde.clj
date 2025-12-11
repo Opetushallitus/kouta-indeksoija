@@ -202,6 +202,14 @@
                               (get-koulutustyyppikoodi-from-koodisto koulutus))]
     (assoc hakukohde :koulutustyyppikoodi koulutustyyppikoodi)))
 
+(defn- englannikielinen-lukiokoulutus?
+  [toteutus koulutus]
+  (and (= (:koulutustyyppi koulutus) "lk")
+       (= (->> (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
+               (map #(first (str/split % #"#")))
+               (vec))
+          ["oppilaitoksenopetuskieli_4"])))
+
 (defn- assoc-onko-harkinnanvarainen-koulutus
   [hakukohde toteutus koulutus]
   (let [non-korkeakoulu-koodi-uri (get-non-korkeakoulu-koodi-uri koulutus)
@@ -215,6 +223,7 @@
         ; Seuraava arvo on tosi esimerkille: "Hakukohde kuuluu koulutukseen "Hius- ja kauneudenhoitoalan perustutkinto"
         harkinnanvaraisuus-question-allowed (and
                                              (some? non-korkeakoulu-koodi-uri)
+                                             (not (englannikielinen-lukiokoulutus? toteutus koulutus))
                                              (kysytaanko-harkinnanvaraisuutta-lomakkeella non-korkeakoulu-koodi-uri)
                                              (not (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena])))
                                              (not (.contains ["telma" "tuva" "vapaa-sivistystyo-opistovuosi"] (:koulutustyyppi koulutus)))
@@ -226,6 +235,7 @@
         hakukohde-allows-harkinnanvaraiset-applicants (or harkinnanvaraisuus-question-allowed
                                                           (and
                                                            (some? non-korkeakoulu-koodi-uri)
+                                                           (not (englannikielinen-lukiokoulutus? toteutus koulutus))
                                                            (and (some? hakukohde-nimi-koodi-uri)
                                                                  ;Jos hakukohteella on relaatio ei-harkinnanvaraisuutta koodiin "Harkinnanvaraisuutta ei kysytä lomakkeella", se on automaattisesti harkinnanvarainen
                                                                 (not (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena])))

@@ -54,6 +54,20 @@
      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
        (is (= {:painotetutArvosanat [] :painotetutArvosanatOppiaineittain [] :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}} (get-in hakukohde [:metadata :hakukohteenLinja])))))))
 
+(deftest index-englanninkielinen-lukio-hakukohde-test
+  (fixture/with-mocked-indexing
+    (testing "Indexer should index englanninkielinen lukio hakukohde to hakukohde index with both harkinnanvaraisuus flags as false"
+      (check-all-nil)
+      (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :metadata fixture/lk-koulutus-metadata)
+      (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata (-> fixture/lk-toteutus-metadata
+                                                                                   (update-in [:opetus :opetuskieliKoodiUrit]
+                                                                                              (fn [_] ["oppilaitoksenopetuskieli_4#2"]))))
+      (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
+      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
+        (is (= (select-keys hakukohde [:salliikoHakukohdeHarkinnanvaraisuudenKysymisen :voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita])
+               {:salliikoHakukohdeHarkinnanvaraisuudenKysymisen false
+                :voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita false}))))))
+
 (deftest index-lukio-hakukohde-painotetut-arvosanat-kaikki-test
   (fixture/with-mocked-indexing
     (testing "Indexer should index hakukohde to hakukohde index and update related indexes 2"
