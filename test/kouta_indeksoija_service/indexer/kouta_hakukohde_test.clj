@@ -68,6 +68,21 @@
                {:salliikoHakukohdeHarkinnanvaraisuudenKysymisen false
                 :voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita false}))))))
 
+(deftest index-monikielinen-lukio-hakukohde-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index monikielinen lukio hakukohde to hakukohde index as harkinnanvarainen"
+            (check-all-nil)
+            (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :metadata fixture/lk-koulutus-metadata)
+            (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata (-> fixture/lk-toteutus-metadata
+                                                                                         (update-in [:opetus :opetuskieliKoodiUrit]
+                                                                                                    (fn [_] ["oppilaitoksenopetuskieli_1#2"
+                                                                                                             "oppilaitoksenopetuskieli_4#2"]))))
+            (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
+            (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
+              (is (= (select-keys hakukohde [:salliikoHakukohdeHarkinnanvaraisuudenKysymisen :voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita])
+                     {:salliikoHakukohdeHarkinnanvaraisuudenKysymisen true
+                      :voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita true}))))))
+
 (deftest index-lukio-hakukohde-painotetut-arvosanat-kaikki-test
   (fixture/with-mocked-indexing
     (testing "Indexer should index hakukohde to hakukohde index and update related indexes 2"
