@@ -11,7 +11,7 @@
     <url>https://github.com/Opetushallitus/kouta-indeksoija</url>
     <connection>scm:git:git://github.com/Opetushallitus/kouta-indeksoija.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/Opetushallitus/kouta-indeksoija.git</developerConnection>
-    <tag>dffdd4a9c2c4b255e81842556115dacde7277099</tag>
+    <tag>7ac1396e5ae9c37371e7a03eb1bbfc8c4184b34d</tag>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -326,6 +326,11 @@
         <groupId>io.netty</groupId>
         <artifactId>netty-codec-http2</artifactId>
         <version>4.1.124.Final</version>
+      </dependency>
+      <dependency>
+        <groupId>com.typesafe.akka</groupId>
+        <artifactId>akka-http_2.12</artifactId>
+        <version>10.1.15</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
