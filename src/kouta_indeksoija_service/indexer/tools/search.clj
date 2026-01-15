@@ -446,6 +446,7 @@
              metadata                  {}}}]
 
   (let [tutkintonimikkeet (vec (map #(-> % get-koodi-nimi-with-cache :nimi) (tutkintonimike-koodi-urit koulutus)))
+        koulutus-metadata (:metadata koulutus)
         toteutus-metadata (:metadata toteutus)
         ammattinimikkeet (asiasana->lng-value-map (get-in toteutus-metadata [:ammattinimikkeet]))
         asiasanat (flatten (get-in toteutus-metadata [:asiasanat]))
@@ -457,6 +458,9 @@
       :koulutusnimi              {:fi (:fi (:nimi koulutus))
                                   :sv (:sv (:nimi koulutus))
                                   :en (:en (:nimi koulutus))}
+      :koulutusKuvaus            {:fi (:fi (:kuvaus koulutus-metadata))
+                                  :sv (:sv (:kuvaus koulutus-metadata))
+                                  :en (:en (:kuvaus koulutus-metadata))}
       :koulutus_organisaationimi {:fi (:fi (:nimi oppilaitos))
                                   :sv (:sv (:nimi oppilaitos))
                                   :en (:en (:nimi oppilaitos))}
@@ -464,6 +468,9 @@
       :toteutusNimi              {:fi (:fi toteutus-nimi)
                                   :sv (:sv toteutus-nimi)
                                   :en (:en toteutus-nimi)}
+      :toteutusKuvaus            {:fi (:fi (:kuvaus toteutus-metadata))
+                                  :sv (:sv (:kuvaus toteutus-metadata))
+                                  :en (:en (:kuvaus toteutus-metadata))}
       :toteutusHakuaika          (get toteutus-metadata :hakuaika {}) ; TODO: Poista tämä kun elasticsearch-haut on muunnettu käyttämään pelkästään hakutiedot-hakuajat-kenttää
       :oppilaitosOid             (:oid oppilaitos)
       :toteutus_organisaationimi {:fi (not-empty (get-lang-values :fi toteutus-organisaationimi))
