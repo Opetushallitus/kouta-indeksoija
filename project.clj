@@ -4,7 +4,10 @@
 
 (defproject kouta-indeksoija-service "9.4.2-SNAPSHOT"
   :description "Kouta-indeksoija"
-  :repositories [["releases" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"
+  :repositories [["github" {:url "https://maven.pkg.github.com/Opetushallitus/packages"
+                            :username "private-token"
+                            :password :env/GITHUB_TOKEN}]
+                 ["releases" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"
                               :username :env/artifactory_username
                               :password :env/artifactory_password
                               :sign-releases false
@@ -36,9 +39,9 @@
                          [org.clojure/algo.generic "0.1.3"]
                          [fi.vm.sade.java-utils/java-properties "0.1.0-SNAPSHOT"]
                          [cprop "0.1.20"]
-                         [oph/clj-elasticsearch "0.5.4-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
+                         [opiskelijavalinnat-utils/clj-elasticsearch "0.5.4-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
                          [clj-soup/clojure-soup "0.1.3"]
-                         [oph/clj-log "0.3.2-SNAPSHOT"]
+                         [opiskelijavalinnat-utils/clj-log "0.3.2-SNAPSHOT"]
                          [org.clojure/tools.logging "1.3.0"]
                          [org.apache.logging.log4j/log4j-slf4j2-impl "2.24.3"]
                          [org.apache.logging.log4j/log4j-api "2.24.3"]
@@ -76,11 +79,11 @@
                  [fi.vm.sade.java-utils/java-properties]
                  [cprop]
                  ;Elasticsearch
-                 [oph/clj-elasticsearch]
+                 [opiskelijavalinnat-utils/clj-elasticsearch]
                  ;Cas
                  [clj-soup/clojure-soup]
                  ;;Logging
-                 [oph/clj-log]
+                 [opiskelijavalinnat-utils/clj-log]
                  [org.clojure/tools.logging]
                  [org.apache.logging.log4j/log4j-slf4j2-impl]
                  [org.apache.logging.log4j/log4j-api]
@@ -119,7 +122,8 @@
                                 (pjstadig.humane-test-output/activate!)]}
              :test {:env {:test "true"}
                     :dependencies [[net.java.dev.jna/jna "5.17.0"]
-                                   [oph/clj-test-utils "0.5.7-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
+                                   [org.apache.commons/commons-lang3 "3.20.0"]
+                                   [opiskelijavalinnat-utils/clj-test-utils "0.5.7-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
                                    [lambdaisland/kaocha "1.91.1392"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
@@ -132,7 +136,8 @@
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.4.0"]
                                       [net.java.dev.jna/jna "5.12.1"]
-                                      [oph/clj-test-utils "0.5.7-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
+                                      [org.apache.commons/commons-lang3 "3.20.0"]
+                                      [opiskelijavalinnat-utils/clj-test-utils "0.5.7-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
                                       [lambdaisland/kaocha "1.87.1366"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"
