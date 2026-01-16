@@ -50,6 +50,10 @@
         "fi": "Autoalan perustutkinto 0 fi",
         "sv": "Autoalan perustutkinto 0 sv"
       },
+      "koulutusKuvaus": {
+        "fi": "Kiva kuvaus fi",
+        "sv": "Kiva kuvaus sv"
+      },
       "koulutusOid": "1.2.246.562.13.00000000000000000099",
       "nimi": {
         "fi": "Autoalan perustutkinto 0 fi",
@@ -152,6 +156,10 @@
       "koulutusnimi": {
         "fi": "Hevosalan tutkinnon osat fi",
         "sv": "Hevosalan tutkinnon osat sv"
+      },
+      "koulutusKuvaus": {
+        "fi": "kuvaus",
+        "sv": "kuvaus sv"
       },
       "koulutusOid": "1.2.246.562.13.00000000000000000096",
       "nimi": {
@@ -302,6 +310,10 @@
         "fi": "Hevosalan perustutkinto 0 fi",
         "sv": "Hevosalan perustutkinto 0 sv"
       },
+      "koulutusKuvaus": {
+        "fi": "Kiva kuvaus fi",
+        "sv": "Kiva kuvaus sv"
+      },
       "hakutiedot": [
         {
           "hakuajat": [
@@ -430,6 +442,10 @@
       "koulutusnimi": {
         "fi": "Hevosalan perustutkinto 0 fi",
         "sv": "Hevosalan perustutkinto 0 sv"
+      },
+      "koulutusKuvaus": {
+        "fi": "Kiva kuvaus fi",
+        "sv": "Kiva kuvaus sv"
       },
       "hakutiedot": [
         {
@@ -568,6 +584,10 @@
       "koulutusnimi": {
         "fi": "Hevosalan osaamisala fi",
         "sv": "Hevosalan osaamisala sv"
+      },
+      "koulutusKuvaus": {
+        "fi": "kuvaus",
+        "sv": "kuvaus sv"
       },
       "koulutusOid": "1.2.246.562.13.00000000000000000097",
       "toteutusOid": "1.2.246.562.17.00000000000000000196",

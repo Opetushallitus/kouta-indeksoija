@@ -139,6 +139,8 @@
    :isPieniOsaamiskokonaisuus false
    :koulutusnimi {:fi "Opistovuosi oppivelvollisille kansanopistoissa"
                   :sv "Folkhögskoleåret för läropliktiga"}
+   :koulutusKuvaus {:fi "Kuvaus fi"
+                    :sv "Kuvaus sv"}
    :metadata {:koulutustyypit []
               :opintojenLaajuusyksikko
               {:koodiUri "opintojenlaajuusyksikko_2#1"
@@ -181,6 +183,9 @@
    :isPieniOsaamiskokonaisuus true
    :koulutusnimi {:fi "Opistovuosi oppivelvollisille kansanopistoissa"
                   :sv "Folkhögskoleåret för läropliktiga"}
+   :koulutusKuvaus {:fi "Kuvaus fi"
+                    :sv "Kuvaus sv"}
+   :toteutusKuvaus {:fi "Kuvaus"}
    :jarjestaaUrheilijanAmmKoulutusta false
    :metadata {:tutkintonimikkeet []
               :opetusajat [{:koodiUri "opetusaikakk_1#1"

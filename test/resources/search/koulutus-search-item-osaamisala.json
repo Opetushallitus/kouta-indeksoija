@@ -94,6 +94,10 @@
         "fi": "Hevostoteutus 3 fi",
         "sv": "Hevostoteutus 3 sv"
       },
+      "koulutusKuvaus": {
+        "fi": "kuvaus",
+        "sv": "kuvaus sv"
+      },
       "metadata": {
         "koulutustyyppi": "amm",
         "oppilaitosTila": "julkaistu",
