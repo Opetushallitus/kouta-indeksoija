@@ -29,6 +29,10 @@
           "Toimipiste sv 1.2.246.562.10.001010101011"
         ]
       },
+      "toteutusKuvaus": {
+        "fi": "<h3>Osaamistavoitteet</h3><ul><li value=\"1\">osaa hakea tietoa digitaalisista ympäristöistä</li><li value=\"2\">osaa arvioida tietolähteiden ja tiedon luotettavuutta</li></ul><h3>Arviointikriteerit</h3><ul><li value=\"1\">nimeää erilaisia hakulähteitä ja -tapoja tiedonhaussa</li><li value=\"2\">käyttää hakutermejä tietolähteiden ja tiedon etsimisessä</li><li value=\"3\">kertoo perustellen tietolähteiden ja tiedon luotettavuudesta</li></ul>",
+        "sv": "<h3>Osaamistavoitteet</h3><ul><li value=\"1\">kan söka information i digitala miljöer</li><li value=\"2\">kan bedöma hur tillförlitliga informationskällorna och informationen är</li></ul><h3>Arviointikriteerit</h3><ul><li value=\"1\">ger exempel på olika informationskällor och metoder vid informationssökning</li><li value=\"2\">använder söktermer vid sökning av informationskällor och information</li><li value=\"3\">beskriver och motiverar informationskällans och informationens tillförlitlighet</li></ul>"
+      },
       "sijainti": [
         "kunta_091",
         "maakunta_01"

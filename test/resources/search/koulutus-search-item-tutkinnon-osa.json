@@ -60,6 +60,10 @@
           "Oppilaitos sv 1.2.246.562.10.77777777799"
         ]
       },
+      "koulutusKuvaus": {
+        "fi": "kuvaus",
+        "sv": "kuvaus sv"
+      },
       "sijainti": [
         "kunta_091",
         "maakunta_01"

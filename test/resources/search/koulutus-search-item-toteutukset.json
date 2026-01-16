@@ -79,6 +79,10 @@
           "tutkintonimikkeet_02 nimi sv"
         ]
       },
+      "koulutusKuvaus": {
+        "fi": "Kiva kuvaus fi",
+        "sv": "Kiva kuvaus sv"
+      },
       "ammattinimikkeet": {
         "fi": [
           "automaatioinsinööri",
@@ -236,6 +240,10 @@
           "tutkintonimikkeet_01 nimi sv",
           "tutkintonimikkeet_02 nimi sv"
         ]
+      },
+      "koulutusKuvaus": {
+        "fi": "Kiva kuvaus fi",
+        "sv": "Kiva kuvaus sv"
       },
       "ammattinimikkeet": {
         "fi": [

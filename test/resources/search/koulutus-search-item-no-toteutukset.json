@@ -84,6 +84,10 @@
           "tutkintonimikkeet_02 nimi sv"
         ]
       },
+      "koulutusKuvaus": {
+        "fi": "Kiva kuvaus fi",
+        "sv": "Kiva kuvaus sv"
+      },
       "toteutus_organisaationimi": {
         "fi": [
           "Toimipiste fi 1.2.246.562.10.777777777992"
