@@ -3,24 +3,23 @@
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.general :as general]
+            [kouta-indeksoija-service.util.time :as time]
             [kouta-indeksoija-service.util.tools :refer [assoc-hakukohde-nimi-as-esitysnimi]]
-            [clojure.string :as str]
-            [clj-time.format :as f]
-            [clj-time.core :as t]))
+            [clojure.string :as str]))
 
 (def index-name "haku-kouta")
 
-(defn- parse-hakuaika [hakuaika]
-  {:alkaa (f/parse (:alkaa hakuaika))
-   :paattyy (f/parse (:paattyy hakuaika))})
+(defn parse-hakuaika [hakuaika]
+  {:alkaa (time/parse-utc-date-time (:alkaa hakuaika))
+   :paattyy (time/parse-utc-date-time (:paattyy hakuaika))})
 
 (defn- assoc-paatelty-hakuvuosi-ja-hakukausi-for-hakukohde [haku]
   (if-let [hakuaika (first (sort-by :alkaa (map parse-hakuaika (:hakuajat haku))))]
     (-> haku
         (assoc :hakuvuosi (or (some-> (:paattyy hakuaika)
-                                      t/year)
-                              (t/year (:alkaa hakuaika))))
-        (assoc :hakukausi (if (>= (t/month (:alkaa hakuaika)) 8)
+                                      time/year)
+                              (time/year (:alkaa hakuaika))))
+        (assoc :hakukausi (if (>= (time/month (:alkaa hakuaika)) 8)
                             "kausi_s#1"
                             "kausi_k#1")))
     haku))
@@ -30,7 +29,7 @@
 
 (def maksullinen-kk-haku-start-date
   "Application payments are only charged from admissions starting on certain day"
-  (t/from-time-zone (t/date-time maksullinen-kk-haku-start-year 1 1) (t/time-zone-for-id "Europe/Helsinki")))
+  (time/start-of-year maksullinen-kk-haku-start-year))
 
 (defn- maksullinen-kk-haku? [haku johtaa-tutkintoon?]
   (let [hakuajat-start (map :alkaa (:hakuajat haku))
@@ -42,7 +41,7 @@
       (and
         (or (and (contains? #{"kausi_k" "kausi_s"} studies-start-term) (> studies-start-year maksullinen-kk-haku-start-year))
             (and (= studies-start-term "kausi_s") (= studies-start-year maksullinen-kk-haku-start-year)))
-        (some #(not (t/before? (common/parse-date-time %) maksullinen-kk-haku-start-date)) hakuajat-start)
+        (some #(not (time/before? % maksullinen-kk-haku-start-date)) hakuajat-start)
         ; Kohdejoukko must be korkeakoulutus
         (= "haunkohdejoukko_12" kohdejoukko)
         ; "Kohdejoukon tarkenne must be empty or siirtohaku

@@ -1,7 +1,5 @@
 (ns kouta-indeksoija-service.indexer.tools.search
-  (:require [clj-time.core :as t]
-            [clj-time.format :refer [parse]]
-            [clojure.set :refer [intersection]]
+  (:require [clojure.set :refer [intersection]]
             [clojure.string :as string]
             [clojure.walk :as walk]
             [kouta-indeksoija-service.indexer.cache.eperuste :refer [filter-tutkinnon-osa get-eperuste-by-id]]
@@ -16,8 +14,9 @@
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [oppilaitostyyppi-uri-to-tyyppi remove-uri-version]]
             [kouta-indeksoija-service.rest.koodisto :refer [extract-versio
                                                             get-koodi-nimi-with-cache]]
+            [kouta-indeksoija-service.util.time :as time]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec
-                                                         get-esitysnimi kevat-date?]]))
+                                                         get-esitysnimi]]))
 
 (defonce amm-perustutkinto-erityisopetuksena-koulutustyyppi "koulutustyyppi_4")
 
@@ -348,8 +347,8 @@
   (distinct (remove nil? (map #(lang %) values))))
 
 (defn- stringify-tarkka-ajankohta [time-str]
-  (when-let [date (parse time-str)]
-    (str (t/year date) "-" (if (kevat-date? date) "kevat" "syksy"))))
+  (when-let [date (time/parse-utc-date-time time-str)]
+    (str (time/year date) "-" (if (time/kevat-date? date) "kevat" "syksy"))))
 
 (defn- stringify-kausi-ja-vuosi [kausi-ja-vuosi]
   (when-let [koodiUri (:koulutuksenAlkamiskausiKoodiUri kausi-ja-vuosi)]

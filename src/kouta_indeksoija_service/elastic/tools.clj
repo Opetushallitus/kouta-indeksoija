@@ -1,9 +1,7 @@
 (ns kouta-indeksoija-service.elastic.tools
   (:require [kouta-indeksoija-service.util.conf :refer [env]]
             [clj-elasticsearch.elastic-connect :as e]
-            [clj-elasticsearch.elastic-utils :as u]
             [kouta-indeksoija-service.util.time :as time]
-            [clj-time.format :as format]
             [environ.core]
             [clojure.string :as c-str]
             [clojure.tools.logging :as log]))
@@ -27,13 +25,11 @@
   [alias]
   (not (virkailija-alias? alias)))
 
-(defonce index-time-postfix-formatter (format/formatter "dd-MM-yyyy-'at'-HH.mm.ss.SSS"))
-
 (defn ->raw-index-name
   ([index-name postfix]
    (str index-name "-" postfix))
   ([index-name]
-   (->raw-index-name index-name (time/long->date-time-string (System/currentTimeMillis) index-time-postfix-formatter))))
+   (->raw-index-name index-name (time/current-index-postfix-time))))
 
 (defn raw-index-name->index-name
   [raw-index-name]
