@@ -1,6 +1,5 @@
 (ns kouta-indeksoija-service.util.tools
-  (:require [clojure.string :refer [blank? split]]
-            [clj-time.core :as t]))
+  (:require [clojure.string :refer [blank? split]]))
 
 (defn uuid
   []
@@ -39,6 +38,3 @@
 (defn get-oids
   [key coll]
   (set (remove clojure.string/blank? (map key coll))))
-
-(defn kevat-date? [date] 
-  (< (t/month date) 8))
