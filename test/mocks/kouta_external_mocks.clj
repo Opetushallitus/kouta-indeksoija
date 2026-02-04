@@ -1,10 +1,11 @@
 (ns mocks.kouta-external-mocks
   (:require
    [clj-log.access-log]
-   [mocks.export-elastic-data :refer [export-elastic-data]]
+   [clj-test-utils.elasticsearch-docker-utils :as ed-utils]
    [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
-   [kouta-indeksoija-service.test-tools :refer [set-fixed-time]]
-   [clj-test-utils.elasticsearch-docker-utils :as ed-utils]))
+   [kouta-indeksoija-service.util.time :as time]
+   [mocks.export-elastic-data :refer [export-elastic-data]])
+  (:import (java.time LocalDateTime)))
 
 (defonce OphOid             "1.2.246.562.10.00000000001")
 (defonce ParentOid          "1.2.246.562.10.594252633210")
@@ -43,9 +44,14 @@
 (defonce hakukohdeOid2    "1.2.246.562.20.00000000000000000002")
 (defonce hakukohdeOid3    "1.2.246.562.20.00000000000000000003")
 
-(defn -main []
+(defn- constant-millis []
+  (-> (LocalDateTime/parse "2023-10-11T01:00:00")
+      (.atZone time/timezone-fi)
+      (.toInstant)
+      (.toEpochMilli)))
+
+(defn generate []
   (ed-utils/start-elasticsearch)
-  (set-fixed-time "2023-02-27T09:50:00")
   (fixture/init)
   (fixture/add-sorakuvaus-mock sorakuvausId1 :organisaatio ChildOid)
   (fixture/add-sorakuvaus-mock sorakuvausId2 :organisaatio OphOid)
@@ -86,3 +92,6 @@
   (export-elastic-data "kouta-external")
   (ed-utils/stop-elasticsearch))
 
+(defn -main []
+  (with-redefs [time/current-time-millis constant-millis]
+    (generate)))

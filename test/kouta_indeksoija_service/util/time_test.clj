@@ -1,7 +1,7 @@
 (ns kouta-indeksoija-service.util.time-test
   (:require [clojure.test :refer [deftest testing is]]
             [kouta-indeksoija-service.util.time :as time])
-  (:import (org.joda.time DateTime DateTimeUtils)))
+  (:import (java.time LocalDate ZonedDateTime)))
 
 (defonce exact-time 1770112704312)
 (defonce ten-pm-in-helsinki 1735675200000)
@@ -10,18 +10,18 @@
 (defonce two-o-clock-in-utc 1735696800000)
 
 (defn- breakdown
-  "Palauttaa ajan jaoteltuna osiinsa [vuosi kk pv t m s milli vyöhyke]"
-  [^DateTime time]
+  "Palauttaa ajan pilkottuna osiin: [vuosi kk pv t m s milli vyöhyke]"
+  [^ZonedDateTime time]
   [(.getYear time)
-   (.getMonthOfYear time)
+   (.getMonthValue time)
    (.getDayOfMonth time)
-   (.getHourOfDay time)
-   (.getMinuteOfHour time)
-   (.getSecondOfMinute time)
-   (.getMillisOfSecond time)
-   (-> time .getZone .getID)])
+   (.getHour time)
+   (.getMinute time)
+   (.getSecond time)
+   (-> time .getNano (/ 1000000) int)
+   (-> time .getZone .getId)])
 
-(deftest long->rfc1123-test
+(deftest long->rfc1123
   (testing "returns correct timestamp in GMT time"
     (is (= "Tue, 03 Feb 2026 09:58:24 GMT" (time/long->rfc1123 exact-time)))
     (is (= "Tue, 31 Dec 2024 22:00:00 GMT" (time/long->rfc1123 midnight-in-helsinki)))
@@ -50,12 +50,11 @@
 
 (deftest current-index-postfix-time
   (testing "returns current timestamp in UTC time"
-    (DateTimeUtils/setCurrentMillisFixed exact-time)
-    (is (= "03-02-2026-at-09.58.24.312" (time/current-index-postfix-time)))
-    (DateTimeUtils/setCurrentMillisSystem)))
+    (with-redefs [time/current-time-millis (constantly exact-time)]
+      (is (= "03-02-2026-at-09.58.24.312" (time/current-index-postfix-time))))))
 
 (deftest long->date-time
-  (testing "returns correct DateTime"
+  (testing "returns correct instant"
     (is (= [2026  2  3  9 58 24 312 "UTC"] (breakdown (time/long->date-time exact-time))))
     (is (= [2024 12 31 20  0  0   0 "UTC"] (breakdown (time/long->date-time ten-pm-in-helsinki))))
     (is (= [2024 12 31 22  0  0   0 "UTC"] (breakdown (time/long->date-time midnight-in-helsinki))))
@@ -63,21 +62,15 @@
     (is (= [2025  1  1  2  0  0   0 "UTC"] (breakdown (time/long->date-time two-o-clock-in-utc))))))
 
 (deftest date-is-before-now?
-  (testing "calculates correctly using UTC time"
-    (DateTimeUtils/setCurrentMillisFixed exact-time)
-    (is (= true (time/date-is-before-now? "2026-02-02")))
-    (is (= true (time/date-is-before-now? "2026-02-03")))
-    (is (= false (time/date-is-before-now? "2026-02-04")))
-    (DateTimeUtils/setCurrentMillisFixed midnight-in-helsinki)
-    (is (= true (time/date-is-before-now? "2024-12-31")))
-    (is (= false (time/date-is-before-now? "2025-01-01")))
-    (DateTimeUtils/setCurrentMillisFixed midnight-in-utc)
-    (is (= true (time/date-is-before-now? "2024-12-31")))
-    (is (= false (time/date-is-before-now? "2025-01-01")))
-    (DateTimeUtils/setCurrentMillisFixed two-o-clock-in-utc)
-    (is (= true (time/date-is-before-now? "2024-12-31")))
-    (is (= true (time/date-is-before-now? "2025-01-01")))
-    (DateTimeUtils/setCurrentMillisSystem)))
+  (testing "calculates correctly"
+    (with-redefs [time/current-local-date (constantly (LocalDate/of 2026 2 3))]
+      (is (= true (time/date-is-before-now? "2026-02-02")))
+      (is (= false (time/date-is-before-now? "2026-02-03")))
+      (is (= false (time/date-is-before-now? "2026-02-04"))))
+    (with-redefs [time/current-local-date (constantly (LocalDate/of 2025 1 1))]
+      (is (= true (time/date-is-before-now? "2024-12-31")))
+      (is (= false (time/date-is-before-now? "2025-01-01")))
+      (is (= false (time/date-is-before-now? "2025-01-02"))))))
 
 (deftest parse-utc-date-time
   (testing "returns correct ZonedDateTime"
@@ -122,18 +115,18 @@
 
 (deftest  before?
   (testing "returns "
-    (is (= true (time/before? "2024-12-31T23:59" (DateTime/parse "2025-01-01T00:00:00+02:00" ))))
-    (is (= false (time/before? "2024-12-31T23:59" (DateTime/parse "2024-12-31T23:59+02:00" ))))
-    (is (= false (time/before? "2024-12-31T23:59" (DateTime/parse "2024-12-31T23:58+02:00" ))))))
+    (is (= true (time/before? "2024-12-31T23:59" (ZonedDateTime/parse "2025-01-01T00:00:00+02:00" ))))
+    (is (= false (time/before? "2024-12-31T23:59" (ZonedDateTime/parse "2024-12-31T23:59+02:00" ))))
+    (is (= false (time/before? "2024-12-31T23:59" (ZonedDateTime/parse "2024-12-31T23:58+02:00" ))))))
 
 (deftest kevat-date?
   (testing "returns correct results for Helsinki times"
-    (is (= true (time/kevat-date? (DateTime/parse "2025-01-01T00:00:00+02:00"))))
-    (is (= false (time/kevat-date? (DateTime/parse "2025-12-31T23:59:59+02:00"))))
-    (is (= true (time/kevat-date? (DateTime/parse "2025-07-31T23:59:59+02:00"))))
-    (is (= false (time/kevat-date? (DateTime/parse "2025-08-01T00:00:00+02:00")))))
+    (is (= true (time/kevat-date? (ZonedDateTime/parse "2025-01-01T00:00:00+02:00"))))
+    (is (= false (time/kevat-date? (ZonedDateTime/parse "2025-12-31T23:59:59+02:00"))))
+    (is (= true (time/kevat-date? (ZonedDateTime/parse "2025-07-31T23:59:59+02:00"))))
+    (is (= false (time/kevat-date? (ZonedDateTime/parse "2025-08-01T00:00:00+02:00")))))
   (testing "returns correct results for UTC times"
-    (is (= true (time/kevat-date? (DateTime/parse "2025-01-01T00:00:00Z"))))
-    (is (= false (time/kevat-date? (DateTime/parse "2025-12-31T23:59:59Z"))))
-    (is (= true (time/kevat-date? (DateTime/parse "2025-07-31T23:59:59Z"))))
-    (is (= false (time/kevat-date? (DateTime/parse "2025-08-01T00:00:00Z"))))))
+    (is (= true (time/kevat-date? (ZonedDateTime/parse "2025-01-01T00:00:00Z"))))
+    (is (= false (time/kevat-date? (ZonedDateTime/parse "2025-12-31T23:59:59Z"))))
+    (is (= true (time/kevat-date? (ZonedDateTime/parse "2025-07-31T23:59:59Z"))))
+    (is (= false (time/kevat-date? (ZonedDateTime/parse "2025-08-01T00:00:00Z"))))))

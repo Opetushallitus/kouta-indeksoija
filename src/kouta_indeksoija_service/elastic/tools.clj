@@ -7,7 +7,9 @@
             [clojure.tools.logging :as log]))
 
 (defn init-elastic-client []
-  (intern 'clj-elasticsearch.elastic-utils 'elastic-host (:elastic-url env)))
+  (log/info "Running init-elastic-client")
+  (intern 'clj-elasticsearch.elastic-utils 'elastic-host (:elastic-url env))
+  (log/info "Done init-elastic-client"))
 
 (defn ->virkailija-alias
   [index-name]

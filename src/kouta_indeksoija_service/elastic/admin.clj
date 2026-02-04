@@ -72,6 +72,7 @@
 
 (defn initialize-cluster-settings
   []
+  (log/info "Running initialize cluster settings")
   (-> (u/elastic-url "_cluster" "settings")
       (u/elastic-put  {:persistent {:action.auto_create_index "+.*"}})
       :acknowledged))

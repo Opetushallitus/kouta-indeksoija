@@ -3,8 +3,6 @@
    [cheshire.core :as cheshire]
    [clojure.test :refer :all]
    [clojure.string :as string]
-   [clj-time.format :as format]
-   [clj-time.core :as time]
    [clojure.walk :refer [postwalk]]
    [kouta-indeksoija-service.fixture.common-oids :refer :all]
    [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
@@ -17,7 +15,9 @@
    [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
    [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
    [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
-   [kouta-indeksoija-service.indexer.kouta.valintaperuste :as valintaperuste]))
+   [kouta-indeksoija-service.indexer.kouta.valintaperuste :as valintaperuste])
+  (:import (java.time LocalDate LocalTime)
+           (java.time.format DateTimeFormatter)))
 
 (defn no-formatoitu-date
   [json]
@@ -40,18 +40,18 @@
 
 (defn replace-alkamiskausi
   [json-string]
-  (string/replace json-string "!!tämän-vuoden-kevät" (str (-> (time/today)
+  (string/replace json-string "!!tämän-vuoden-kevät" (str (-> (LocalDate/now)
                                                               (.getYear)
                                                               (.toString)) "-kevat")))
-(defonce formatter (format/formatters :date-hour-minute))
+(defonce formatter (DateTimeFormatter/ofPattern "yyyy-MM-dd'T'HH:mm"))
 
 (defn test-date
   [time days-in-future]
-  (let [read-time (format/parse-local-time time)
-        test-date (-> (time/today)
-                      (.toLocalDateTime read-time)
+  (let [read-time (LocalTime/parse time)
+        test-date (-> (LocalDate/now)
+                      (.atTime read-time)
                       (.plusDays days-in-future))]
-    (format/unparse-local formatter test-date)))
+    (.format formatter test-date)))
 
 (def far-enough-in-the-future-start-time "2042-03-24T09:49")
 (def far-enough-in-the-future-end-time "2042-03-29T09:49")
@@ -69,11 +69,11 @@
       (string/replace "!!startTime1" (test-date "09:49" 1))
       (string/replace "!!endTime1" (test-date "09:58" 1))
       (string/replace "!!time3" (test-date "09:58" 3))
-      (string/replace "!!thisYear" (-> (time/today)
+      (string/replace "!!thisYear" (-> (LocalDate/now)
                                        (.getYear)
                                        (.toString)))
-      (string/replace "!!thisKausi" (get-kausi (-> (time/today)
-                                        (.getMonthOfYear))))))
+      (string/replace "!!thisKausi" (get-kausi (-> (LocalDate/now)
+                                                   (.getMonthValue))))))
 
 (defn read-json-as-string
   ([path name]
