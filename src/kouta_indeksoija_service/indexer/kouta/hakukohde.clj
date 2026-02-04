@@ -1,7 +1,5 @@
 (ns kouta-indeksoija-service.indexer.kouta.hakukohde
-  (:require [clj-time.core :as t]
-            [clj-time.format :as f]
-            [clojure.set :as s]
+  (:require [clojure.set :as s]
             [clojure.string :as str]
             [clojure.tools.logging :as log]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
@@ -13,8 +11,8 @@
             [kouta-indeksoija-service.indexer.tools.koulutustyyppi :refer [assoc-koulutustyyppi-path]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
-            [kouta-indeksoija-service.util.tools :refer [assoc-hakukohde-nimi-as-esitysnimi
-                                                         kevat-date?]]))
+            [kouta-indeksoija-service.util.time :as time]
+            [kouta-indeksoija-service.util.tools :refer [assoc-hakukohde-nimi-as-esitysnimi]]))
 
 (def index-name "hakukohde-kouta")
 (defonce amm-perustutkinto-erityisopetus-koulutustyyppi "koulutustyyppi_4")
@@ -245,11 +243,11 @@
            :voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita hakukohde-allows-harkinnanvaraiset-applicants)))
 
 (defn- parse-tarkka-ajankohta [time-str]
-  (when-let [date (f/parse time-str)]
-    {:kausiUri (if (kevat-date? date)
+  (when-let [date (time/parse-utc-date-time time-str)]
+    {:kausiUri (if (time/kevat-date? date)
                  "kausi_k#1"
                  "kausi_s#1")
-     :vuosi    (t/year date)}))
+     :vuosi    (time/year date)}))
 
 (defn- parse-alkamiskausi [alkamiskausi oid]
   (let [tyyppi (:alkamiskausityyppi alkamiskausi)
