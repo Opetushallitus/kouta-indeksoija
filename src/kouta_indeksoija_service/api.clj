@@ -41,10 +41,13 @@
            (admin/check-elastic-status)
            (admin/initialize-indices))
     (do
-      (jobs/schedule-jobs))
+      (log/info "Running schedule jobs")
+      (jobs/schedule-jobs)
+      (log/info "Done schedule jobs"))
     (do
       (log/error "Application startup canceled due to Elastic client error or absence.")
-      (System/exit 0))))
+      (System/exit 0)))
+  (log/info "Done init"))
 
 (defn stop []
   (jobs/reset-jobs)
