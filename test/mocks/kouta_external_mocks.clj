@@ -44,6 +44,8 @@
 (defonce hakukohdeOid2    "1.2.246.562.20.00000000000000000002")
 (defonce hakukohdeOid3    "1.2.246.562.20.00000000000000000003")
 
+(defonce jokin-jarjestyspaikka "1.2.246.562.10.67476956288")
+
 (defn- constant-millis []
   (-> (LocalDateTime/parse "2023-02-27T09:50:00")
       (.atZone time/timezone-utc)
@@ -82,13 +84,16 @@
   (fixture/add-hakukohde-mock hakukohdeOid2 toteutusOid2 hakuOid1 :tila "julkaistu" :organisaatio LonelyOid :valintaperusteId valintaPerusteId1)
   (fixture/add-hakukohde-mock hakukohdeOid3 toteutusOid2 hakuOid1 :tila "julkaistu" :organisaatio LonelyOid :valintaperusteId valintaPerusteId1)
 
+  (fixture/add-oppilaitos-mock jokin-jarjestyspaikka :tila "julkaistu" :organisaatio jokin-jarjestyspaikka
+                               :_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" jokin-jarjestyspaikka ".json")))})
+
   (fixture/index-oids-without-related-indices {:sorakuvaukset [sorakuvausId1 sorakuvausId2]
                                                :koulutukset [koulutusOid1 koulutusOid2 koulutusOid3 koulutusOid4 koulutusOid5 koulutusOid6 koulutusOid7]
                                                :toteutukset [toteutusOid1 toteutusOid2]
                                                :haut [hakuOid1 hakuOid2 hakuOid3 hakuOid4 hakuOid5 hakuOid6]
                                                :valintaperusteet [valintaPerusteId1 valintaPerusteId2 valintaPerusteId3]
                                                :hakukohteet [hakukohdeOid1 hakukohdeOid2 hakukohdeOid3]
-                                               :oppilaitokset [ChildOid EvilChild LonelyOid]})
+                                               :oppilaitokset [jokin-jarjestyspaikka]})
   (export-elastic-data "kouta-external")
   (ed-utils/stop-elasticsearch))
 
