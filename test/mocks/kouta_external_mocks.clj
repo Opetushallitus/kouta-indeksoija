@@ -1,10 +1,11 @@
 (ns mocks.kouta-external-mocks
   (:require
    [clj-log.access-log]
-   [mocks.export-elastic-data :refer [export-elastic-data]]
+   [clj-test-utils.elasticsearch-docker-utils :as ed-utils]
    [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
-   [kouta-indeksoija-service.test-tools :refer [set-fixed-time]]
-   [clj-test-utils.elasticsearch-docker-utils :as ed-utils]))
+   [kouta-indeksoija-service.util.time :as time]
+   [mocks.export-elastic-data :refer [export-elastic-data]])
+  (:import (java.time LocalDate LocalDateTime)))
 
 (defonce OphOid             "1.2.246.562.10.00000000001")
 (defonce ParentOid          "1.2.246.562.10.594252633210")
@@ -43,9 +44,16 @@
 (defonce hakukohdeOid2    "1.2.246.562.20.00000000000000000002")
 (defonce hakukohdeOid3    "1.2.246.562.20.00000000000000000003")
 
-(defn -main []
+(defonce jokin-jarjestyspaikka "1.2.246.562.10.67476956288")
+
+(defn- constant-millis []
+  (-> (LocalDateTime/parse "2023-02-27T09:50:00")
+      (.atZone time/timezone-utc)
+      (.toInstant)
+      (.toEpochMilli)))
+
+(defn generate []
   (ed-utils/start-elasticsearch)
-  (set-fixed-time "2023-02-27T09:50:00")
   (fixture/init)
   (fixture/add-sorakuvaus-mock sorakuvausId1 :organisaatio ChildOid)
   (fixture/add-sorakuvaus-mock sorakuvausId2 :organisaatio OphOid)
@@ -76,13 +84,20 @@
   (fixture/add-hakukohde-mock hakukohdeOid2 toteutusOid2 hakuOid1 :tila "julkaistu" :organisaatio LonelyOid :valintaperusteId valintaPerusteId1)
   (fixture/add-hakukohde-mock hakukohdeOid3 toteutusOid2 hakuOid1 :tila "julkaistu" :organisaatio LonelyOid :valintaperusteId valintaPerusteId1)
 
+  (fixture/add-oppilaitos-mock jokin-jarjestyspaikka :tila "julkaistu" :organisaatio jokin-jarjestyspaikka
+                               :_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" jokin-jarjestyspaikka ".json")))})
+
   (fixture/index-oids-without-related-indices {:sorakuvaukset [sorakuvausId1 sorakuvausId2]
                                                :koulutukset [koulutusOid1 koulutusOid2 koulutusOid3 koulutusOid4 koulutusOid5 koulutusOid6 koulutusOid7]
                                                :toteutukset [toteutusOid1 toteutusOid2]
                                                :haut [hakuOid1 hakuOid2 hakuOid3 hakuOid4 hakuOid5 hakuOid6]
                                                :valintaperusteet [valintaPerusteId1 valintaPerusteId2 valintaPerusteId3]
                                                :hakukohteet [hakukohdeOid1 hakukohdeOid2 hakukohdeOid3]
-                                               :oppilaitokset [ChildOid EvilChild LonelyOid]})
+                                               :oppilaitokset [jokin-jarjestyspaikka]})
   (export-elastic-data "kouta-external")
   (ed-utils/stop-elasticsearch))
 
+(defn -main []
+  (with-redefs [time/current-time-millis constant-millis
+                time/current-local-date (constantly (LocalDate/parse "2023-02-27"))]
+    (generate)))

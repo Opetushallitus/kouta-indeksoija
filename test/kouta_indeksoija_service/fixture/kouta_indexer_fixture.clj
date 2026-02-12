@@ -6,15 +6,14 @@
             [kouta-indeksoija-service.indexer.cache.hierarkia :refer [clear-all-cached-data]]
             [kouta-indeksoija-service.fixture.common-oids :refer :all]
             [kouta-indeksoija-service.indexer.tools.general :refer [not-arkistoitu? not-poistettu?]]
-            [kouta-indeksoija-service.test-tools :refer [parse debug-pretty]]
+            [kouta-indeksoija-service.test-tools :refer [parse]]
             [clojure.test :refer :all]
             [cheshire.core :refer [parse-string, generate-string]]
             [clojure.string :as str]
             [clj-elasticsearch.elastic-utils :as u]
             [clojure.walk :refer [keywordize-keys stringify-keys postwalk]]
-            [clj-time.core :as time]
-            [clj-time.format :as time-format]
-            [clj-test-utils.elasticsearch-docker-utils :refer [start-elasticsearch stop-elasticsearch]]))
+            [clj-test-utils.elasticsearch-docker-utils :refer [start-elasticsearch stop-elasticsearch]]
+            [kouta-indeksoija-service.util.time :as time]))
 
 (defn reload-kouta-indexer-fixture [f]
   (require 'kouta-indeksoija-service.fixture.kouta-indexer-fixture :reload)
@@ -51,7 +50,7 @@
 
 (defn common-start-time
   []
-  (let [day (time-format/unparse (time-format/formatter "yyyy-MM-dd") (time/plus (time/now) (time/days 1)))]
+  (let [day (-> (time/current-local-date) (.plusDays 1) (.toString))]
     (str day "T09:49")))
 
 (def far-enough-in-the-future-start-time "2042-03-24T09:49")
@@ -60,12 +59,12 @@
 
 (defn common-end-time
   []
-  (let [day (time-format/unparse (time-format/formatter "yyyy-MM-dd") (time/plus (time/now) (time/days 1)))]
+  (let [day (-> (time/current-local-date) (.plusDays 1) (.toString))]
     (str day "T09:58")))
 
 (defn common-near-future-time
   []
-  (let [day (time-format/unparse (time-format/formatter "yyyy-MM-dd") (time/plus (time/now) (time/days 3)))]
+  (let [day (-> (time/current-local-date) (.plusDays 3) (.toString))]
     (str day "T09:58")))
 
 (defn fix-default-format
@@ -85,7 +84,7 @@
                                  (assoc e :externalId (str (:externalId e))) e))
         fix-alkamisvuosi (fn [e] (postwalk (fn [sub] (if (:koulutuksenAlkamisvuosi sub)
                                                        (assoc sub :koulutuksenAlkamisvuosi
-                                                              (-> (time/today)
+                                                              (-> (time/current-local-date)
                                                                   (.getYear)
                                                                   (.toString))) sub)) e))]
     (-> entity
