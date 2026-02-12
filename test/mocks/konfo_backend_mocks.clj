@@ -5,11 +5,11 @@
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
             [kouta-indeksoija-service.util.time :as time]
             [mocks.export-elastic-data :refer [export-elastic-data]])
-  (:import (java.time LocalDateTime)))
+  (:import (java.time LocalDate LocalDateTime)))
 
 (defn- constant-millis []
   (-> (LocalDateTime/parse "2023-10-11T01:00:00")
-      (.atZone time/timezone-fi)
+      (.atZone time/timezone-utc)
       (.toInstant)
       (.toEpochMilli)))
 
@@ -207,5 +207,6 @@
   (ed-utils/stop-elasticsearch))
 
 (defn -main []
-  (with-redefs [time/current-time-millis constant-millis]
+  (with-redefs [time/current-time-millis constant-millis
+                time/current-local-date (constantly (LocalDate/parse "2023-10-10"))]
     (generate)))

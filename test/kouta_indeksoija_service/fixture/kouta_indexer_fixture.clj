@@ -6,14 +6,14 @@
             [kouta-indeksoija-service.indexer.cache.hierarkia :refer [clear-all-cached-data]]
             [kouta-indeksoija-service.fixture.common-oids :refer :all]
             [kouta-indeksoija-service.indexer.tools.general :refer [not-arkistoitu? not-poistettu?]]
-            [kouta-indeksoija-service.test-tools :refer [parse debug-pretty]]
+            [kouta-indeksoija-service.test-tools :refer [parse]]
             [clojure.test :refer :all]
             [cheshire.core :refer [parse-string, generate-string]]
             [clojure.string :as str]
             [clj-elasticsearch.elastic-utils :as u]
             [clojure.walk :refer [keywordize-keys stringify-keys postwalk]]
-            [clj-test-utils.elasticsearch-docker-utils :refer [start-elasticsearch stop-elasticsearch]])
-  (:import (java.time LocalDate)))
+            [clj-test-utils.elasticsearch-docker-utils :refer [start-elasticsearch stop-elasticsearch]]
+            [kouta-indeksoija-service.util.time :as time]))
 
 (defn reload-kouta-indexer-fixture [f]
   (require 'kouta-indeksoija-service.fixture.kouta-indexer-fixture :reload)
@@ -50,7 +50,7 @@
 
 (defn common-start-time
   []
-  (let [day (-> (LocalDate/now) (.plusDays 1) (.toString))]
+  (let [day (-> (time/current-local-date) (.plusDays 1) (.toString))]
     (str day "T09:49")))
 
 (def far-enough-in-the-future-start-time "2042-03-24T09:49")
@@ -59,12 +59,12 @@
 
 (defn common-end-time
   []
-  (let [day (-> (LocalDate/now) (.plusDays 1) (.toString))]
+  (let [day (-> (time/current-local-date) (.plusDays 1) (.toString))]
     (str day "T09:58")))
 
 (defn common-near-future-time
   []
-  (let [day (-> (LocalDate/now) (.plusDays 3) (.toString))]
+  (let [day (-> (time/current-local-date) (.plusDays 3) (.toString))]
     (str day "T09:58")))
 
 (defn fix-default-format
@@ -84,7 +84,7 @@
                                  (assoc e :externalId (str (:externalId e))) e))
         fix-alkamisvuosi (fn [e] (postwalk (fn [sub] (if (:koulutuksenAlkamisvuosi sub)
                                                        (assoc sub :koulutuksenAlkamisvuosi
-                                                              (-> (LocalDate/now)
+                                                              (-> (time/current-local-date)
                                                                   (.getYear)
                                                                   (.toString))) sub)) e))]
     (-> entity

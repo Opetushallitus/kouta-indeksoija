@@ -12,8 +12,9 @@
 (defn formatter-for-utc [fmt-str] (-> (DateTimeFormatter/ofPattern fmt-str) (.withZone timezone-utc)))
 
 (defonce formatter-with-seconds (formatter-for-helsinki "yyyy-MM-dd'T'HH:mm:ss"))
+(defonce formatter-with-minutes (formatter-for-helsinki "yyyy-MM-dd'T'HH:mm"))
 
-(defonce formatter-with-time (-> (DateTimeFormatter/ofPattern "yyyy-MM-dd HH:mm") (.withZone timezone-fi)))
+(defonce formatter-with-time (formatter-for-helsinki "yyyy-MM-dd HH:mm"))
 
 (defonce formatter-rfc1123 (DateTimeFormatter/ofPattern "EEE, dd MMM yyyy HH:mm:ss 'GMT'"))
 
@@ -65,7 +66,8 @@
   (long->date-time-string millis formatter-index-time-postfix))
 
 (defn current-index-postfix-time []
-  (long->index-postfix-time (current-time-millis)))
+  ; Even in tests (especially when creating the mock data for other services) we want the index names to represent the current date.
+  (long->index-postfix-time (System/currentTimeMillis)))
 
 (defn long->rfc1123
   [long]
@@ -73,18 +75,17 @@
 
 (defn parse-utc-date-time ^ZonedDateTime [date-str]
   (let [fmt (formatter-for-utc "yyyy-MM-dd'T'HH:mm")]
-   (ZonedDateTime/parse date-str fmt)))
+    (ZonedDateTime/parse date-str fmt)))
 
 (defn parse-date-time
   ^ZonedDateTime [date-str]
-  (let [fmt (formatter-for-helsinki "yyyy-MM-dd'T'HH:mm")]
-    (try
-      (ZonedDateTime/parse date-str formatter-with-seconds)
-      (catch Exception _
-        (try
-          (ZonedDateTime/parse date-str fmt)
-          (catch Exception e
-            (log/error (str "Unable to parse" date-str) e)))))))
+  (try
+    (ZonedDateTime/parse date-str formatter-with-seconds)
+    (catch Exception _
+      (try
+        (ZonedDateTime/parse date-str formatter-with-minutes)
+        (catch Exception e
+          (log/error (str "Unable to parse" date-str) e))))))
 
 (defn- replace-eet-eest-with-utc-offset [parse-date-time]
   (-> parse-date-time
@@ -95,7 +96,7 @@
   (if-let [parsed (parse-date-time date)]
     {:fi (.format finnish-format parsed)
      :sv (.format swedish-format parsed)
-     :en (replace-eet-eest-with-utc-offset (.format english-format parsed))}
+     :en (replace-eet-eest-with-utc-offset (.format parsed english-format))}
     {}))
 
 (defn year [date] (.getYear date))

@@ -48,11 +48,6 @@
     (is (= "31-12-2024-at-22.00.00.000" (time/long->index-postfix-time midnight-in-helsinki)))
     (is (= "01-01-2025-at-00.00.00.000" (time/long->index-postfix-time midnight-in-utc)))))
 
-(deftest current-index-postfix-time
-  (testing "returns current timestamp in UTC time"
-    (with-redefs [time/current-time-millis (constantly exact-time)]
-      (is (= "03-02-2026-at-09.58.24.312" (time/current-index-postfix-time))))))
-
 (deftest long->date-time
   (testing "returns correct instant"
     (is (= [2026  2  3  9 58 24 312 "UTC"] (breakdown (time/long->date-time exact-time))))
@@ -92,11 +87,18 @@
     (is (= [2025 07 01 02 00 0 0 "Europe/Helsinki"] (breakdown (time/parse-date-time "2025-07-01T02:00"))))))
 
 (deftest format-date
-  (testing "returns correct timestamps"
+  (testing "returns correct timestamps with seconds"
     (is (= "3.2.2026 klo 11:58" (:fi (time/format-localized-date "2026-02-03T11:58:24"))))
     (is (= "3.2.2026 kl. 11:58" (:sv (time/format-localized-date "2026-02-03T11:58:24"))))
     (is (= "Feb. 3, 2026 at 11:58 AM UTC+2" (:en (time/format-localized-date "2026-02-03T11:58:24"))))
-    (is (= "Jul. 14, 2026 at 03:58 PM UTC+3" (:en (time/format-localized-date "2026-07-14T15:58:24"))))))
+    (is (= "Feb. 3, 2026 at 11:58 AM UTC+2" (:en (time/format-localized-date "2026-02-03T11:58:24"))))
+    (is (= "Jul. 14, 2026 at 03:58 PM UTC+3" (:en (time/format-localized-date "2026-07-14T15:58:24")))))
+  (testing "returns correct timestamps without seconds"
+    (is (= "3.2.2026 klo 11:58" (:fi (time/format-localized-date "2026-02-03T11:58"))))
+    (is (= "3.2.2026 kl. 11:58" (:sv (time/format-localized-date "2026-02-03T11:58"))))
+    (is (= "Feb. 3, 2026 at 11:58 AM UTC+2" (:en (time/format-localized-date "2026-02-03T11:58"))))
+    (is (= "Feb. 3, 2026 at 11:58 AM UTC+2" (:en (time/format-localized-date "2026-02-03T11:58"))))
+    (is (= "Jul. 14, 2026 at 03:58 PM UTC+3" (:en (time/format-localized-date "2026-07-14T15:58"))))))
 
 (deftest year
   (testing "returns correct year"
