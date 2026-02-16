@@ -11,7 +11,7 @@
     <url>https://github.com/Opetushallitus/kouta-indeksoija</url>
     <connection>scm:git:git://github.com/Opetushallitus/kouta-indeksoija.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/Opetushallitus/kouta-indeksoija.git</developerConnection>
-    <tag>4b43fb09861c8c15e954437a707503415df0277d</tag>
+    <tag>83475c2dbb3358d79ef7d72ce08561b60d9a0ade</tag>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -297,6 +297,16 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
         <version>1.22</version>
+      </dependency>
+      <dependency>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>elasticsearch</artifactId>
+        <version>1.21.4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>testcontainers</artifactId>
+        <version>1.21.4</version>
       </dependency>
       <dependency>
         <groupId>org.jsoup</groupId>
