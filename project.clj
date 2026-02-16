@@ -20,19 +20,16 @@
                                                                       com.fasterxml.jackson.dataformat/jackson-dataformat-smile
                                                                       com.fasterxml.jackson.dataformat/jackson-dataformat-cbor
                                                                       ring/ring-codec
-                                                                      clj-time
-                                                                      joda-time
                                                                       org.clojure/core.cache
                                                                       org.clojure/core.memoize]]
                          [com.fasterxml.jackson.core/jackson-annotations "2.18.3"]
                          [cheshire "5.13.0"]
-                         [clojurewerkz/quartzite "2.2.0" :exclusions [clj-time]]
+                         [clojurewerkz/quartzite "2.2.0"]
                          [clj-http "3.13.0" :exclusions [org.apache.httpcomponents/httpclient]]
                          [mount "0.1.21"]
                          [environ "1.2.0"]
                          [org.clojure/core.memoize "1.1.266"]
                          [base64-clj "0.1.1"]
-                         [clj-time "0.15.2"]
                          [org.clojure/algo.generic "0.1.3"]
                          [fi.vm.sade.java-utils/java-properties "0.1.0-SNAPSHOT"]
                          [cprop "0.1.20"]
@@ -54,9 +51,12 @@
                          [org.slf4j/jcl-over-slf4j "2.0.17"]
 
                          ; transitive deps
+                         [clj-time "0.15.2"] ;Versioristiriita: [oph/clj-log "0.3.2-SNAPSHOT"] vs [metosin/compojure-api "1.1.14"] vs [clojurewerkz/quartzite "2.2.0"]
                          [com.fasterxml.jackson.core/jackson-databind "2.18.3"]
                          [commons-fileupload/commons-fileupload "1.6.0"]
                          [org.apache.commons/commons-compress "1.22"]
+                         [org.testcontainers/elasticsearch "1.21.4"] ; clj-test-utils tuleva vanha versio ei enää toimi ECR:n kanssa
+                         [org.testcontainers/testcontainers "1.21.4"] ; clj-test-utils tuleva vanha versio ei enää toimi ECR:n kanssa
                          [org.jsoup/jsoup "1.19.1"]
                          [clj-commons/clj-yaml "1.0.29"]
                          [io.netty/netty-codec-http2 "4.1.124.Final"]
@@ -71,7 +71,6 @@
                  [environ]
                  [org.clojure/core.memoize]
                  [base64-clj]
-                 [clj-time]
                  [org.clojure/algo.generic]
                  ;Configuration
                  [fi.vm.sade.java-utils/java-properties]
