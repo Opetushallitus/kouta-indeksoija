@@ -55,6 +55,8 @@
                          [com.fasterxml.jackson.core/jackson-databind "2.18.3"]
                          [commons-fileupload/commons-fileupload "1.6.0"]
                          [org.apache.commons/commons-compress "1.22"]
+                         [org.testcontainers/elasticsearch "1.21.4"] ; clj-test-utils tuleva vanha versio ei enää toimi ECR:n kanssa
+                         [org.testcontainers/testcontainers "1.21.4"] ; clj-test-utils tuleva vanha versio ei enää toimi ECR:n kanssa
                          [org.jsoup/jsoup "1.19.1"]
                          [clj-commons/clj-yaml "1.0.29"]
                          [io.netty/netty-codec-http2 "4.1.124.Final"]
