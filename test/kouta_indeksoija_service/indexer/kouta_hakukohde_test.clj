@@ -58,7 +58,7 @@
   (fixture/with-mocked-indexing
     (testing "Indexer should index englanninkielinen lukio hakukohde to hakukohde index with both harkinnanvaraisuus flags as false"
       (check-all-nil)
-      (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :metadata fixture/lk-koulutus-metadata)
+      (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :koulutuksetKoodiUri ["koulutus_309902#7"] :metadata fixture/lk-koulutus-metadata)
       (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata (-> fixture/lk-toteutus-metadata
                                                                                    (update-in [:opetus :opetuskieliKoodiUrit]
                                                                                               (fn [_] ["oppilaitoksenopetuskieli_4#2"]))))
@@ -68,11 +68,25 @@
                {:salliikoHakukohdeHarkinnanvaraisuudenKysymisen false
                 :voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita false}))))))
 
+(deftest index-englanninkielinen-ib-tutkinto-hakukohde-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index englanninkielinen IB-tutkinto hakukohde to hakukohde index with both harkinnanvaraisuus true as true"
+            (check-all-nil)
+            (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :koulutuksetKoodiUri ["koulutus_301102#12"] :metadata fixture/lk-koulutus-metadata)
+            (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata (-> fixture/lk-toteutus-metadata
+                                                                                         (update-in [:opetus :opetuskieliKoodiUrit]
+                                                                                                    (fn [_] ["oppilaitoksenopetuskieli_4#2"]))))
+            (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
+            (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
+              (is (= (select-keys hakukohde [:salliikoHakukohdeHarkinnanvaraisuudenKysymisen :voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita])
+                     {:salliikoHakukohdeHarkinnanvaraisuudenKysymisen true
+                      :voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita true}))))))
+
 (deftest index-monikielinen-lukio-hakukohde-test
   (fixture/with-mocked-indexing
    (testing "Indexer should index monikielinen lukio hakukohde to hakukohde index as harkinnanvarainen"
             (check-all-nil)
-            (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :metadata fixture/lk-koulutus-metadata)
+            (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :koulutuksetKoodiUri ["koulutus_309902#7"] :metadata fixture/lk-koulutus-metadata)
             (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata (-> fixture/lk-toteutus-metadata
                                                                                          (update-in [:opetus :opetuskieliKoodiUrit]
                                                                                                     (fn [_] ["oppilaitoksenopetuskieli_1#2"

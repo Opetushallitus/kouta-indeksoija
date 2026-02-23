@@ -203,8 +203,9 @@
     (assoc hakukohde :koulutustyyppikoodi koulutustyyppikoodi)))
 
 (defn- englannikielinen-lukiokoulutus?
-  [toteutus koulutus]
+  [toteutus koulutus non-korkeakoulu-koodi-uri]
   (and (= (:koulutustyyppi koulutus) "lk")
+       (= "koulutus_309902" (first (str/split non-korkeakoulu-koodi-uri #"#"))) ; OY-5519 rajataan myös koulutuskoodin mukaan
        (= (->> (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
                (map #(first (str/split % #"#")))
                (vec))
@@ -223,7 +224,7 @@
         ; Seuraava arvo on tosi esimerkille: "Hakukohde kuuluu koulutukseen "Hius- ja kauneudenhoitoalan perustutkinto"
         harkinnanvaraisuus-question-allowed (and
                                              (some? non-korkeakoulu-koodi-uri)
-                                             (not (englannikielinen-lukiokoulutus? toteutus koulutus))
+                                             (not (englannikielinen-lukiokoulutus? toteutus koulutus non-korkeakoulu-koodi-uri))
                                              (kysytaanko-harkinnanvaraisuutta-lomakkeella non-korkeakoulu-koodi-uri)
                                              (not (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena])))
                                              (not (.contains ["telma" "tuva" "vapaa-sivistystyo-opistovuosi"] (:koulutustyyppi koulutus)))
@@ -235,7 +236,7 @@
         hakukohde-allows-harkinnanvaraiset-applicants (or harkinnanvaraisuus-question-allowed
                                                           (and
                                                            (some? non-korkeakoulu-koodi-uri)
-                                                           (not (englannikielinen-lukiokoulutus? toteutus koulutus))
+                                                           (not (englannikielinen-lukiokoulutus? toteutus koulutus non-korkeakoulu-koodi-uri))
                                                            (and (some? hakukohde-nimi-koodi-uri)
                                                                  ;Jos hakukohteella on relaatio ei-harkinnanvaraisuutta koodiin "Harkinnanvaraisuutta ei kysytä lomakkeella", se on automaattisesti harkinnanvarainen
                                                                 (not (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena])))
