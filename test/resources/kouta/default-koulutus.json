@@ -20,10 +20,7 @@
       "fi": "kuvaus",
       "sv": "kuvaus sv"
     },
-    "osaamistavoitteet": {
-      "fi": "osaamistavoitteet",
-      "sv": "osaamistavoitteet sv"
-    },
+    "osaamistavoitteet": {},
     "lisatiedot": [
       {
         "otsikkoKoodiUri": "koulutuksenlisatiedot_03#1",

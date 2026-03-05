@@ -284,10 +284,7 @@
       "fi": "kuvaus",
       "sv": "kuvaus sv"
     },
-    "osaamistavoitteet": {
-      "fi": "osaamistavoitteet",
-      "sv": "osaamistavoitteet sv"
-    },
+    "osaamistavoitteet": {},
     "lisatiedot": [
       {
         "otsikko": {

@@ -232,6 +232,7 @@
                           "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
    :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}
    :kuvaus {}
+   :osaamistavoitteet {:fi "osaamistavoitteet fi", :sv "osaamistavoitteet sv"}
    :lisatiedot []})
 
 (defonce lk-koulutus-metadata
@@ -257,12 +258,14 @@
                    {:koulutusKoodiUri "koulutus_123125#1" :tutkinnonosaId 1235 :tutkinnonosaViite 5677}
                    {:koulutusKoodiUri "koulutus_123444#1" :tutkinnonosaId 1236 :tutkinnonosaViite 5679}
                    {:ePerusteId 123 :koulutusKoodiUri "koulutus_371101#1" :tutkinnonosaId 1237 :tutkinnonosaViite 5680}]
-   :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}})
+   :kuvaus {:fi "kuvaus", :sv "kuvaus sv"}
+   :osaamistavoitteet {:fi "osaamistavoitteet fi", :sv "osaamistavoitteet sv"}})
 
 (defonce amm-osaamisala-koulutus-metadata
   {:tyyppi "amm-osaamisala"
    :osaamisalaKoodiUri "osaamisala_01"
-   :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}})
+   :kuvaus {:fi "kuvaus", :sv "kuvaus sv"}
+   :osaamistavoitteet {}})
 
 (defonce amm-muu-koulutus-metadata
   {:tyyppi "amm-muu"

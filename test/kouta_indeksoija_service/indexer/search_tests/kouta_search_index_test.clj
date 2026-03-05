@@ -86,7 +86,8 @@
                                :metadata
                                {:tyyppi "amm-tutkinnon-osa"
                                 :tutkinnonOsat [{:ePerusteId 123 :koulutusKoodiUri "koulutus_371101#1" :tutkinnonosaId 1234 :tutkinnonosaViite 5678}]
-                                :kuvaus {:fi "kuvaus", :sv "kuvaus sv"}})
+                                :kuvaus {:fi "kuvaus", :sv "kuvaus sv"}
+                                :osaamistavoitteet {:fi "osaamistavoitteet fi", :sv "osaamistavoitteet sv"}})
 
     (fixture/add-koulutus-mock koulutus-oid5
                                :tila "julkaistu"
@@ -100,7 +101,8 @@
                                :metadata
                                {:tyyppi "amm-tutkinnon-osa"
                                 :tutkinnonOsat [{:ePerusteId 123 :koulutusKoodiUri "koulutus_371101#1" :tutkinnonosaId 1234 :tutkinnonosaViite 5678}]
-                                :kuvaus {:fi "kuvaus", :sv "kuvaus sv"}})
+                                :kuvaus {:fi "kuvaus", :sv "kuvaus sv"},
+                                :osaamistavoitteet {:fi "osaamistavoitteet fi", :sv "osaamistavoitteet sv"}})
 
     (fixture/add-koulutus-mock koulutus-oid6
                                :tila "julkaistu"
@@ -118,6 +120,7 @@
                                :tarjoajat [oppilaitos-oid4]
                                :metadata {:linkkiEPerusteisiin {}
                                           :kuvaus {}
+                                          :osaamistavoitteet {}
                                           :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_4"
                                           :opintojenLaajuusNumero 1.0
                                           :isMuokkaajaOphVirkailija true
