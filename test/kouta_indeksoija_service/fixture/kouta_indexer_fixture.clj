@@ -150,6 +150,7 @@
    :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso1_01#1"
                           "kansallinenkoulutusluokitus2016koulutusalataso1_02#1"]
    :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}
+   :osaamistavoitteet {}
    :lisatiedot [{:otsikkoKoodiUri "koulutuksenlisatiedot_03#1"
                  :teksti {:fi "Opintojen lisätieto"
                           :sv "Opintojen lisätieto sv"}}]})
@@ -159,6 +160,7 @@
    :asiasanat        [{:kieli "fi" :arvo "hevonen"}]
    :ammattinimikkeet [{:kieli "fi" :arvo "ponityttö"}]
    :ammatillinenPerustutkintoErityisopetuksena false
+   :osaamistavoitteet {}
    :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_02"]
             :opetustapaKoodiUrit ["opetuspaikkakk_02"]
             :opetusaikaKoodiUrit []}})
@@ -168,6 +170,7 @@
    :asiasanat        [{:kieli "fi" :arvo "hevonen"}]
    :ammattinimikkeet [{:kieli "fi" :arvo "ponityttö"}]
    :ammatillinenPerustutkintoErityisopetuksena false
+   :osaamistavoitteet {}
    :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_02"]
             :opetustapaKoodiUrit ["opetuspaikkakk_02"]
             :opetusaikaKoodiUrit []}})
@@ -178,12 +181,14 @@
           :asiasanat        [{:kieli "fi" :arvo "traktori"}]
           :ammattinimikkeet [{:kieli "fi" :arvo "korjaaja"}]
           :ammatillinenPerustutkintoErityisopetuksena false
+          :osaamistavoitteet {}
           :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}}))
 
 (defonce amk-toteutus-metatieto
   {:tyyppi           "amk"
    :asiasanat        [{:kieli "fi" :arvo "hevonen"}]
    :ammattinimikkeet [{:kieli "fi" :arvo "ponipoika"}]
+   :osaamistavoitteet {}
    :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_01"]
             :opetustapaKoodiUrit ["opetuspaikkakk_01"]
             :koulutuksenTarkkaAlkamisaika true
@@ -194,6 +199,7 @@
 
 (defonce amm-osaamisala-toteutus-metatieto
   {:tyyppi "amm-osaamisala"
+   :osaamistavoitteet {}
    :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_1", "oppilaitoksenopetuskieli_2"]
             :opetustapaKoodiUrit ["opetuspaikkakk_1", "opetuspaikkakk_2"]
             :opetusaikaKoodiUrit ["opetusaikakk_1"]
@@ -247,6 +253,7 @@
    :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
                           "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
    :tutkintonimikeKoodiUrit ["tutkintonimikekk_033#1" "tutkintonimikekk_031#1"]
+   :osaamistavoitteet {:fi "osaamistavoitteet fi", :sv "osaamistavoitteet sv"}
    :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}})
 
 (defonce amm-tutkinnon-osa-enriched-data
@@ -281,6 +288,7 @@
    :opintojenLaajuusNumero 25
    :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}
    :kuvaus {}
+   :osaamistavoitteet {}
    :lisatiedot []})
 
 (defonce tuva-koulutus-metadata
@@ -288,6 +296,7 @@
    :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_8#1"
    :opintojenLaajuusNumero 38
    :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
+   :osaamistavoitteet {}
    :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}})
 
 (defonce telma-koulutus-metadata
@@ -295,6 +304,7 @@
    :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_6#1"
    :opintojenLaajuusNumero 41
    :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
+   :osaamistavoitteet {}
    :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}})
 
 (defonce vapaa-sivistystyo-muu-metadata
@@ -303,6 +313,7 @@
    :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_8#1"
    :opintojenLaajuusNumero 38
    :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
+   :osaamistavoitteet {}
    :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}})
 
 (defonce aikuisten-perusopetus-koulutus-metadata
@@ -311,6 +322,7 @@
    :opintojenLaajuusNumero 13
    :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
    :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}
+   :osaamistavoitteet {}
    :lisatiedot []})
 
 (defonce kk-opintojakso-koulutus-metadata
@@ -321,6 +333,7 @@
    :opintojenLaajuusNumeroMin 14
    :opintojenLaajuusNumeroMax 15
    :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}
+   :osaamistavoitteet {}
    :lisatiedot []})
 
 (defonce kk-opintokokonaisuus-koulutus-metadata
@@ -335,18 +348,21 @@
    :opintojenLaajuusNumeroMin 5
    :opintojenLaajuusNumeroMax 10
    :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}
+   :osaamistavoitteet {}
    :lisatiedot []})
 
 (defonce tpo-koulutus-metadata
   {:tyyppi "taiteen-perusopetus"
    :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}
    :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
+   :osaamistavoitteet {}
    :lisatiedot []})
 
 (defonce osaamismerkki-koulutus-metadata
   {:tyyppi "vapaa-sivistystyo-osaamismerkki"
    :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}
    :osaamismerkkiKoodiUri "osaamismerkit_1022#2"
+   :osaamistavoitteet {}
    :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_4"
    :opintojenLaajuusNumero 1})
 
@@ -355,6 +371,7 @@
          {:tyyppi           "vapaa-sivistystyo-osaamismerkki"
           :asiasanat        []
           :ammattinimikkeet []
+          :osaamistavoitteet {}
           :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}}))
 
 (defonce maksullinen-kk-haku-metadata
