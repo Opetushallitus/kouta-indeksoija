@@ -16,6 +16,48 @@
   ],
   "oppilaitostyyppi": "oppilaitostyyppi_21#1",
   "kotipaikkaUri": "kunta_297",
+  "yhteystiedot": {
+    "nimi": {
+      "fi": "Metropolia Ammattikorkeakoulu"
+    },
+    "postiosoite": {
+      "osoite": {
+        "fi": "Kalmankaltionkuja 32"
+      },
+      "postinumero": {
+        "fi": {
+          "koodiUri": "posti_00079",
+          "nimi": "METROPOLIA"
+        }
+      }
+    },
+    "kayntiosoite": {
+      "osoite": {
+        "fi": "Polvivaara 959"
+      },
+      "postinumero": {
+        "fi": {
+          "koodiUri": "posti_00920",
+          "nimi": "HELSINKI"
+        }
+      }
+    },
+    "puhelinnumero": {
+      "fi": "050 14536351"
+    },
+    "sahkoposti": {
+      "fi": "hakija-36870687@oph.fi"
+    },
+    "www": {
+      "fi": "http://www.metropolia.fi"
+    },
+    "postiosoiteStr": {
+      "fi": "Kalmankaltionkuja 32, 00079 Metropolia"
+    },
+    "kayntiosoiteStr": {
+      "fi": "Polvivaara 959, 00920 Helsinki"
+    }
+  },
   "nimi": {
     "fi": "Jokin järjestyspaikka",
     "sv": "Jokin järjestyspaikka sv"
