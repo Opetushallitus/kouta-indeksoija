@@ -74,8 +74,8 @@
   (.format formatter-rfc1123 (long->date-time long)))
 
 (defn parse-utc-date-time ^ZonedDateTime [date-str]
-  (let [fmt (formatter-for-utc "yyyy-MM-dd'T'HH:mm")]
-    (ZonedDateTime/parse date-str fmt)))
+  (when date-str
+    (ZonedDateTime/parse date-str (formatter-for-utc "yyyy-MM-dd'T'HH:mm"))))
 
 (defn parse-date-time
   ^ZonedDateTime [date-str]
