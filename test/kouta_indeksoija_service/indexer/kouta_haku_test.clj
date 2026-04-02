@@ -139,3 +139,24 @@
       (i/index-haut [haku-oid] (. System (currentTimeMillis)))
       (is (= true (:maksullinenKkHaku (get-doc haku/index-name haku-oid)))))))
 
+(deftest parse-hakuaika-test
+  (testing "should return hakuaika in UTC time"
+    (let [hakuaika {:alkaa "2026-04-01T08:00" :paattyy "2026-04-15T17:00"}
+           parsed (haku/parse-hakuaika hakuaika)]
+      (is (= "2026-04-01T08:00Z[UTC]" (.toString (:alkaa parsed))))
+      (is (= "2026-04-15T17:00Z[UTC]" (.toString (:paattyy parsed))))))
+  (testing "should parse start date when end date is missing"
+    (let [hakuaika {:alkaa "2026-04-01T08:00"}
+          parsed (haku/parse-hakuaika hakuaika)]
+      (is (= "2026-04-01T08:00Z[UTC]" (.toString (:alkaa parsed))))
+      (is (= nil (:paattyy parsed)))))
+  (testing "should parse end date when start date is missing"
+    (let [hakuaika {:paattyy "2026-04-15T17:00"}
+          parsed (haku/parse-hakuaika hakuaika)]
+      (is (= nil (:alkaa parsed)))
+      (is (= "2026-04-15T17:00Z[UTC]" (.toString (:paattyy parsed))))))
+  (testing "should return empty object when start and end dates are missing"
+    (let [hakuaika {}
+          parsed (haku/parse-hakuaika hakuaika)]
+      (is (= nil (:alkaa parsed)))
+      (is (= nil (:paattyy parsed))))))

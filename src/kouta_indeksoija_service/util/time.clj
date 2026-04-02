@@ -16,7 +16,7 @@
 
 (defonce formatter-with-time (formatter-for-helsinki "yyyy-MM-dd HH:mm"))
 
-(defonce formatter-rfc1123 (DateTimeFormatter/ofPattern "EEE, dd MMM yyyy HH:mm:ss 'GMT'"))
+(defonce formatter-rfc1123 (-> (DateTimeFormatter/ofPattern "EEE, dd MMM yyyy HH:mm:ss 'GMT'") (.withLocale Locale/US)))
 
 (defonce formatter-local-date (DateTimeFormatter/ofPattern "yyyy-MM-dd"))
 
@@ -74,8 +74,8 @@
   (.format formatter-rfc1123 (long->date-time long)))
 
 (defn parse-utc-date-time ^ZonedDateTime [date-str]
-  (let [fmt (formatter-for-utc "yyyy-MM-dd'T'HH:mm")]
-    (ZonedDateTime/parse date-str fmt)))
+  (when date-str
+    (ZonedDateTime/parse date-str (formatter-for-utc "yyyy-MM-dd'T'HH:mm"))))
 
 (defn parse-date-time
   ^ZonedDateTime [date-str]
