@@ -59,7 +59,7 @@ Kirjoitushetken esimerkki konfigista, joka toimii untuva-testiympäristöä vast
  :dlq {:name "koutaIndeksoijaDlq" :health-threshold 10}
  :notifications {:name "koutaIndeksoijaNotifications" :health-threshold 10}
  :notifications-dlq {:name "koutaIndeksoijaNotificationsDlq" :health-threshold 10}}
- :sqs-region ""
+ :sqs-region "us-east-1" ;;jonojen region start_localstack-skriptissä
  :sqs-endpoint "http://localhost:4566"
  :lokalisaatio-indexing-cron-string "* 0/30 * ? * *"
  :organisaatio-indexing-cron-string "* 0 0 ? * *"
@@ -137,8 +137,8 @@ elastic/deploy.sh
 
 ---
 #### Localstack SQS-jonot
-Indeksoija vaatii lokaalin SQS-palvelun porttiin 4567. Sen voi käynnistää docker-konttiin ajamalla skriptin 
-`tools/start_localstack` ja pysäyttää skriptillä `tools/stop_localstack`. 
+Indeksoija vaatii lokaalin SQS-palvelun porttiin 4566. Sen voi käynnistää docker-konttiin ajamalla skriptin 
+`tools/start_localstack` ja pysäyttää skriptillä `tools/stop_localstack`.
 
 `tools/send_local` skriptiä voi käyttää viestien lähetykseen lokaaleihin jonoihin, jos jostain syystä
 sellainen tarve tulee.
