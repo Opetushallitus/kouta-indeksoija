@@ -16,7 +16,7 @@
 
 (defonce formatter-with-time (formatter-for-helsinki "yyyy-MM-dd HH:mm"))
 
-(defonce formatter-rfc1123 (DateTimeFormatter/ofPattern "EEE, dd MMM yyyy HH:mm:ss 'GMT'"))
+(defonce formatter-rfc1123 (-> (DateTimeFormatter/ofPattern "EEE, dd MMM yyyy HH:mm:ss 'GMT'") (.withLocale Locale/US)))
 
 (defonce formatter-local-date (DateTimeFormatter/ofPattern "yyyy-MM-dd"))
 

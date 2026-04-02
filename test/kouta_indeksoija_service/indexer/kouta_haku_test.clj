@@ -1,4 +1,4 @@
-(ns ^:focus kouta-indeksoija-service.indexer.kouta-haku-test
+(ns kouta-indeksoija-service.indexer.kouta-haku-test
   (:require [clojure.test :refer :all]
             [kouta-indeksoija-service.fixture.common-oids :refer :all]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
@@ -139,7 +139,7 @@
       (i/index-haut [haku-oid] (. System (currentTimeMillis)))
       (is (= true (:maksullinenKkHaku (get-doc haku/index-name haku-oid)))))))
 
-(deftest ^:focus parse-hakuaika-test
+(deftest parse-hakuaika-test
   (testing "should return hakuaika in UTC time"
     (let [hakuaika {:alkaa "2026-04-01T08:00" :paattyy "2026-04-15T17:00"}
            parsed (haku/parse-hakuaika hakuaika)]
