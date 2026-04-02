@@ -10,8 +10,8 @@
 (def index-name "haku-kouta")
 
 (defn parse-hakuaika [hakuaika]
-  {:alkaa (time/parse-utc-date-time (:alkaa hakuaika))
-   :paattyy (time/parse-utc-date-time (:paattyy hakuaika))})
+  {:alkaa (when-let [alkaa (:alkaa hakuaika)] (time/parse-utc-date-time alkaa))
+   :paattyy (when-let [paattyy (:paattyy hakuaika)] (time/parse-utc-date-time paattyy))})
 
 (defn- assoc-paatelty-hakuvuosi-ja-hakukausi-for-hakukohde [haku]
   (if-let [hakuaika (first (sort-by :alkaa (map parse-hakuaika (:hakuajat haku))))]
