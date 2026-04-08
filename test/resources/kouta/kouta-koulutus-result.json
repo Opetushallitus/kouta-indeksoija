@@ -284,6 +284,7 @@
       "fi": "kuvaus",
       "sv": "kuvaus sv"
     },
+    "osaamistavoitteet": {},
     "lisatiedot": [
       {
         "otsikko": {
@@ -391,20 +392,22 @@
   "koulutuskoodienAlatJaAsteet": [
     {
       "koulutusKoodiUri": "koulutus_371101#1",
-      "koulutusalaKoodiUrit":
-        ["kansallinenkoulutusluokitus2016koulutusalataso1_01",
-          "kansallinenkoulutusluokitus2016koulutusalataso1_02",
-          "kansallinenkoulutusluokitus2016koulutusalataso2_01",
-          "kansallinenkoulutusluokitus2016koulutusalataso2_02",
-          "kansallinenkoulutusluokitus2016koulutusalataso3_01",
-          "kansallinenkoulutusluokitus2016koulutusalataso3_02",
-          "okmohjauksenala_01",
-          "okmohjauksenala_02"],
-      "koulutusasteKoodiUrit":
-        ["kansallinenkoulutusluokitus2016koulutusastetaso1_01",
-          "kansallinenkoulutusluokitus2016koulutusastetaso1_02",
-          "kansallinenkoulutusluokitus2016koulutusastetaso2_01",
-          "kansallinenkoulutusluokitus2016koulutusastetaso2_02"]
+      "koulutusalaKoodiUrit": [
+        "kansallinenkoulutusluokitus2016koulutusalataso1_01",
+        "kansallinenkoulutusluokitus2016koulutusalataso1_02",
+        "kansallinenkoulutusluokitus2016koulutusalataso2_01",
+        "kansallinenkoulutusluokitus2016koulutusalataso2_02",
+        "kansallinenkoulutusluokitus2016koulutusalataso3_01",
+        "kansallinenkoulutusluokitus2016koulutusalataso3_02",
+        "okmohjauksenala_01",
+        "okmohjauksenala_02"
+      ],
+      "koulutusasteKoodiUrit": [
+        "kansallinenkoulutusluokitus2016koulutusastetaso1_01",
+        "kansallinenkoulutusluokitus2016koulutusastetaso1_02",
+        "kansallinenkoulutusluokitus2016koulutusastetaso2_01",
+        "kansallinenkoulutusluokitus2016koulutusastetaso2_02"
+      ]
     }
   ]
 }

@@ -7,6 +7,10 @@
     "fi": "kuvaus",
     "sv": "kuvaus sv"
   },
+  "osaamistavoitteet": {
+    "fi": "osaamistavoitteet fi",
+    "sv": "osaamistavoitteet sv"
+  },
   "teemakuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
   "tutkinnonOsat": [
     {
