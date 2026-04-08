@@ -72,7 +72,9 @@
     (is (= [2026 02 03 11 58 0 0 "UTC"] (breakdown (time/parse-utc-date-time "2026-02-03T11:58"))))
     (is (= [2025 01 01 00 00 0 0 "UTC"] (breakdown (time/parse-utc-date-time "2025-01-01T00:00"))))
     (is (= [2025 01 01 02 00 0 0 "UTC"] (breakdown (time/parse-utc-date-time "2025-01-01T02:00"))))
-    (is (= [2025 07 01 02 00 0 0 "UTC"] (breakdown (time/parse-utc-date-time "2025-07-01T02:00"))))))
+    (is (= [2025 07 01 02 00 0 0 "UTC"] (breakdown (time/parse-utc-date-time "2025-07-01T02:00")))))
+  (testing "retuns nil when date-str not specified"
+    (is (= nil (time/parse-utc-date-time nil)))))
 
 (deftest parse-date-time
   (testing "returns correct ZonedDateTime with seconds"
