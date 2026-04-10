@@ -85,7 +85,7 @@
   (fixture/add-toteutus-mock toteutusOid6 koulutusOid3 :tila "tallennettu" :nimi "Traktorialan alkuopinnot" :modified "2018-06-05T12:02:23" :esikatselu false)
 
   (fixture/add-toteutus-mock lukio-toteutus-oid lukio-oid     :tila "julkaistu" :nimi "Lukio" :modified "2018-06-05T12:02:23" :metadata fixture/lk-toteutus-metadata)
-  (fixture/add-toteutus-mock kk-toteutus-oid    kk-koulutus-oid     :tila "julkaistu" :nimi "Korkeakoulu" :modified "2018-06-05T12:02:23" :metadata fixture/yo-toteutus-metatieto)
+  (fixture/add-toteutus-mock kk-toteutus-oid kk-koulutus-oid :tila "julkaistu" :nimi "Korkeakoulu" :modified "2018-06-05T12:02:23" :metadata fixture/yo-toteutus-metatieto-with-lukuvuosimaksu)
   (fixture/add-toteutus-mock osaamismerkki-toteutus-oid osaamismerkki-koulutus-oid :tila "julkaistu" :nimi "Osaamismerkki" :modified "2018-06-05T12:02:23" :metadata fixture/osaamismerkki-toteutus-metatieto)
 
   ;; Punkaharjun ja Helsingin yliopistoihin kiinnitetyt toteutukset
@@ -98,7 +98,7 @@
   (fixture/add-toteutus-mock puutarha-ala-toteutus-erityisopetuksena-oid puutarha-koulutus-oid :koulutustyyppi "amm" :tila "julkaistu" :nimi "Puutarha-ala erityisopetuksena" :tarjoajat [oppilaitosOid2]
                              :metadata fixture/amm-erityisopetus-toteutus-metatieto)
   (fixture/add-toteutus-mock puutarha-ala-toteutus-oid puutarha-koulutus-oid :koulutustyyppi "amm" :tila "julkaistu" :nimi "Puutarha-ala tavallinen" :tarjoajat [oppilaitosOid2]
-                             :metadata fixture/amm-toteutus-metatieto)
+                             :metadata fixture/amm-toteutus-metatieto-with-lukuvuosimaksu)
   (fixture/add-toteutus-mock tuva-toteutus-erityisopetuksena-oid tuva-koulutus-oid :koulutustyyppi "tuva" :tila "julkaistu" :nimi "Tuva erityisopetuksena" :tarjoajat [oppilaitosOid2]
                              :metadata fixture/tuva-erityisopetus-toteutus-metatieto)
   (fixture/add-toteutus-mock tuva-toteutus-oid tuva-koulutus-oid :koulutustyyppi "tuva" :tila "julkaistu" :nimi "Tuva tavallinen" :tarjoajat [oppilaitosOid2]

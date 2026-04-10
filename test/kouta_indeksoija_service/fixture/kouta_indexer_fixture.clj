@@ -184,6 +184,24 @@
           :osaamistavoitteet {}
           :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}}))
 
+(defonce amm-toteutus-metatieto-with-lukuvuosimaksu
+  (let [opetus (:opetus (:metadata default-toteutus-map))
+        modified-opetus (merge opetus {:maksullisuustyyppi "lukuvuosimaksu",
+                                       :apuraha {:min 100,
+                                                 :max 300,
+                                                 :yksikko "euro",
+                                                 :kuvaus {:fi "apurahakuvaus fi",
+                                                          :sv "apurahakuvaus sv"}}
+                                       :maksunMaara 500})]
+    (merge (:metadata default-toteutus-map)
+           {:tyyppi           "amm"
+            :asiasanat        [{:kieli "fi" :arvo "puutarha-ala"}]
+            :ammattinimikkeet [{:kieli "fi" :arvo "puutarhuri"}]
+            :ammatillinenPerustutkintoErityisopetuksena false
+            :osaamistavoitteet {}
+            :opetus modified-opetus
+            :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}})))
+
 (defonce amk-toteutus-metatieto
   {:tyyppi           "amk"
    :asiasanat        [{:kieli "fi" :arvo "hevonen"}]
@@ -223,12 +241,21 @@
 (defonce tuva-toteutus-metatieto
   (merge tuva-erityisopetus-toteutus-metatieto {:jarjestetaanErityisopetuksena false}))
 
-(defonce yo-toteutus-metatieto
-  (merge (dissoc (:metadata default-toteutus-map) :osaamisalat :ammatillinenPerustutkintoErityisopetuksena)
-         {:tyyppi           "yo"
-          :asiasanat        []
-          :ammattinimikkeet []
-          :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}}))
+(defonce yo-toteutus-metatieto-with-lukuvuosimaksu
+  (let [opetus (:opetus (:metadata default-toteutus-map))
+        modified-opetus (merge opetus {:maksullisuustyyppi "lukuvuosimaksu",
+                                       :apuraha {:min 500,
+                                                 :max 2000,
+                                                 :yksikko "euro",
+                                                 :kuvaus {:fi "apurahakuvaus fi",
+                                                          :sv "apurahakuvaus sv"}}
+                                       :maksunMaara 3000})]
+    (merge (dissoc (:metadata default-toteutus-map) :osaamisalat :ammatillinenPerustutkintoErityisopetuksena)
+           {:tyyppi           "yo"
+            :asiasanat        []
+            :ammattinimikkeet []
+            :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}
+            :opetus modified-opetus})))
 
 (defonce yo-koulutus-metadata
   {:tyyppi "yo"
