@@ -525,3 +525,9 @@
   (let [vuosia (get opetus :suunniteltuKestoVuodet 0)
         kuukausia (get opetus :suunniteltuKestoKuukaudet 0)]
     (+ (* 12 vuosia) kuukausia)))
+
+(defn get-maksullisuus-search-data
+  [maksut]
+  {:maksullisuustyypit (map :maksullisuustyyppi maksut)
+   :maksunMaara (:maksunMaara (first (filter #(= (:maksullisuustyyppi %) "maksullinen") maksut)))
+   :lukuvuosimaksunMaara (:maksunMaara (first (filter #(= (:maksullisuustyyppi %) "lukuvuosimaksu") maksut)))})

@@ -227,7 +227,6 @@
     ],
     "ammatillinenPerustutkintoErityisopetuksena": false,
     "opetus": {
-      "maksunMaara": 200.5,
       "opetuskieli": [
         {
           "koodiUri": "oppilaitoksenopetuskieli_1#1",
@@ -318,7 +317,12 @@
         "fi": "Kielikuvaus fi",
         "sv": "Kielikuvaus sv"
       },
-      "maksullisuustyyppi": "maksullinen",
+      "maksut": [
+        {
+          "maksullisuustyyppi": "maksullinen",
+          "maksunMaara": 200.5
+        }
+      ],
       "opetusaikaKuvaus": {
         "fi": "Opetusaikakuvaus fi",
         "sv": "Opetusaikakuvaus sv"

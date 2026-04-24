@@ -20,8 +20,8 @@
   (when-let [oppilaitos (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)]
     (let [{:keys [tila logo]} (get-logo-and-tila-from-kouta (:oid oppilaitos) execution-id)]
       (cond->
-          (assoc oppilaitos :tila tila)
-          (julkaistu? {:tila tila}) (assoc :logo logo)))))
+       (assoc oppilaitos :tila tila)
+        (julkaistu? {:tila tila}) (assoc :logo logo)))))
 
 (defn- tuleva-jarjestaja?
   [hierarkia toteutukset]
@@ -46,40 +46,40 @@
                       (filter #(seq (:tarjoajat %))))
         :let [hakutieto (search-tool/get-toteutuksen-julkaistut-hakutiedot hakutiedot toteutus)]
         :let [opetus (get-in toteutus [:metadata :opetus])]
-        :let [toteutus-metadata (:metadata toteutus)]]
+        :let [toteutus-metadata (:metadata toteutus)]
+        :let [maksut (:maksut opetus)]]
     (search-tool/search-terms
-      :koulutus koulutus
-      :toteutus toteutus
-      :oppilaitos oppilaitos
-      :tarjoajat (:tarjoajat toteutus)
-      :hakutiedot hakutieto
-      :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten (:tarjoajat toteutus)))))
-      :opetuskieliUrit (:opetuskieliKoodiUrit opetus)
-      :koulutustyypit (search-tool/deduce-koulutustyypit koulutus oppilaitos toteutus-metadata)
-      :kuva (:logo oppilaitos)
-      :nimi (:nimi oppilaitos)
-      :onkoTuleva false
-      :lukiopainotukset (remove nil? (distinct (map :koodiUri (:painotukset toteutus-metadata))))
-      :lukiolinjat_er (remove nil? (distinct (map :koodiUri (:erityisetKoulutustehtavat toteutus-metadata))))
-      :osaamisalat (remove nil? (distinct (map :koodiUri (:osaamisalat toteutus-metadata))))
-      :metadata (merge
-                  {:tutkintonimikkeetKoodiUrit (search-tool/tutkintonimike-koodi-urit koulutus)
-                   :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
-                   :maksullisuustyyppi (:maksullisuustyyppi opetus)
-                   :maksunMaara (:maksunMaara opetus)
-                   :suunniteltuKestoKuukausina (search-tool/kesto-kuukausina opetus)
-                   :onkoApuraha (:onkoApuraha opetus)
-                   :koulutustyyppi (:tyyppi toteutus-metadata)
-                   :oppilaitosTila (:tila oppilaitos)
-                   :jarjestaaUrheilijanAmmKoulutusta (search-tool/jarjestaako-toteutus-urheilijan-amm-koulutusta
-                                                       (:haut hakutieto))}
-                  (select-keys toteutus-metadata
-                               [:ammatillinenPerustutkintoErityisopetuksena
-                                :jarjestetaanErityisopetuksena
-                                :opintojenLaajuusNumero
-                                :opintojenLaajuusNumeroMin
-                                :opintojenLaajuusNumeroMax
-                                :opintojenLaajuusyksikkoKoodiUri])))))
+     :koulutus koulutus
+     :toteutus toteutus
+     :oppilaitos oppilaitos
+     :tarjoajat (:tarjoajat toteutus)
+     :hakutiedot hakutieto
+     :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten (:tarjoajat toteutus)))))
+     :opetuskieliUrit (:opetuskieliKoodiUrit opetus)
+     :koulutustyypit (search-tool/deduce-koulutustyypit koulutus oppilaitos toteutus-metadata)
+     :kuva (:logo oppilaitos)
+     :nimi (:nimi oppilaitos)
+     :onkoTuleva false
+     :lukiopainotukset (remove nil? (distinct (map :koodiUri (:painotukset toteutus-metadata))))
+     :lukiolinjat_er (remove nil? (distinct (map :koodiUri (:erityisetKoulutustehtavat toteutus-metadata))))
+     :osaamisalat (remove nil? (distinct (map :koodiUri (:osaamisalat toteutus-metadata))))
+     :metadata (merge
+                {:tutkintonimikkeetKoodiUrit (search-tool/tutkintonimike-koodi-urit koulutus)
+                 :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
+                 :suunniteltuKestoKuukausina (search-tool/kesto-kuukausina opetus)
+                 :onkoApuraha (:onkoApuraha opetus)
+                 :koulutustyyppi (:tyyppi toteutus-metadata)
+                 :oppilaitosTila (:tila oppilaitos)
+                 :jarjestaaUrheilijanAmmKoulutusta (search-tool/jarjestaako-toteutus-urheilijan-amm-koulutusta
+                                                    (:haut hakutieto))}
+                (select-keys toteutus-metadata
+                             [:ammatillinenPerustutkintoErityisopetuksena
+                              :jarjestetaanErityisopetuksena
+                              :opintojenLaajuusNumero
+                              :opintojenLaajuusNumeroMin
+                              :opintojenLaajuusNumeroMax
+                              :opintojenLaajuusyksikkoKoodiUri])
+                (search-tool/get-maksullisuus-search-data maksut)))))
 
 (defn- tuleva-jarjestaja-search-terms
   [hierarkia koulutus oppilaitos]
@@ -103,15 +103,15 @@
                              :let [oppilaitos (get-oppilaitos oppilaitos-hierarkia execution-id)]]
                          (if (tuleva-jarjestaja? oppilaitos-hierarkia toteutukset)
                            {:search_terms [(tuleva-jarjestaja-search-terms
-                                             oppilaitos-hierarkia
-                                             koulutus
-                                             oppilaitos)]}
-                           {:search_terms (jarjestaja-search-terms
                                             oppilaitos-hierarkia
                                             koulutus
-                                            toteutukset
-                                            hakutiedot
-                                            oppilaitos)}))]
+                                            oppilaitos)]}
+                           {:search_terms (jarjestaja-search-terms
+                                           oppilaitos-hierarkia
+                                           koulutus
+                                           toteutukset
+                                           hakutiedot
+                                           oppilaitos)}))]
       (->> search-terms
            (apply merge-with concat)
            (merge koulutus)))

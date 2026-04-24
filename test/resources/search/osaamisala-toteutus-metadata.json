@@ -19,17 +19,12 @@
       "opetuspaikkakk_1#1",
       "opetuspaikkakk_2#1"
     ],
-    "maksullisuustyyppi": "maksullinen",
-    "apuraha": {
-      "min": 100,
-      "max": 200,
-      "yksikko": "euro",
-      "kuvaus": {
-        "fi": "apurahakuvaus fi",
-        "sv": "apurahakuvaus sv"
+    "maksut": [
+      {
+        "maksullisuustyyppi": "maksullinen",
+        "maksunMaara": 200.5
       }
-    },
-    "maksunMaara": 200.5,
+    ],
     "maksullisuusKuvaus": {
       "fi": "Maksullisuuskuvaus fi",
       "sv": "Maksullisuuskuvaus sv"
@@ -51,7 +46,7 @@
       "koulutuksenAlkamisvuosi": "2022"
     },
     "suunniteltuKestoVuodet": 3,
-    "onkoApuraha": true,
+    "onkoApuraha": false,
     "opetusaikaKoodiUrit": [
       "opetusaikakk_1#1"
     ],
