@@ -1,7 +1,9 @@
 {
   "tila": "tallennettu",
   "externalId": "1122334455",
-  "haut": ["1.2.246.562.29.00000000000000000001"],
+  "haut": [
+    "1.2.246.562.29.00000000000000000001"
+  ],
   "tarjoajat": [
     {
       "nimi": {
@@ -226,7 +228,6 @@
       }
     ],
     "opetus": {
-      "maksunMaara": 200.5,
       "opetuskieli": [
         {
           "koodiUri": "oppilaitoksenopetuskieli_1#1",
@@ -317,7 +318,12 @@
         "fi": "Kielikuvaus fi",
         "sv": "Kielikuvaus sv"
       },
-      "maksullisuustyyppi": "maksullinen",
+      "maksut": [
+        {
+          "maksullisuustyyppi": "maksullinen",
+          "maksunMaara": 200.5
+        }
+      ],
       "opetusaikaKuvaus": {
         "fi": "Opetusaikakuvaus fi",
         "sv": "Opetusaikakuvaus sv"
@@ -373,7 +379,7 @@
         }
       }
     ],
-    "isHakukohteetKaytossa" : true
+    "isHakukohteetKaytossa": true
   },
   "koulutustyyppi": "taiteen-perusopetus",
   "koulutustyyppiPath": "taiteen-perusopetus",

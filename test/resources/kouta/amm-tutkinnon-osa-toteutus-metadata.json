@@ -1,124 +1,146 @@
 {
-  "aloituspaikat" : 22,
-  "aloituspaikkakuvaus" : {
-    "fi" : "Kuvaus",
-    "sv" : "Kuvaus sv"
+  "aloituspaikat": 22,
+  "aloituspaikkakuvaus": {
+    "fi": "Kuvaus",
+    "sv": "Kuvaus sv"
   },
-  "isHakukohteetKaytossa" : false,
-  "hakutermi" : "hakeutuminen",
-  "hakulomaketyyppi" : "muu",
-  "hakulomakeLinkki" : {
-    "fi" : "http://www.linkki.fi",
-    "sv" : "http://www.linkki.se"
+  "isHakukohteetKaytossa": false,
+  "hakutermi": "hakeutuminen",
+  "hakulomaketyyppi": "muu",
+  "hakulomakeLinkki": {
+    "fi": "http://www.linkki.fi",
+    "sv": "http://www.linkki.se"
   },
-  "hakuaika" : {
-    "alkaa" : "2022-02-07T09:58",
-    "paattyy" : "2022-02-07T10:07"
+  "hakuaika": {
+    "alkaa": "2022-02-07T09:58",
+    "paattyy": "2022-02-07T10:07"
   },
-  "ammattinimikkeet" : [ {
-    "kieli" : "fi",
-    "arvo" : "insinööri"
-  }, {
-    "kieli" : "fi",
-    "arvo" : "koneinsinööri"
-  } ],
-  "asiasanat" : [ {
-    "kieli" : "fi",
-    "arvo" : "robotiikka"
-  }, {
-    "kieli" : "fi",
-    "arvo" : "robottiautomatiikka"
-  } ],
-  "lisatietoaValintaperusteista" : {
-    "fi" : "Lisätieto",
-    "sv" : "Lisätieto sv"
+  "ammattinimikkeet": [
+    {
+      "kieli": "fi",
+      "arvo": "insinööri"
+    },
+    {
+      "kieli": "fi",
+      "arvo": "koneinsinööri"
+    }
+  ],
+  "asiasanat": [
+    {
+      "kieli": "fi",
+      "arvo": "robotiikka"
+    },
+    {
+      "kieli": "fi",
+      "arvo": "robottiautomatiikka"
+    }
+  ],
+  "lisatietoaValintaperusteista": {
+    "fi": "Lisätieto",
+    "sv": "Lisätieto sv"
   },
-  "lisatietoaHakeutumisesta" : {
-    "fi" : "Lisätieto",
-    "sv" : "Lisätieto sv"
+  "lisatietoaHakeutumisesta": {
+    "fi": "Lisätieto",
+    "sv": "Lisätieto sv"
   },
-  "opetus" : {
-    "opetustapaKoodiUrit" : [ "opetuspaikkakk_1#1", "opetuspaikkakk_2#1" ],
-    "maksullisuustyyppi" : "maksullinen",
-    "apuraha" : {
-      "min" : 100,
-      "max" : 200,
-      "yksikko" : "euro",
-      "kuvaus" : {
-        "fi" : "apurahakuvaus fi",
-        "sv" : "apurahakuvaus sv"
+  "opetus": {
+    "opetustapaKoodiUrit": [
+      "opetuspaikkakk_1#1",
+      "opetuspaikkakk_2#1"
+    ],
+    "maksut": [
+      {
+        "maksullisuustyyppi": "maksullinen",
+        "maksunMaara": 200.5
+      }
+    ],
+    "apuraha": {
+      "min": 100,
+      "max": 200,
+      "yksikko": "euro",
+      "kuvaus": {
+        "fi": "apurahakuvaus fi",
+        "sv": "apurahakuvaus sv"
       }
     },
-    "maksunMaara" : 200.5,
-    "maksullisuusKuvaus" : {
-      "fi" : "Maksullisuuskuvaus fi",
-      "sv" : "Maksullisuuskuvaus sv"
+    "maksullisuusKuvaus": {
+      "fi": "Maksullisuuskuvaus fi",
+      "sv": "Maksullisuuskuvaus sv"
     },
-    "opetuskieliKoodiUrit" : [ "oppilaitoksenopetuskieli_1#1" ],
-    "suunniteltuKestoKuvaus" : {
-      "fi" : "Keston kuvaus fi",
-      "sv" : "Keston kuvaus sv"
+    "opetuskieliKoodiUrit": [
+      "oppilaitoksenopetuskieli_1#1"
+    ],
+    "suunniteltuKestoKuvaus": {
+      "fi": "Keston kuvaus fi",
+      "sv": "Keston kuvaus sv"
     },
-    "koulutuksenAlkamiskausi" : {
-      "alkamiskausityyppi" : "alkamiskausi ja -vuosi",
-      "henkilokohtaisenSuunnitelmanLisatiedot" : {
-        "fi" : "Jotakin lisätietoa",
-        "sv" : "Jotakin lisätietoa sv"
+    "koulutuksenAlkamiskausi": {
+      "alkamiskausityyppi": "alkamiskausi ja -vuosi",
+      "henkilokohtaisenSuunnitelmanLisatiedot": {
+        "fi": "Jotakin lisätietoa",
+        "sv": "Jotakin lisätietoa sv"
       },
-      "koulutuksenAlkamiskausiKoodiUri" : "kausi_k#1",
-      "koulutuksenAlkamisvuosi" : "2022"
+      "koulutuksenAlkamiskausiKoodiUri": "kausi_k#1",
+      "koulutuksenAlkamisvuosi": "2022"
     },
-    "suunniteltuKestoVuodet" : 3,
-    "onkoApuraha" : true,
-    "opetusaikaKoodiUrit" : [ "opetusaikakk_1#1" ],
-    "lisatiedot" : [ {
-      "otsikkoKoodiUri" : "koulutuksenlisatiedot_03#1",
-      "teksti" : {
-        "fi" : "Opintojen rakenteen kuvaus",
-        "sv" : "Rakenne kuvaus sv"
+    "suunniteltuKestoVuodet": 3,
+    "onkoApuraha": true,
+    "opetusaikaKoodiUrit": [
+      "opetusaikakk_1#1"
+    ],
+    "lisatiedot": [
+      {
+        "otsikkoKoodiUri": "koulutuksenlisatiedot_03#1",
+        "teksti": {
+          "fi": "Opintojen rakenteen kuvaus",
+          "sv": "Rakenne kuvaus sv"
+        }
+      },
+      {
+        "otsikkoKoodiUri": "koulutuksenlisatiedot_03#1",
+        "teksti": {
+          "fi": "Sisältö kuvaus",
+          "sv": "Sisältö kuvaus sv"
+        }
       }
-    }, {
-      "otsikkoKoodiUri" : "koulutuksenlisatiedot_03#1",
-      "teksti" : {
-        "fi" : "Sisältö kuvaus",
-        "sv" : "Sisältö kuvaus sv"
-      }
-    } ],
-    "suunniteltuKestoKuukaudet" : 10,
-    "opetustapaKuvaus" : {
-      "fi" : "Opetustapakuvaus fi",
-      "sv" : "Opetustapakuvaus sv"
+    ],
+    "suunniteltuKestoKuukaudet": 10,
+    "opetustapaKuvaus": {
+      "fi": "Opetustapakuvaus fi",
+      "sv": "Opetustapakuvaus sv"
     },
-    "opetuskieletKuvaus" : {
-      "fi" : "Kielikuvaus fi",
-      "sv" : "Kielikuvaus sv"
+    "opetuskieletKuvaus": {
+      "fi": "Kielikuvaus fi",
+      "sv": "Kielikuvaus sv"
     },
-    "opetusaikaKuvaus" : {
-      "fi" : "Opetusaikakuvaus fi",
-      "sv" : "Opetusaikakuvaus sv"
+    "opetusaikaKuvaus": {
+      "fi": "Opetusaikakuvaus fi",
+      "sv": "Opetusaikakuvaus sv"
     }
   },
-  "yhteyshenkilot" : [ {
-    "nimi" : {
-      "fi" : "Aku Ankka",
-      "sv" : "Aku Ankka"
-    },
-    "titteli" : {
-      "fi" : "titteli",
-      "sv" : "titteli sv"
-    },
-    "sahkoposti" : {
-      "fi" : "aku.ankka@ankkalinnankoulu.fi",
-      "sv" : "aku.ankka@ankkalinnankoulu.fi"
-    },
-    "puhelinnumero" : {
-      "fi" : "123",
-      "sv" : "123"
-    },
-    "wwwSivu" : {
-      "fi" : "http://opintopolku.fi",
-      "sv" : "http://studieinfo.fi"
+  "yhteyshenkilot": [
+    {
+      "nimi": {
+        "fi": "Aku Ankka",
+        "sv": "Aku Ankka"
+      },
+      "titteli": {
+        "fi": "titteli",
+        "sv": "titteli sv"
+      },
+      "sahkoposti": {
+        "fi": "aku.ankka@ankkalinnankoulu.fi",
+        "sv": "aku.ankka@ankkalinnankoulu.fi"
+      },
+      "puhelinnumero": {
+        "fi": "123",
+        "sv": "123"
+      },
+      "wwwSivu": {
+        "fi": "http://opintopolku.fi",
+        "sv": "http://studieinfo.fi"
+      }
     }
-  } ],
-  "tyyppi" : "amm-tutkinnon-osa"
+  ],
+  "tyyppi": "amm-tutkinnon-osa"
 }

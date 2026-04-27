@@ -86,7 +86,6 @@
     "opintojenLaajuusNumeroMin": 14,
     "opintojenLaajuusNumeroMax": 20,
     "opetus": {
-      "maksunMaara": 200.5,
       "opetuskieli": [
         {
           "koodiUri": "oppilaitoksenopetuskieli_1#1",
@@ -177,7 +176,12 @@
         "fi": "Kielikuvaus fi",
         "sv": "Kielikuvaus sv"
       },
-      "maksullisuustyyppi": "maksullinen",
+      "maksut": [
+        {
+          "maksullisuustyyppi": "maksullinen",
+          "maksunMaara": 200.5
+        }
+      ],
       "opetusaikaKuvaus": {
         "fi": "Opetusaikakuvaus fi",
         "sv": "Opetusaikakuvaus sv"
@@ -233,29 +237,29 @@
         }
       }
     ],
-    "aloituspaikat" : 22,
-    "aloituspaikkakuvaus" : {
-      "fi" : "Kuvaus",
-      "sv" : "Kuvaus sv"
+    "aloituspaikat": 22,
+    "aloituspaikkakuvaus": {
+      "fi": "Kuvaus",
+      "sv": "Kuvaus sv"
     },
-    "isHakukohteetKaytossa" : false,
-    "hakutermi" : "hakeutuminen",
-    "hakulomaketyyppi" : "muu",
-    "hakulomakeLinkki" : {
-      "fi" : "http://www.linkki.fi",
-      "sv" : "http://www.linkki.se"
+    "isHakukohteetKaytossa": false,
+    "hakutermi": "hakeutuminen",
+    "hakulomaketyyppi": "muu",
+    "hakulomakeLinkki": {
+      "fi": "http://www.linkki.fi",
+      "sv": "http://www.linkki.se"
     },
-    "hakuaika" : {
-      "alkaa" : "2022-02-07T09:58",
-      "paattyy" : "2022-02-07T10:07"
+    "hakuaika": {
+      "alkaa": "2022-02-07T09:58",
+      "paattyy": "2022-02-07T10:07"
     },
-    "lisatietoaValintaperusteista" : {
-      "fi" : "Lisätieto",
-      "sv" : "Lisätieto sv"
+    "lisatietoaValintaperusteista": {
+      "fi": "Lisätieto",
+      "sv": "Lisätieto sv"
     },
-    "lisatietoaHakeutumisesta" : {
-      "fi" : "Lisätieto",
-      "sv" : "Lisätieto sv"
+    "lisatietoaHakeutumisesta": {
+      "fi": "Lisätieto",
+      "sv": "Lisätieto sv"
     }
   },
   "koulutustyyppi": "muu-koulutus",

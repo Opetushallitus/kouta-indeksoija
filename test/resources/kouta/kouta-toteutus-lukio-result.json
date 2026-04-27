@@ -1,7 +1,9 @@
 {
   "tila": "tallennettu",
   "externalId": "1122334455",
-  "haut": ["1.2.246.562.29.00000000000000000001"],
+  "haut": [
+    "1.2.246.562.29.00000000000000000001"
+  ],
   "oppilaitokset": [
     "1.2.246.562.10.54545454545"
   ],
@@ -221,7 +223,12 @@
       }
     ],
     "opetus": {
-      "maksullisuustyyppi": "maksullinen",
+      "maksut": [
+        {
+          "maksullisuustyyppi": "maksullinen",
+          "maksunMaara": 200.5
+        }
+      ],
       "apuraha": {
         "min": 100,
         "max": 200,
@@ -231,7 +238,6 @@
           "sv": "apurahakuvaus sv"
         }
       },
-      "maksunMaara": 200.5,
       "maksullisuusKuvaus": {
         "fi": "Maksullisuuskuvaus fi",
         "sv": "Maksullisuuskuvaus sv"

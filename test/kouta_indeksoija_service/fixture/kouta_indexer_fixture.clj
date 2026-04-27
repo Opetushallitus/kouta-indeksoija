@@ -186,13 +186,13 @@
 
 (defonce amm-toteutus-metatieto-with-lukuvuosimaksu
   (let [opetus (:opetus (:metadata default-toteutus-map))
-        modified-opetus (merge opetus {:maksullisuustyyppi "lukuvuosimaksu",
+        modified-opetus (merge opetus {:maksut [{:maksullisuustyyppi "lukuvuosimaksu"
+                                                 :maksunMaara 500}]
                                        :apuraha {:min 100,
                                                  :max 300,
                                                  :yksikko "euro",
                                                  :kuvaus {:fi "apurahakuvaus fi",
-                                                          :sv "apurahakuvaus sv"}}
-                                       :maksunMaara 500})]
+                                                          :sv "apurahakuvaus sv"}}})]
     (merge (:metadata default-toteutus-map)
            {:tyyppi           "amm"
             :asiasanat        [{:kieli "fi" :arvo "puutarha-ala"}]
@@ -213,7 +213,7 @@
             :koulutuksenAlkamisvuosi 2019
             :suunniteltuKestoVuodet 3
             :suunniteltuKestoKuukaudet 4
-            :maksullisuustyyppi "lukuvuosimaksu"}})
+            :maksut [{:maksullisuustyyppi "lukuvuosimaksu"}]}})
 
 (defonce amm-osaamisala-toteutus-metatieto
   {:tyyppi "amm-osaamisala"
@@ -221,13 +221,12 @@
    :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_1", "oppilaitoksenopetuskieli_2"]
             :opetustapaKoodiUrit ["opetuspaikkakk_1", "opetuspaikkakk_2"]
             :opetusaikaKoodiUrit ["opetusaikakk_1"]
-            :maksullisuustyyppi "lukuvuosimaksu"
-            :maksunMaara 500
+            :maksut [:maksullisuustyyppi "lukuvuosimaksu"
+                     :maksunMaara 500]
             :onkoApuraha false}})
 
 (defonce maksuton-amm-opetus
-  {:opetus {:maksullisuustyyppi "maksuton"
-            :maksunMaara nil
+  {:opetus {:maksut [{:maksullisuustyyppi "maksuton"}]
             :maksullisuusKuvaus nil
             :apuraha nil}
    :onkoApuraha nil})
@@ -243,13 +242,13 @@
 
 (defonce yo-toteutus-metatieto-with-lukuvuosimaksu
   (let [opetus (:opetus (:metadata default-toteutus-map))
-        modified-opetus (merge opetus {:maksullisuustyyppi "lukuvuosimaksu",
+        modified-opetus (merge opetus {:maksut [{:maksullisuustyyppi "lukuvuosimaksu"
+                                                 :maksunMaara 3000}]
                                        :apuraha {:min 500,
                                                  :max 2000,
                                                  :yksikko "euro",
                                                  :kuvaus {:fi "apurahakuvaus fi",
-                                                          :sv "apurahakuvaus sv"}}
-                                       :maksunMaara 3000})]
+                                                          :sv "apurahakuvaus sv"}}})]
     (merge (dissoc (:metadata default-toteutus-map) :osaamisalat :ammatillinenPerustutkintoErityisopetuksena)
            {:tyyppi           "yo"
             :asiasanat        []
