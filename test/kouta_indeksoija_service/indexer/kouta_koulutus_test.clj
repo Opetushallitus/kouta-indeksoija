@@ -11,7 +11,6 @@
             [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
             [kouta-indeksoija-service.indexer.amosaa.toteutussuunnitelma :as toteutussuunnitelma]
-            [kouta-indeksoija-service.indexer.amosaa.paikallinen-tutkinnon-osa :as paikallinen-tutkinnon-osa]
             [kouta-indeksoija-service.indexer.cache.eperuste]
             [kouta-indeksoija-service.indexer.tools.koodisto]
             [kouta-indeksoija-service.rest.eperuste]))
@@ -353,8 +352,20 @@
         (is (= opintojen-laajuusnumero 1))))))
 
 (def amosaa-tutkinnonosat
-  [{:id 456 :nimi {:fi "Paikallinen tutkinnon osa fi" :sv "Paikallinen tutkinnon osa sv"}}
-   {:id 789 :nimi {:fi "Toinen paikallinen osa fi" :sv "Toinen paikallinen osa sv"}}])
+  [{:id 456 :nimi {:fi "Paikallinen tutkinnon osa fi" :sv "Paikallinen tutkinnon osa sv"}
+    :tosa {:omatutkinnonosa {:ammattitaidonosoittamistavat {:fi "Ammattitaidon osoittamistavat fi" :sv "Ammattitaidon osoittamistavat sv"}
+                             :ammattitaitovaatimukset {:kohde {:fi "Vaatimukset kohde fi" :sv "Vaatimukset kohde sv"}
+                                                       :kohdealueet []
+                                                       :vaatimukset [{:koodi "vaatimus_1" :vaatimus {:fi "Vaatimus 1 fi" :sv "Vaatimus 1 sv"}}]}
+                             :ammattitaitovaatimuksetlista nil
+                             :laajuus 15.0}}}
+   {:id 789 :nimi {:fi "Toinen paikallinen osa fi" :sv "Toinen paikallinen osa sv"}
+    :tosa {:omatutkinnonosa {:ammattitaidonosoittamistavat {:fi "Toinen osoittamistapa fi" :sv "Toinen osoittamistapa sv"}
+                             :ammattitaitovaatimukset nil
+                             :ammattitaitovaatimuksetlista {:kohde {:fi "Lista kohde fi" :sv "Lista kohde sv"}
+                                                            :kohdealueet [{:kuvaus {:fi "Kohdealue fi" :sv "Kohdealue sv"}
+                                                                           :vaatimukset [{:koodi "vaatimus_2" :vaatimus {:fi "Vaatimus 2 fi" :sv "Vaatimus 2 sv"}}]}]
+                                                            :vaatimukset []}}}}])
 
 (def amosaa-opetussuunnitelma
   {:id 123 :nimi {:fi "Toteutussuunnitelma fi" :sv "Toteutussuunnitelma sv"} :tila "julkaistu"})
@@ -387,9 +398,9 @@
           (is (= "Paikallinen tutkinnon osa fi" (get-in (first paikalliset) [:nimi :fi])))
           (is (= "Toinen paikallinen osa fi" (get-in (second paikalliset) [:nimi :fi]))))))))
 
-(deftest index-amosaa-indices-with-koulutus
+(deftest index-toteutussuunnitelma-with-koulutus
   (fixture/with-mocked-indexing
-    (testing "Indexer should index toteutussuunnitelma and paikalliset tutkinnon osat alongside koulutus"
+    (testing "Indexer should index toteutussuunnitelma with embedded paikalliset tutkinnon osat alongside koulutus"
       (with-redefs [kouta-indeksoija-service.rest.eperuste/get-paikalliset-tutkinnonosat-with-cache
                     (fn [_] amosaa-tutkinnonosat)
                     kouta-indeksoija-service.rest.eperuste/get-opetussuunnitelma-with-cache
@@ -402,16 +413,12 @@
                                       :metadata amm-tutkinnon-osa-with-paikalliset-metadata)
         (check-all-nil)
         (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
-        (let [indexed-suunnitelma (toteutussuunnitelma/get-from-index "123")
-              indexed-osa1 (paikallinen-tutkinnon-osa/get-from-index "456")
-              indexed-osa2 (paikallinen-tutkinnon-osa/get-from-index "789")]
-          (is (some? indexed-suunnitelma))
-          (is (= "toteutussuunnitelma" (:tyyppi indexed-suunnitelma)))
-          (is (= "Toteutussuunnitelma fi" (get-in indexed-suunnitelma [:nimi :fi])))
-          (is (some? indexed-osa1))
-          (is (= "paikallinen-tutkinnon-osa" (:tyyppi indexed-osa1)))
-          (is (= "123" (:opetussuunnitelmaId indexed-osa1)))
-          (is (= "Paikallinen tutkinnon osa fi" (get-in indexed-osa1 [:nimi :fi])))
-          (is (some? indexed-osa2))
-          (is (= "Toinen paikallinen osa fi" (get-in indexed-osa2 [:nimi :fi]))))))))
+        (let [indexed (toteutussuunnitelma/get-from-index "123")]
+          (is (some? indexed))
+          (is (= "toteutussuunnitelma" (:tyyppi indexed)))
+          (is (= "123" (:oid indexed)))
+          (is (= "Toteutussuunnitelma fi" (get-in indexed [:nimi :fi])))
+          (is (= 2 (count (:paikallisetTutkinnonOsat indexed))))
+          (is (= "Paikallinen tutkinnon osa fi" (get-in indexed [:paikallisetTutkinnonOsat 0 :nimi :fi])))
+          (is (= "Toinen paikallinen osa fi" (get-in indexed [:paikallisetTutkinnonOsat 1 :nimi :fi]))))))))
 
