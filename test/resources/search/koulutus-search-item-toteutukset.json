@@ -154,8 +154,12 @@
         "osaamisala_1"
       ],
       "metadata": {
-        "maksullisuustyyppi": "maksullinen",
+        "maksullisuustyypit": [
+          "maksullinen",
+          "lukuvuosimaksu"
+        ],
         "maksunMaara": 200.5,
+        "lukuvuosimaksunMaara": 500.5,
         "opetusajat": [
           {
             "koodiUri": "opetusaikakk_1#1",
@@ -320,7 +324,9 @@
         "osaamisala_0001"
       ],
       "metadata": {
-        "maksullisuustyyppi": "maksullinen",
+        "maksullisuustyypit": [
+          "maksullinen"
+        ],
         "maksunMaara": 200.5,
         "onkoApuraha": true,
         "opetusajat": [

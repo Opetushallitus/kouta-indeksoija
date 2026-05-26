@@ -107,7 +107,9 @@
             }
           }
         ],
-        "maksullisuustyyppi": "maksullinen",
+        "maksullisuustyypit": [
+          "maksullinen"
+        ],
         "maksunMaara": 200.5,
         "opetusajat": [
           {
@@ -118,7 +120,7 @@
             }
           }
         ],
-        "onkoApuraha": true,
+        "onkoApuraha": false,
         "suunniteltuKestoKuukausina": 46,
         "tutkintonimikkeet": [],
         "ammatillinenPerustutkintoErityisopetuksena": false,

@@ -349,8 +349,12 @@
             }
           }
         ],
-        "maksullisuustyyppi": "maksullinen",
+        "maksullisuustyypit": [
+          "maksullinen",
+          "lukuvuosimaksu"
+        ],
         "maksunMaara": 200.5,
+        "lukuvuosimaksunMaara": 500.5,
         "koulutustyyppi": "amm",
         "kunnat": [
           {
@@ -496,7 +500,9 @@
             }
           }
         ],
-        "maksullisuustyyppi": "maksullinen",
+        "maksullisuustyypit": [
+          "maksullinen"
+        ],
         "maksunMaara": 200.5,
         "onkoApuraha": true,
         "koulutustyyppi": "amm",
@@ -597,9 +603,11 @@
             }
           }
         ],
-        "maksullisuustyyppi": "maksullinen",
+        "maksullisuustyypit": [
+          "maksullinen"
+        ],
         "maksunMaara": 200.5,
-        "onkoApuraha": true,
+        "onkoApuraha": false,
         "koulutustyyppi": "amm-osaamisala",
         "kunnat": [
           {

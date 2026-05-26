@@ -1,127 +1,165 @@
 {
-  "erityisetKoulutustehtavat" : [ {
-    "koodiUri" : "lukiolinjaterityinenkoulutustehtava_1#1",
-    "kuvaus" : {
-      "fi" : "erityinen koulutustehtava 1 kuvaus",
-      "sv" : "erityinen koulutustehtava 1 kuvaus sv"
-    }
-  } ],
-  "painotukset" : [ {
-    "koodiUri" : "lukiopainotukset_1#1",
-    "kuvaus" : {
-      "fi" : "painotus 1 kuvaus",
-      "sv" : "painotus 1 kuvaus sv"
-    }
-  } ],
-  "kuvaus" : { },
-  "diplomit" : [ {
-    "koodiUri" : "moduulikoodistolops2021_kald3#1",
-    "linkki" : {
-      "fi" : "http://linkki.fi",
-      "sv" : "http://link.se"
-    },
-    "linkinAltTeksti" : {
-      "fi" : "Suomeksi",
-      "sv" : "På svenska"
-    }
-  } ],
-  "kielivalikoima" : {
-    "A1Kielet" : [ "kieli_EN#1" ],
-    "A2Kielet" : [ "kieli_DE#1" ],
-    "B1Kielet" : [ "kieli_SV#1" ],
-    "B2Kielet" : [ "kieli_FR#1" ],
-    "B3Kielet" : [ "kieli_ES#1" ],
-    "aidinkielet" : [ "kieli_FI#1" ],
-    "muutKielet" : [ "kieli_ET#1" ]
-  },
-  "ammattinimikkeet" : [ ],
-  "asiasanat" : [ {
-    "kieli" : "fi",
-    "arvo" : "tutkija"
-  } ],
-  "opetus" : {
-    "opetustapaKoodiUrit" : [ "opetuspaikkakk_1#1", "opetuspaikkakk_2#1" ],
-    "maksullisuustyyppi" : "maksullinen",
-    "apuraha" : {
-      "min" : 100,
-      "max" : 200,
-      "yksikko" : "euro",
-      "kuvaus" : {
-        "fi" : "apurahakuvaus fi",
-        "sv" : "apurahakuvaus sv"
+  "erityisetKoulutustehtavat": [
+    {
+      "koodiUri": "lukiolinjaterityinenkoulutustehtava_1#1",
+      "kuvaus": {
+        "fi": "erityinen koulutustehtava 1 kuvaus",
+        "sv": "erityinen koulutustehtava 1 kuvaus sv"
       }
-    },
-    "maksunMaara" : 200.5,
-    "maksullisuusKuvaus" : {
-      "fi" : "Maksullisuuskuvaus fi",
-      "sv" : "Maksullisuuskuvaus sv"
-    },
-    "opetuskieliKoodiUrit" : [ "oppilaitoksenopetuskieli_1#1" ],
-    "suunniteltuKestoKuvaus" : {
-      "fi" : "Keston kuvaus fi",
-      "sv" : "Keston kuvaus sv"
-    },
-    "koulutuksenAlkamiskausi" : {
-      "alkamiskausityyppi" : "alkamiskausi ja -vuosi",
-      "henkilokohtaisenSuunnitelmanLisatiedot" : {
-        "fi" : "Jotakin lisätietoa",
-        "sv" : "Jotakin lisätietoa sv"
+    }
+  ],
+  "painotukset": [
+    {
+      "koodiUri": "lukiopainotukset_1#1",
+      "kuvaus": {
+        "fi": "painotus 1 kuvaus",
+        "sv": "painotus 1 kuvaus sv"
+      }
+    }
+  ],
+  "kuvaus": {},
+  "diplomit": [
+    {
+      "koodiUri": "moduulikoodistolops2021_kald3#1",
+      "linkki": {
+        "fi": "http://linkki.fi",
+        "sv": "http://link.se"
       },
-      "koulutuksenAlkamiskausiKoodiUri" : "kausi_k#1",
-      "koulutuksenAlkamisvuosi" : "2022"
-    },
-    "suunniteltuKestoVuodet" : 3,
-    "onkoApuraha" : true,
-    "opetusaikaKoodiUrit" : [ "opetusaikakk_1#1" ],
-    "lisatiedot" : [ {
-      "otsikkoKoodiUri" : "koulutuksenlisatiedot_03#1",
-      "teksti" : {
-        "fi" : "Opintojen rakenteen kuvaus",
-        "sv" : "Rakenne kuvaus sv"
+      "linkinAltTeksti": {
+        "fi": "Suomeksi",
+        "sv": "På svenska"
       }
-    }, {
-      "otsikkoKoodiUri" : "koulutuksenlisatiedot_03#1",
-      "teksti" : {
-        "fi" : "Sisältö kuvaus",
-        "sv" : "Sisältö kuvaus sv"
+    }
+  ],
+  "kielivalikoima": {
+    "A1Kielet": [
+      "kieli_EN#1"
+    ],
+    "A2Kielet": [
+      "kieli_DE#1"
+    ],
+    "B1Kielet": [
+      "kieli_SV#1"
+    ],
+    "B2Kielet": [
+      "kieli_FR#1"
+    ],
+    "B3Kielet": [
+      "kieli_ES#1"
+    ],
+    "aidinkielet": [
+      "kieli_FI#1"
+    ],
+    "muutKielet": [
+      "kieli_ET#1"
+    ]
+  },
+  "ammattinimikkeet": [],
+  "asiasanat": [
+    {
+      "kieli": "fi",
+      "arvo": "tutkija"
+    }
+  ],
+  "opetus": {
+    "opetustapaKoodiUrit": [
+      "opetuspaikkakk_1#1",
+      "opetuspaikkakk_2#1"
+    ],
+    "maksut": [
+      {
+        "maksullisuustyyppi": "maksullinen",
+        "maksunMaara": 200.5
       }
-    } ],
-    "suunniteltuKestoKuukaudet" : 10,
-    "opetustapaKuvaus" : {
-      "fi" : "Opetustapakuvaus fi",
-      "sv" : "Opetustapakuvaus sv"
+    ],
+    "apuraha": {
+      "min": 100,
+      "max": 200,
+      "yksikko": "euro",
+      "kuvaus": {
+        "fi": "apurahakuvaus fi",
+        "sv": "apurahakuvaus sv"
+      }
     },
-    "opetuskieletKuvaus" : {
-      "fi" : "Kielikuvaus fi",
-      "sv" : "Kielikuvaus sv"
+    "maksullisuusKuvaus": {
+      "fi": "Maksullisuuskuvaus fi",
+      "sv": "Maksullisuuskuvaus sv"
     },
-    "opetusaikaKuvaus" : {
-      "fi" : "Opetusaikakuvaus fi",
-      "sv" : "Opetusaikakuvaus sv"
+    "opetuskieliKoodiUrit": [
+      "oppilaitoksenopetuskieli_1#1"
+    ],
+    "suunniteltuKestoKuvaus": {
+      "fi": "Keston kuvaus fi",
+      "sv": "Keston kuvaus sv"
+    },
+    "koulutuksenAlkamiskausi": {
+      "alkamiskausityyppi": "alkamiskausi ja -vuosi",
+      "henkilokohtaisenSuunnitelmanLisatiedot": {
+        "fi": "Jotakin lisätietoa",
+        "sv": "Jotakin lisätietoa sv"
+      },
+      "koulutuksenAlkamiskausiKoodiUri": "kausi_k#1",
+      "koulutuksenAlkamisvuosi": "2022"
+    },
+    "suunniteltuKestoVuodet": 3,
+    "onkoApuraha": true,
+    "opetusaikaKoodiUrit": [
+      "opetusaikakk_1#1"
+    ],
+    "lisatiedot": [
+      {
+        "otsikkoKoodiUri": "koulutuksenlisatiedot_03#1",
+        "teksti": {
+          "fi": "Opintojen rakenteen kuvaus",
+          "sv": "Rakenne kuvaus sv"
+        }
+      },
+      {
+        "otsikkoKoodiUri": "koulutuksenlisatiedot_03#1",
+        "teksti": {
+          "fi": "Sisältö kuvaus",
+          "sv": "Sisältö kuvaus sv"
+        }
+      }
+    ],
+    "suunniteltuKestoKuukaudet": 10,
+    "opetustapaKuvaus": {
+      "fi": "Opetustapakuvaus fi",
+      "sv": "Opetustapakuvaus sv"
+    },
+    "opetuskieletKuvaus": {
+      "fi": "Kielikuvaus fi",
+      "sv": "Kielikuvaus sv"
+    },
+    "opetusaikaKuvaus": {
+      "fi": "Opetusaikakuvaus fi",
+      "sv": "Opetusaikakuvaus sv"
     }
   },
-  "yhteyshenkilot" : [ {
-    "nimi" : {
-      "fi" : "Aku Ankka",
-      "sv" : "Aku Ankka"
-    },
-    "titteli" : {
-      "fi" : "titteli",
-      "sv" : "titteli sv"
-    },
-    "sahkoposti" : {
-      "fi" : "aku.ankka@ankkalinnankoulu.fi",
-      "sv" : "aku.ankka@ankkalinnankoulu.fi"
-    },
-    "puhelinnumero" : {
-      "fi" : "123",
-      "sv" : "123"
-    },
-    "wwwSivu" : {
-      "fi" : "http://opintopolku.fi",
-      "sv" : "http://studieinfo.fi"
+  "yhteyshenkilot": [
+    {
+      "nimi": {
+        "fi": "Aku Ankka",
+        "sv": "Aku Ankka"
+      },
+      "titteli": {
+        "fi": "titteli",
+        "sv": "titteli sv"
+      },
+      "sahkoposti": {
+        "fi": "aku.ankka@ankkalinnankoulu.fi",
+        "sv": "aku.ankka@ankkalinnankoulu.fi"
+      },
+      "puhelinnumero": {
+        "fi": "123",
+        "sv": "123"
+      },
+      "wwwSivu": {
+        "fi": "http://opintopolku.fi",
+        "sv": "http://studieinfo.fi"
+      }
     }
-  } ],
-  "yleislinja" : true,
-  "tyyppi" : "lk"
+  ],
+  "yleislinja": true,
+  "tyyppi": "lk"
 }
