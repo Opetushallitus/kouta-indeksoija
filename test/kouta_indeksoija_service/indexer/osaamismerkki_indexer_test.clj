@@ -6,7 +6,7 @@
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]))
 
 (use-fixtures :once (fn [tests]
-                      (admin/initialize-eperuste-indices-for-reindexing)
+                      (admin/initialize-osaamismerkki-indices-for-reindexing)
                       (tests)))
 
 (deftest osaamismerkki-index-test
