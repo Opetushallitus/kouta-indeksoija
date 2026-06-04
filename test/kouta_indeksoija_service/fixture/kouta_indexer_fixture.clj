@@ -221,8 +221,8 @@
    :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_1", "oppilaitoksenopetuskieli_2"]
             :opetustapaKoodiUrit ["opetuspaikkakk_1", "opetuspaikkakk_2"]
             :opetusaikaKoodiUrit ["opetusaikakk_1"]
-            :maksut [:maksullisuustyyppi "lukuvuosimaksu"
-                     :maksunMaara 500]
+            :maksut [{:maksullisuustyyppi "lukuvuosimaksu"
+                      :maksunMaara 500}]
             :onkoApuraha false}})
 
 (defonce maksuton-amm-opetus
