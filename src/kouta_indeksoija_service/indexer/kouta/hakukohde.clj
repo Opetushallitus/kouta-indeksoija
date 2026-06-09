@@ -278,7 +278,8 @@
         result (case tyyppi
                  "tarkka alkamisajankohta" (parse-tarkka-ajankohta (:koulutuksenAlkamispaivamaara alkamiskausi))
                  "alkamiskausi ja -vuosi" {:kausiUri (:koulutuksenAlkamiskausiKoodiUri alkamiskausi) :vuosi (:koulutuksenAlkamisvuosi alkamiskausi)}
-                 "henkilokohtainen suunnitelma" {})
+                 "henkilokohtainen suunnitelma" {}
+                 {})
         pvm    (kausi-vuosi-to-pvm (:kausiUri result) (:vuosi result))]
     (when (or (= tyyppi "henkilokohtainen suunnitelma") pvm)
       {:pvm                pvm
