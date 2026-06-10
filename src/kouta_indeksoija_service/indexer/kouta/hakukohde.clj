@@ -268,6 +268,32 @@
     (assoc hakukohde :paateltyAlkamiskausi result)
     hakukohde))
 
+(defn- kausi-vuosi-to-pvm [kausi vuosi]
+  (when (and kausi vuosi)
+    (let [pvm (if (= kausi "kausi_k#1") "01-01" "08-01")]
+      (str vuosi "-" pvm))))
+
+(defn- parse-alkamisaika [alkamiskausi oid]
+  (let [tyyppi (:alkamiskausityyppi alkamiskausi)
+        pvm (case tyyppi
+                 "tarkka alkamisajankohta" (time/parse-utc-date-time (:koulutuksenAlkamispaivamaara alkamiskausi))
+                 "alkamiskausi ja -vuosi" (kausi-vuosi-to-pvm (:koulutuksenAlkamiskausiKoodiUri alkamiskausi) (:koulutuksenAlkamisvuosi alkamiskausi))
+                 {})]
+    (when (string? pvm)
+      {:pvm                pvm
+       :alkamiskausityyppi tyyppi
+       :source             oid})))
+
+(defn- assoc-paatelty-alkamisaika-for-hakukohde [hakukohde, hakukohde-source haku toteutus]
+  (let [result (or (parse-alkamisaika (get-in hakukohde-source [:metadata :koulutuksenAlkamiskausi]) (:oid hakukohde))
+                   (parse-alkamisaika (get-in haku [:metadata :koulutuksenAlkamiskausi]) (:oid haku))
+                   (parse-alkamisaika (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi]) (:oid toteutus)))
+        has-henkilokohtainen (= "henkilokohtainen suunnitelma" (get-in hakukohde-source [:metadata :koulutuksenAlkamiskausi :alkamiskausityyppi]))
+        result-with-plan (if result
+                           (assoc result :henkilokohtainenSuunnitelma has-henkilokohtainen)
+                           {:pvm "" :alkamiskausityyppi "" :source (:oid hakukohde-source) :henkilokohtainenSuunnitelma has-henkilokohtainen})]
+    (assoc hakukohde :paateltyAlkamisAjankohta result-with-plan)))
+
 (defn- get-koodiurit-to-complete
   [koodiurit]
   (flatten
@@ -433,6 +459,7 @@
                                                          (assoc-valintaperuste valintaperuste)
                                                          (assoc-hakulomake-linkki haku)
                                                          (assoc-paatelty-alkamiskausi-for-hakukohde hakukohde-from-kouta haku toteutus)
+                                                         (assoc-paatelty-alkamisaika-for-hakukohde hakukohde-from-kouta haku toteutus)
                                                          (assoc-odw-kk-tasot haku koulutus)
                                                          (assoc-jarjestaa-urheilijan-ammatillista-koulutusta (get-in hakukohde [:metadata :jarjestaaUrheilijanAmmKoulutusta]))
                                                          (assoc-pistehistoria pistehistoria)
