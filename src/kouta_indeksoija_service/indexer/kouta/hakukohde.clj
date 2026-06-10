@@ -278,8 +278,8 @@
         pvm (case tyyppi
                  "tarkka alkamisajankohta" (time/parse-utc-date-time (:koulutuksenAlkamispaivamaara alkamiskausi))
                  "alkamiskausi ja -vuosi" (kausi-vuosi-to-pvm (:koulutuksenAlkamiskausiKoodiUri alkamiskausi) (:koulutuksenAlkamisvuosi alkamiskausi))
-                 nil)]
-    (when pvm
+                 {})]
+    (when (string? pvm)
       {:pvm                pvm
        :alkamiskausityyppi tyyppi
        :source             oid})))
@@ -290,8 +290,8 @@
                    (parse-alkamisaika (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi]) (:oid toteutus)))
         has-henkilokohtainen (= "henkilokohtainen suunnitelma" (get-in hakukohde-source [:metadata :koulutuksenAlkamiskausi :alkamiskausityyppi]))
         result-with-plan (if result
-                           (assoc result :henkilokohtainen-suunnitelma has-henkilokohtainen)
-                           {:pvm nil :alkamiskausityyppi nil :source (:oid hakukohde-source) :henkilokohtainen-suunnitelma has-henkilokohtainen})]
+                           (assoc result :henkilokohtainenSuunnitelma has-henkilokohtainen)
+                           {:pvm "" :alkamiskausityyppi "" :source (:oid hakukohde-source) :henkilokohtainenSuunnitelma has-henkilokohtainen})]
     (assoc hakukohde :paateltyAlkamisAjankohta result-with-plan)))
 
 (defn- get-koodiurit-to-complete
