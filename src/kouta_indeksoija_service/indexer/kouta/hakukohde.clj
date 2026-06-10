@@ -287,10 +287,10 @@
        :source             oid})))
 
 (defn- assoc-paatelty-alkamisaika-for-hakukohde [hakukohde, hakukohde-source haku toteutus]
-  (let [result (seq [(parse-alkamisaika (get-in hakukohde-source [:metadata :koulutuksenAlkamiskausi]) (:oid hakukohde))
-                     (parse-alkamisaika (get-in haku [:metadata :koulutuksenAlkamiskausi]) (:oid haku))
-                     (parse-alkamisaika (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi]) (:oid toteutus))])]
-    (assoc hakukohde :paatellytAlkamisAjankohdat result))
+  (let [result (or (parse-alkamisaika (get-in hakukohde-source [:metadata :koulutuksenAlkamiskausi]) (:oid hakukohde))
+                   (parse-alkamisaika (get-in haku [:metadata :koulutuksenAlkamiskausi]) (:oid haku))
+                   (parse-alkamisaika (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi]) (:oid toteutus)))]
+    (assoc hakukohde :paateltyAlkamisAjankohta result))
   )
 
 (defn- get-koodiurit-to-complete
