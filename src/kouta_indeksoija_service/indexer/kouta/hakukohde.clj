@@ -270,18 +270,16 @@
 
 (defn- kausi-vuosi-to-pvm [kausi vuosi]
   (when (and kausi vuosi)
-    (let [pvm (if (= kausi "kausi_k#1") "1.1" "1.8")]
-      (str pvm "." vuosi))))
+    (let [pvm (if (= kausi "kausi_k#1") "01-01" "08-01")]
+      (str vuosi "-" pvm))))
 
 (defn- parse-alkamisaika [alkamiskausi oid]
   (let [tyyppi (:alkamiskausityyppi alkamiskausi)
-        result (case tyyppi
-                 "tarkka alkamisajankohta" (parse-tarkka-ajankohta (:koulutuksenAlkamispaivamaara alkamiskausi))
-                 "alkamiskausi ja -vuosi" {:kausiUri (:koulutuksenAlkamiskausiKoodiUri alkamiskausi) :vuosi (:koulutuksenAlkamisvuosi alkamiskausi)}
-                 "henkilokohtainen suunnitelma" {}
-                 {})
-        pvm    (kausi-vuosi-to-pvm (:kausiUri result) (:vuosi result))]
-    (when (or (= tyyppi "henkilokohtainen suunnitelma") pvm)
+        pvm (case tyyppi
+                 "tarkka alkamisajankohta" (time/parse-utc-date-time (:koulutuksenAlkamispaivamaara alkamiskausi))
+                 "alkamiskausi ja -vuosi" (kausi-vuosi-to-pvm (:koulutuksenAlkamiskausiKoodiUri alkamiskausi) (:koulutuksenAlkamisvuosi alkamiskausi))
+                 nil)]
+    (when pvm
       {:pvm                pvm
        :alkamiskausityyppi tyyppi
        :source             oid})))
@@ -289,9 +287,12 @@
 (defn- assoc-paatelty-alkamisaika-for-hakukohde [hakukohde, hakukohde-source haku toteutus]
   (let [result (or (parse-alkamisaika (get-in hakukohde-source [:metadata :koulutuksenAlkamiskausi]) (:oid hakukohde))
                    (parse-alkamisaika (get-in haku [:metadata :koulutuksenAlkamiskausi]) (:oid haku))
-                   (parse-alkamisaika (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi]) (:oid toteutus)))]
-    (assoc hakukohde :paateltyAlkamisAjankohta result))
-  )
+                   (parse-alkamisaika (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi]) (:oid toteutus)))
+        has-henkilokohtainen (= "henkilokohtainen suunnitelma" (get-in hakukohde-source [:metadata :koulutuksenAlkamiskausi :alkamiskausityyppi]))
+        result-with-plan (if result
+                           (assoc result :henkilokohtainen-suunnitelma has-henkilokohtainen)
+                           {:pvm nil :alkamiskausityyppi nil :source (:oid hakukohde-source) :henkilokohtainen-suunnitelma has-henkilokohtainen})]
+    (assoc hakukohde :paateltyAlkamisAjankohta result-with-plan)))
 
 (defn- get-koodiurit-to-complete
   [koodiurit]
