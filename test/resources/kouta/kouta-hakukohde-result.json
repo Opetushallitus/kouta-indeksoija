@@ -452,7 +452,7 @@
     "alkamiskausityyppi": "tarkka alkamisajankohta",
     "pvm": "2042-01-01",
     "source": "1.2.246.562.20.00000000000000000001",
-    "henkilokohtainen-suunnitelma": false
+    "henkilokohtainenSuunnitelma": false
   },
   "jarjestyspaikka": {
     "paikkakunta": {

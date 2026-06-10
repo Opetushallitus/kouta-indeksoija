@@ -245,12 +245,12 @@
 
 (deftest index-hakukohde-with-henkilokohtainen-suunnitelma-aloitussajankohta
   (fixture/with-mocked-indexing
-    (testing "Indexer should index hakukohde with koulutustyyppikoodi"
+    (testing "Indexer should index hakukohde with henkilokohtainen suunnitelma"
       (check-all-nil)
       (fixture/update-hakukohde-mock hakukohde-oid :metadata {:alkamiskausityyppi "henkilokohtainen suunnitelma"})
       (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
       (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
-        (is (true? (get-in hakukohde [:paateltyAlkamisAjankohta :henkilokohtainen-suunnitelma])))))))
+        (is (true? (get-in hakukohde [:paateltyAlkamisAjankohta :henkilokohtainenSuunnitelma])))))))
 
 (deftest index-hakukohde-with-ammatillinen-er-koulutustyyppikoodi
   (fixture/with-mocked-indexing
