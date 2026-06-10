@@ -450,8 +450,9 @@
   },
   "paateltyAlkamisAjankohta": {
     "alkamiskausityyppi": "tarkka alkamisajankohta",
-    "pvm": "1.1.2042",
-    "source": "1.2.246.562.20.00000000000000000001"
+    "pvm": "2042-01-01",
+    "source": "1.2.246.562.20.00000000000000000001",
+    "henkilokohtainen-suunnitelma": false
   },
   "jarjestyspaikka": {
     "paikkakunta": {
