@@ -292,7 +292,7 @@
         result-with-plan (if result
                            (assoc result :henkilokohtainenSuunnitelma has-henkilokohtainen)
                            {:pvm "" :alkamiskausityyppi "" :source (:oid hakukohde-source) :henkilokohtainenSuunnitelma has-henkilokohtainen})]
-    (assoc hakukohde :paateltyAlkamisAjankohta result-with-plan)))
+    (assoc hakukohde :paateltyAlkamisajankohta result-with-plan)))
 
 (defn- get-koodiurit-to-complete
   [koodiurit]
