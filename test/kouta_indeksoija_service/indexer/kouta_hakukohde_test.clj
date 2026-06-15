@@ -250,7 +250,7 @@
       (fixture/update-hakukohde-mock hakukohde-oid :metadata {:koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}})
       (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
       (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
-        (is (true? (get-in hakukohde [:paateltyAlkamisAjankohta :henkilokohtainenSuunnitelma])))))))
+        (is (true? (get-in hakukohde [:paateltyAlkamisajankohta :henkilokohtainenSuunnitelma])))))))
 
 (deftest index-hakukohde-with-ammatillinen-er-koulutustyyppikoodi
   (fixture/with-mocked-indexing
