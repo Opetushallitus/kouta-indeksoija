@@ -68,7 +68,9 @@
           }
         ],
         "jarjestaaUrheilijanAmmKoulutusta": false,
-        "maksullisuustyyppi": "maksuton",
+        "maksullisuustyypit": [
+          "maksuton"
+        ],
         "onkoApuraha": false,
         "opetusajat": [
           {

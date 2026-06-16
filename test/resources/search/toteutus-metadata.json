@@ -1,5 +1,5 @@
 {
-  "tyyppi" : "amm",
+  "tyyppi": "amm",
   "kuvaus": {},
   "osaamisalat": [
     {
@@ -16,13 +16,26 @@
   ],
   "opetus": {
     "opetuskieliKoodiUrit": [
-      "oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_3#1"
+      "oppilaitoksenopetuskieli_1#1",
+      "oppilaitoksenopetuskieli_3#1"
     ],
-    "opetusaikaKoodiUrit": ["opetusaikakk_1#1"],
-    "opetustapaKoodiUrit": ["opetuspaikkakk_1#1"],
-    "maksullisuustyyppi": "maksullinen",
-    "maksunMaara": 200.5,
-    "koulutuksenTarkkaAlkamisaika" : true,
+    "opetusaikaKoodiUrit": [
+      "opetusaikakk_1#1"
+    ],
+    "opetustapaKoodiUrit": [
+      "opetuspaikkakk_1#1"
+    ],
+    "maksut": [
+      {
+        "maksullisuustyyppi": "maksullinen",
+        "maksunMaara": 200.5
+      },
+      {
+        "maksullisuustyyppi": "lukuvuosimaksu",
+        "maksunMaara": 500.5
+      }
+    ],
+    "koulutuksenTarkkaAlkamisaika": true,
     "koulutuksenAlkamispaivamaara": "!!time3",
     "kuvaus": {
       "fi": "Kuvaus fi",
@@ -111,23 +124,25 @@
       "arvo": "horse"
     }
   ],
-  "yhteyshenkilot": [{
-    "nimi": {
-      "fi": "Aku Ankka",
-      "sv": "Aku Ankka"
-    },
-    "titteli": {
-      "fi": "titteli",
-      "sv": "titteli sv"
-    },
-    "sahkoposti": {
-      "fi": "aku.ankka@ankkalinnankoulu.fi",
-      "sv": "aku.ankka@ankkalinnankoulu.fi"
-    },
-    "puhelinnumero": {
-      "fi": "123",
-      "sv": "123"
+  "yhteyshenkilot": [
+    {
+      "nimi": {
+        "fi": "Aku Ankka",
+        "sv": "Aku Ankka"
+      },
+      "titteli": {
+        "fi": "titteli",
+        "sv": "titteli sv"
+      },
+      "sahkoposti": {
+        "fi": "aku.ankka@ankkalinnankoulu.fi",
+        "sv": "aku.ankka@ankkalinnankoulu.fi"
+      },
+      "puhelinnumero": {
+        "fi": "123",
+        "sv": "123"
+      }
     }
-  }],
-  "ammatillinenPerustutkintoErityisopetuksena" : false
+  ],
+  "ammatillinenPerustutkintoErityisopetuksena": false
 }

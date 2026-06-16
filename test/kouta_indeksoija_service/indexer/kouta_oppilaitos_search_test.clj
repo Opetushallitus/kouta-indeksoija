@@ -92,7 +92,8 @@
               :isTaydennyskoulutus false
               :isPieniOsaamiskokonaisuus true
               :opetus {:opetustapaKoodiUrit ["opetuspaikkakk_1#1"]
-                       :maksullisuustyyppi "maksuton" :maksullisuusKuvaus {:fi "Maksullisuuskuvaus"}
+                       :maksut [{:maksullisuustyyppi "maksuton"}]
+                       :maksullisuusKuvaus {:fi "Maksullisuuskuvaus"}
                        :opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_1#2"]
                        :suunniteltuKestoKuvaus {:fi "Keston kuvaus"}
                        :koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
@@ -186,7 +187,7 @@
               :opetusajat [{:koodiUri "opetusaikakk_1#1"
                             :nimi {:fi "opetusaikakk_1#1 fi"
                                    :sv "opetusaikakk_1#1 sv"}}]
-              :maksullisuustyyppi "maksuton"
+              :maksullisuustyypit ["maksuton"]
               :koulutustyyppi "vapaa-sivistystyo-opistovuosi"
               :kunnat [{:koodiUri "kunta_086"
                         :nimi {:fi "kunta_086 fi" :sv "kunta_086 sv"}}]

@@ -73,13 +73,12 @@
                               :kuva (:teemakuva toteutus)
                               :nimi (get-esitysnimi toteutus)
                               :onkoTuleva false
-                              :metadata {:tutkintonimikkeet   (tutkintonimikkeet-for-toteutus toteutus)
-                                         :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
-                                         :maksullisuustyyppi  (:maksullisuustyyppi opetus)
-                                         :maksunMaara         (:maksunMaara opetus)
-                                         :suunniteltuKestoKuukausina (search-tool/kesto-kuukausina opetus)
-                                         :onkoApuraha         (:onkoApuraha opetus)
-                                         :koulutustyyppi      (:koulutustyyppi koulutus)})))
+                              :metadata (merge {:tutkintonimikkeet   (tutkintonimikkeet-for-toteutus toteutus)
+                                                :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
+                                                :suunniteltuKestoKuukausina (search-tool/kesto-kuukausina opetus)
+                                                :onkoApuraha         (:onkoApuraha opetus)
+                                                :koulutustyyppi      (:koulutustyyppi koulutus)}
+                                               (search-tool/get-maksullisuus-search-data (:maksut opetus))))))
 
 (defn search-terms
   [oppilaitos koulutus toteutus hakutiedot]
@@ -144,7 +143,6 @@
       (if (and (organisaatio-tool/indexable? oppilaitos) (> (get-in entry [:koulutusohjelmatLkm :kaikki]) 0))
         (indexable/->index-entry (:oid entry) entry)
         (indexable/->delete-entry (:oid entry))))))
-
 
 (defn do-index
   ([oids execution-id]
