@@ -276,7 +276,7 @@
 (defn- parse-alkamisaika [alkamiskausi oid]
   (let [tyyppi (:alkamiskausityyppi alkamiskausi)
         pvm (case tyyppi
-                 "tarkka alkamisajankohta" (time/parse-utc-date-time (:koulutuksenAlkamispaivamaara alkamiskausi))
+                 "tarkka alkamisajankohta" (:koulutuksenAlkamispaivamaara alkamiskausi)
                  "alkamiskausi ja -vuosi" (kausi-vuosi-to-pvm (:koulutuksenAlkamiskausiKoodiUri alkamiskausi) (:koulutuksenAlkamisvuosi alkamiskausi))
                  {})]
     (when (string? pvm)
