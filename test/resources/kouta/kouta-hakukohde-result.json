@@ -448,6 +448,12 @@
     "voimassa": false,
     "syy": "Ei korkeakoulutus koulutusta"
   },
+  "paateltyAlkamisajankohta": {
+    "alkamiskausityyppi": "tarkka alkamisajankohta",
+    "pvm": "2042-03-24T09:49",
+    "source": "1.2.246.562.20.00000000000000000001",
+    "henkilokohtainenSuunnitelma": false
+  },
   "jarjestyspaikka": {
     "paikkakunta": {
       "koodiUri": "kunta_297",
