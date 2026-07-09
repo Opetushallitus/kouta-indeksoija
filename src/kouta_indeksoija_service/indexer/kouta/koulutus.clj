@@ -1,5 +1,7 @@
 (ns kouta-indeksoija-service.indexer.kouta.koulutus
   (:require [kouta-indeksoija-service.indexer.cache.eperuste :refer [filter-tutkinnon-osa get-eperuste-by-id]]
+            [kouta-indeksoija-service.rest.eperuste :refer [get-paikalliset-tutkinnonosat-with-cache
+                                                            get-opetussuunnitelma-with-cache]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.tools.general :refer [amm-koulutus-with-eperuste? amm-osaamisala? amm-tutkinnon-osa? ammatillinen?
@@ -40,11 +42,27 @@
                  :opintojenLaajuusyksikko (:opintojenLaajuusyksikko eperuste)
                  :tutkinnonOsat (select-keys eperuste-tutkinnon-osa [:koodiUri :nimi])}))))
 
+(defn- get-enriched-paikalliset-tutkinnon-osat
+  [paikalliset-tutkinnon-osat]
+  (when (seq paikalliset-tutkinnon-osat)
+    (let [opetussuunnitelma-id  (-> paikalliset-tutkinnon-osat first :opetussuunnitelmaId)
+          amosaa-osat           (get-paikalliset-tutkinnonosat-with-cache opetussuunnitelma-id)
+          eperuste-id           (some-> (get-opetussuunnitelma-with-cache opetussuunnitelma-id)
+                                        (get-in [:peruste :perusteId]))
+          laajuusyksikko        (some-> eperuste-id get-eperuste-by-id :opintojenLaajuusyksikko)]
+      (vec (for [osa paikalliset-tutkinnon-osat
+                 :let [amosaa-osa (first (filter #(= (str (:id %)) (str (:tutkinnonosaId osa)))
+                                                 amosaa-osat))]]
+             (merge osa {:nimi                    (:nimi amosaa-osa)
+                         :opintojenLaajuusNumero  (get-in amosaa-osa [:tosa :omatutkinnonosa :laajuus])
+                         :opintojenLaajuusyksikko laajuusyksikko}))))))
+
 (defn- enrich-tutkinnon-osa-metadata
   [koulutus]
   (let [tutkinnon-osat (get-in koulutus [:metadata :tutkinnonOsat])]
     (-> koulutus
         (assoc-in [:metadata :tutkinnonOsat] (get-enriched-tutkinnon-osat tutkinnon-osat))
+        (assoc-in [:metadata :paikallisetTutkinnonOsat] (get-enriched-paikalliset-tutkinnon-osat (get-in koulutus [:metadata :paikallisetTutkinnonOsat])))
         (assoc-in [:metadata :koulutusala] (->> tutkinnon-osat
                                                 (map #(get-in % [:koulutus :koodiUri]))
                                                 (mapcat #(koulutusalat-taso1 %))

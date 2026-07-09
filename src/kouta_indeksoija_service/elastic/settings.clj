@@ -123,6 +123,12 @@
 (def index-settings-lokalisointi
   {:index.mapping.total_fields.limit 2000})
 
+(def toteutussuunnitelma-mappings
+  {:properties {:paikallisetTutkinnonOsat {:type "nested"
+                                          :properties {:id                           {:type "keyword"}
+                                                       :ammattitaidonosoittamistavat {:type "object" :dynamic true}
+                                                       :ammattitaitovaatimukset      {:type "object" :dynamic true}}}}})
+
 (def lokalisointi-mappings
   {:dynamic_templates [{:all {:match "*",
                              :match_mapping_type "string",
@@ -207,7 +213,10 @@
                                                                                               :paattyy {:type "date" }}}}}
                                :metadata {:properties {:opintojenLaajuusNumero {:type "float"}
                                                        :tutkinnonOsat {:type "nested"
-                                                                       :properties {:opintojenLaajuusNumero {:type "float"}}}}}}}}
+                                                                       :properties {:opintojenLaajuusNumero {:type "float"}}}
+                                                       :paikallisetTutkinnonOsat {:type "nested"
+                                                                                  :properties {:opetussuunnitelmaId {:type "keyword"}
+                                                                                               :tutkinnonosaId {:type "keyword"}}}}}}}}
    :dynamic_templates [{:nested {:match "search_terms"
                                  :match_mapping_type "object"
                                  :mapping { :type "nested" }}}
