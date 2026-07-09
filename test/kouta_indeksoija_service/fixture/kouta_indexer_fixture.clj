@@ -32,6 +32,8 @@
 (defonce sorakuvaukset (atom {}))
 (defonce oppilaitokset (atom {}))
 (defonce oppilaitoksen-osat (atom {}))
+(defonce paikalliset-tutkinnonosat (atom {}))
+(defonce opetussuunnitelmat (atom {}))
 
 (defn complete-kielistetyt
   [e]
@@ -812,6 +814,14 @@
       (println index)
       (println (u/elastic-post (u/elastic-url index "_delete_by_query") {:query {:match_all {}}} {:conflicts "proceed" :refresh true})))))
 
+(defn mock-get-paikalliset-tutkinnonosat
+  [opetussuunnitelma-id]
+  (get @paikalliset-tutkinnonosat opetussuunnitelma-id []))
+
+(defn mock-get-opetussuunnitelma
+  [opetussuunnitelma-id]
+  (get @opetussuunnitelmat opetussuunnitelma-id))
+
 (defn reset-mocks
   []
   (reset! koulutukset {})
@@ -821,7 +831,9 @@
   (reset! valintaperusteet {})
   (reset! sorakuvaukset {})
   (reset! oppilaitokset {})
-  (reset! oppilaitoksen-osat {}))
+  (reset! oppilaitoksen-osat {})
+  (reset! paikalliset-tutkinnonosat {})
+  (reset! opetussuunnitelmat {}))
 
 (defn init
   []
@@ -1002,7 +1014,13 @@
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-all-organisaatiot
 
                  kouta-indeksoija-service.rest.organisaatio/get-by-oid
-                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-organisaatio-by-oid]
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-organisaatio-by-oid
+
+                 kouta-indeksoija-service.rest.eperuste/get-paikalliset-tutkinnonosat-with-cache
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-paikalliset-tutkinnonosat
+
+                 kouta-indeksoija-service.rest.eperuste/get-opetussuunnitelma-with-cache
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-opetussuunnitelma]
      (do ~@body)))
 
 (defn mock-get-oppilaitokset
