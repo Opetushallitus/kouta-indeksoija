@@ -207,7 +207,10 @@
                                                                                               :paattyy {:type "date" }}}}}
                                :metadata {:properties {:opintojenLaajuusNumero {:type "float"}
                                                        :tutkinnonOsat {:type "nested"
-                                                                       :properties {:opintojenLaajuusNumero {:type "float"}}}}}}}}
+                                                                       :properties {:opintojenLaajuusNumero {:type "float"}}}
+                                                       :paikallisetTutkinnonOsat {:type "nested"
+                                                                                  :properties {:opetussuunnitelmaId {:type "keyword"}
+                                                                                               :tutkinnonosaId {:type "keyword"}}}}}}}}
    :dynamic_templates [{:nested {:match "search_terms"
                                  :match_mapping_type "object"
                                  :mapping { :type "nested" }}}
