@@ -53,9 +53,9 @@
       (vec (for [osa paikalliset-tutkinnon-osat
                  :let [amosaa-osa (first (filter #(= (str (:id %)) (str (:tutkinnonosaId osa)))
                                                  amosaa-osat))]]
-             (merge osa {:nimi              (:nimi amosaa-osa)
-                         :laajuus           (get-in amosaa-osa [:tosa :omatutkinnonosa :laajuus])
-                         :laajuusyksikko    laajuusyksikko}))))))
+             (merge osa {:nimi                    (:nimi amosaa-osa)
+                         :opintojenLaajuusNumero  (get-in amosaa-osa [:tosa :omatutkinnonosa :laajuus])
+                         :opintojenLaajuusyksikko laajuusyksikko}))))))
 
 (defn- enrich-tutkinnon-osa-metadata
   [koulutus]
