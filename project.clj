@@ -114,7 +114,7 @@
                    :ring {:reload-paths ["src"]
                           :port 8100}
                    :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
-                              "-Daws.secretKey=randomKeyForLocalstack"]
+                              "-Daws.secretAccessKey=randomKeyForLocalstack"]
                    :injections [(require 'pjstadig.humane-test-output)
                                 (pjstadig.humane-test-output/activate!)]}
              :test {:env {:test "true"}
@@ -123,7 +123,7 @@
                                    [lambdaisland/kaocha "1.91.1392"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
-                               "-Daws.secretKey=randomKeyForLocalstack"]
+                               "-Daws.secretAccessKey=randomKeyForLocalstack"]
                     :injections [(require '[clj-test-utils.elasticsearch-docker-utils :as utils])
                                  (utils/global-docker-elastic-fixture)]
                     :plugins [[lein-auto "0.1.3"]
@@ -137,7 +137,7 @@
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"
                                   "-Daws.accessKeyId=randomKeyIdForLocalstack"
-                                  "-Daws.secretKey=randomKeyForLocalstack"]
+                                  "-Daws.secretAccessKey=randomKeyForLocalstack"]
                        :injections [(require '[clj-test-utils.elasticsearch-docker-utils :as utils])
                                     (utils/global-docker-elastic-fixture)]
                        :plugins [[lein-auto "0.1.3"]
