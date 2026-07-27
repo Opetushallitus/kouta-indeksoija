@@ -9,7 +9,12 @@
             [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
             [kouta-indeksoija-service.test-tools :refer [compare-json]]
             [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
-            [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]))
+            [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
+            [kouta-indeksoija-service.indexer.amosaa.toteutussuunnitelma :as toteutussuunnitelma]
+            [kouta-indeksoija-service.indexer.amosaa.paikallinen-tutkinnon-osa :as paikallinen-tutkinnon-osa]
+            [kouta-indeksoija-service.indexer.cache.eperuste]
+            [kouta-indeksoija-service.indexer.tools.koodisto]
+            [kouta-indeksoija-service.rest.eperuste]))
 
 (use-fixtures :each common-indexer-fixture)
 
@@ -346,3 +351,67 @@
         (is (= "opintojenlaajuusyksikko_4" opintojen-laajuusyksikko))
         (is (= "opintojenlaajuusyksikko_4 nimi fi" opintojen-laajuusyksikko-nimi))
         (is (= opintojen-laajuusnumero 1))))))
+
+(def amosaa-tutkinnonosat
+  [{:id 456 :nimi {:fi "Paikallinen tutkinnon osa fi" :sv "Paikallinen tutkinnon osa sv"}}
+   {:id 789 :nimi {:fi "Toinen paikallinen osa fi" :sv "Toinen paikallinen osa sv"}}])
+
+(def amosaa-opetussuunnitelma
+  {:id 123 :nimi {:fi "Toteutussuunnitelma fi" :sv "Toteutussuunnitelma sv"} :tila "julkaistu"})
+
+(def amm-tutkinnon-osa-with-paikalliset-metadata
+  (assoc fixture/amm-tutkinnon-osa-koulutus-metadata
+         :paikallisetTutkinnonOsat [{:opetussuunnitelmaId "123" :tutkinnonosaId "456"}
+                                    {:opetussuunnitelmaId "123" :tutkinnonosaId "789"}]))
+
+(deftest paikallinen-tutkinnon-osa-enrichment
+  (fixture/with-mocked-indexing
+    (testing "Indexer should enrich paikalliset tutkinnon osat with nimi from AMOSAA"
+      (with-redefs [kouta-indeksoija-service.rest.eperuste/get-paikalliset-tutkinnonosat-with-cache
+                    (fn [_] amosaa-tutkinnonosat)
+                    kouta-indeksoija-service.rest.eperuste/get-opetussuunnitelma-with-cache
+                    (fn [_] amosaa-opetussuunnitelma)
+                    kouta-indeksoija-service.indexer.tools.koodisto/koulutusalat-taso1
+                    mock-koulutusalat-taso1]
+        (fixture/update-koulutus-mock koulutus-oid
+                                      :tila "tallennettu"
+                                      :koulutustyyppi "amm-tutkinnon-osa"
+                                      :metadata amm-tutkinnon-osa-with-paikalliset-metadata)
+        (check-all-nil)
+        (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
+        (let [koulutus (get-doc koulutus/index-name koulutus-oid)
+              paikalliset (get-in koulutus [:metadata :paikallisetTutkinnonOsat])]
+          (is (= 2 (count paikalliset)))
+          (is (= "123" (:opetussuunnitelmaId (first paikalliset))))
+          (is (= "456" (:tutkinnonosaId (first paikalliset))))
+          (is (= "Paikallinen tutkinnon osa fi" (get-in (first paikalliset) [:nimi :fi])))
+          (is (= "Toinen paikallinen osa fi" (get-in (second paikalliset) [:nimi :fi]))))))))
+
+(deftest index-amosaa-indices-with-koulutus
+  (fixture/with-mocked-indexing
+    (testing "Indexer should index toteutussuunnitelma and paikalliset tutkinnon osat alongside koulutus"
+      (with-redefs [kouta-indeksoija-service.rest.eperuste/get-paikalliset-tutkinnonosat-with-cache
+                    (fn [_] amosaa-tutkinnonosat)
+                    kouta-indeksoija-service.rest.eperuste/get-opetussuunnitelma-with-cache
+                    (fn [_] amosaa-opetussuunnitelma)
+                    kouta-indeksoija-service.indexer.tools.koodisto/koulutusalat-taso1
+                    mock-koulutusalat-taso1]
+        (fixture/update-koulutus-mock koulutus-oid
+                                      :tila "tallennettu"
+                                      :koulutustyyppi "amm-tutkinnon-osa"
+                                      :metadata amm-tutkinnon-osa-with-paikalliset-metadata)
+        (check-all-nil)
+        (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
+        (let [indexed-suunnitelma (toteutussuunnitelma/get-from-index "123")
+              indexed-osa1 (paikallinen-tutkinnon-osa/get-from-index "456")
+              indexed-osa2 (paikallinen-tutkinnon-osa/get-from-index "789")]
+          (is (some? indexed-suunnitelma))
+          (is (= "toteutussuunnitelma" (:tyyppi indexed-suunnitelma)))
+          (is (= "Toteutussuunnitelma fi" (get-in indexed-suunnitelma [:nimi :fi])))
+          (is (some? indexed-osa1))
+          (is (= "paikallinen-tutkinnon-osa" (:tyyppi indexed-osa1)))
+          (is (= "123" (:opetussuunnitelmaId indexed-osa1)))
+          (is (= "Paikallinen tutkinnon osa fi" (get-in indexed-osa1 [:nimi :fi])))
+          (is (some? indexed-osa2))
+          (is (= "Toinen paikallinen osa fi" (get-in indexed-osa2 [:nimi :fi]))))))))
+
