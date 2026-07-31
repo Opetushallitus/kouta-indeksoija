@@ -72,7 +72,14 @@
       (string/replace "!!thisYear" (-> (LocalDate/now)
                                        (.getYear)
                                        (.toString)))
+      ;; käytössä kouta-haku-result.jsonissa
+      ;; !!thisKausi-arvoa käytetään hakukauden korvaamiseen,
+      ;; joten sen tulee olla sama päivä kuin hakuajatStartTime ja -EndTimella
+      ;; eli LocalDate/now + 1 päivä 
+      (string/replace "!!hakuajatStartTime1" (test-date "09:49" 1))
+      (string/replace "!!hakuajatEndTime1" (test-date "09:58" 1))
       (string/replace "!!thisKausi" (get-kausi (-> (LocalDate/now)
+                                                   (.plusDays 1)
                                                    (.getMonthValue))))))
 
 (defn read-json-as-string

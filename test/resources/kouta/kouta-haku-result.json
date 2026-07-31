@@ -244,8 +244,8 @@
   "externalId": "2233445566",
   "hakuajat": [
     {
-      "alkaa": "!!startTime1",
-      "paattyy": "!!endTime1"
+      "alkaa": "!!hakuajatStartTime1",
+      "paattyy": "!!hakuajatEndTime1"
     }
   ],
   "hakuvuosi": !!thisYear,
