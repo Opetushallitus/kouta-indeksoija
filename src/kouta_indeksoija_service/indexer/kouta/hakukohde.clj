@@ -291,7 +291,7 @@
         has-henkilokohtainen (= "henkilokohtainen suunnitelma" (get-in hakukohde-source [:metadata :koulutuksenAlkamiskausi :alkamiskausityyppi]))
         result-with-plan (if result
                            (assoc result :henkilokohtainenSuunnitelma has-henkilokohtainen)
-                           {:pvm nil :alkamiskausityyppi "" :source (:oid hakukohde-source) :henkilokohtainenSuunnitelma has-henkilokohtainen})]
+                           {:pvm nil :alkamiskausityyppi nil :source (:oid hakukohde-source) :henkilokohtainenSuunnitelma has-henkilokohtainen})]
     (assoc hakukohde :paateltyAlkamisajankohta result-with-plan)))
 
 (defn- get-koodiurit-to-complete
