@@ -108,7 +108,8 @@
                              [lein-zprint "1.2.0"]
                              [lein-kibit "0.1.3" :exclusions [org.clojure/clojure]]
                              [lein-environ "1.1.0"]
-                             [lein-cloverage "1.1.1" :exclusions [org.clojure/clojure]]]
+                             [lein-cloverage "1.1.1" :exclusions [org.clojure/clojure]]
+                             [com.github.clj-kondo/lein-clj-kondo "0.2.5"]]
                    :resource-paths ["dev_resources"]
                    :env {:dev "true"}
                    :ring {:reload-paths ["src"]

@@ -55,6 +55,11 @@
         (is (= [{:eperusteet (vec (map str (range 20)))} {:eperusteet ["20"]}] @test-queue))
         (reset! test-queue []))
 
+      (testing "queue toteutussuunnitelma"
+        (q/queue-toteutussuunnitelma "123")
+        (is (= [{:toteutussuunnitelmat ["123"]}] @test-queue))
+        (reset! test-queue []))
+
       (testing "queue organisaatio"
         (q/queue-oppilaitos "123")
         (is (= [{:oppilaitokset ["123"]}] @test-queue))
