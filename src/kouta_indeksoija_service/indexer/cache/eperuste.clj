@@ -127,5 +127,5 @@
                      eperuste-id (some-> (eperuste-service/get-opetussuunnitelma-with-cache opetussuunnitelma-id) (get-in [:peruste :perusteId]))
                      laajuusyksikko (some-> eperuste-id get-eperuste-by-id :opintojenLaajuusyksikko)]]
            (merge osa {:nimi                    (:nimi amosaa-osa)
-                       :opintojenLaajuusNumero  (get-in amosaa-osa [:tosa :omatutkinnonosa :laajuus])
+                       :opintojenLaajuusNumero  (some-> (get-in amosaa-osa [:tosa :omatutkinnonosa :laajuus]) double)
                        :opintojenLaajuusyksikko laajuusyksikko})))))

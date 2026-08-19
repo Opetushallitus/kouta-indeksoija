@@ -215,7 +215,8 @@
                                                        :tutkinnonOsat {:type "nested"
                                                                        :properties {:opintojenLaajuusNumero {:type "float"}}}
                                                        :paikallisetTutkinnonOsat {:type "nested"
-                                                                                  :properties {:opetussuunnitelmaId {:type "keyword"}
+                                                                                  :properties {:opintojenLaajuusNumero {:type "float"}
+                                                                                               :opetussuunnitelmaId {:type "keyword"}
                                                                                                :tutkinnonosaId {:type "keyword"}}}}}}}}
    :dynamic_templates [{:nested {:match "search_terms"
                                  :match_mapping_type "object"
