@@ -84,3 +84,22 @@
   [koulutuskoodi]
   (or (search-and-get-first-eperuste {:tuleva false :siirtyma false :voimassaolo true :poistunut false :koulutuskoodi koulutuskoodi})
       (search-and-get-first-eperuste {:tuleva false :siirtyma true :voimassaolo false :poistunut false :koulutuskoodi koulutuskoodi})))
+
+(defn- get-opetussuunnitelma
+  [id]
+  (when id
+    (get->json-body
+     (resolve-url :eperusteet-amosaa-service.opetussuunnitelma id))))
+
+(def get-opetussuunnitelma-with-cache
+  (with-fifo-ttl-cache get-opetussuunnitelma (* 1000 60 5) 1000))
+
+(defn- get-paikalliset-tutkinnonosat
+  [opetussuunnitelma-id]
+  (when opetussuunnitelma-id
+    (get->json-body
+     (resolve-url :eperusteet-amosaa-service.opetussuunnitelman-tutkinnonosat opetussuunnitelma-id)
+     {:tosa.tyyppi "oma"})))
+
+(def get-paikalliset-tutkinnonosat-with-cache
+  (with-fifo-ttl-cache get-paikalliset-tutkinnonosat (* 1000 60 5) 1000))
