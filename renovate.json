@@ -7,6 +7,10 @@
   "packageRules": [
     {
       "matchManagers": ["github-actions"],
+      "separateMajorMinor": false
+    },
+    {
+      "matchManagers": ["github-actions"],
       "matchUpdateTypes": ["pin", "pinDigest", "digest"],
       "groupName": "github-actions",
       "commitMessageTopic": "github-actions versions"
@@ -16,7 +20,6 @@
       "matchUpdateTypes": ["major", "minor", "patch"],
       "groupName": "github-actions",
       "commitMessageTopic": "github-actions versions",
-      "separateMajorMinor": false,
       "minimumReleaseAge": "7 days"
     }
   ]
