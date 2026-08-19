@@ -14,7 +14,9 @@
     {
       "matchManagers": ["github-actions"],
       "matchUpdateTypes": ["major", "minor", "patch"],
-      "groupName": "github-actions versions",
+      "groupName": "github-actions",
+      "commitMessageTopic": "github-actions versions",
+      "separateMajorMinor": false,
       "minimumReleaseAge": "7 days"
     }
   ]
