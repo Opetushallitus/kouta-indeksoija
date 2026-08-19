@@ -243,6 +243,15 @@
   (let [execution-id (. System (currentTimeMillis))]
     (index-toteutussuunnitelmat [opetussuunnitelma-id] execution-id)))
 
+(defn index-tutkinnonosat
+  [oids execution-id]
+  (tutkinnonosa/do-index oids execution-id))
+
+(defn index-tutkinnonosa
+  [id]
+  (let [execution-id (. System (currentTimeMillis))]
+    (index-tutkinnonosat [id] execution-id)))
+
 (defn index-oppilaitokset
   ([oids execution-id]
    (index-oppilaitokset oids execution-id true))
@@ -288,7 +297,8 @@
               (count (:sorakuvaukset oids)) "sora-kuvausta, "
               (count (:eperusteet oids)) "eperustetta osaamisaloineen,"
               (count (:osaamismerkit oids)) "osaamismerkkiä,"
-              (count (:toteutussuunnitelmat oids)) "toteutussuunnitelmaa sekä"
+              (count (:toteutussuunnitelmat oids)) "toteutussuunnitelmaa,"
+              (count (:tutkinnonosat oids)) "tutkinnonosaa sekä"
               (count (:oppilaitokset oids)) "oppilaitosta.")
     (let [ret (cond-> {}
                 (contains? oids :koulutukset) (assoc :koulutukset (index-koulutukset (:koulutukset oids) execution-id))
@@ -300,7 +310,8 @@
                 (contains? oids :eperusteet) (assoc :eperusteet (index-eperusteet (:eperusteet oids) execution-id))
                 (contains? oids :oppilaitokset) (assoc :oppilaitokset (index-oppilaitokset (:oppilaitokset oids) execution-id))
                 (contains? oids :osaamismerkit) (assoc :osaamismerkit (index-osaamismerkit (:osaamismerkit oids) execution-id))
-                (contains? oids :toteutussuunnitelmat) (assoc :toteutussuunnitelmat (index-toteutussuunnitelmat (:toteutussuunnitelmat oids) execution-id)))]
+                (contains? oids :toteutussuunnitelmat) (assoc :toteutussuunnitelmat (index-toteutussuunnitelmat (:toteutussuunnitelmat oids) execution-id))
+                (contains? oids :tutkinnonosat) (assoc :tutkinnonosat (index-tutkinnonosat (:tutkinnonosat oids) execution-id)))]
       (log/info (str " ID:" execution-id " Indeksointi valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms."))
       ret)))
 

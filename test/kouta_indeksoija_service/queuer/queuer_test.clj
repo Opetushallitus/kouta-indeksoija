@@ -60,6 +60,11 @@
         (is (= [{:toteutussuunnitelmat ["123"]}] @test-queue))
         (reset! test-queue []))
 
+      (testing "queue tutkinnonosa"
+        (q/queue-tutkinnonosa "123")
+        (is (= [{:tutkinnonosat ["123"]}] @test-queue))
+        (reset! test-queue []))
+
       (testing "queue organisaatio"
         (q/queue-oppilaitos "123")
         (is (= [{:oppilaitokset ["123"]}] @test-queue))
