@@ -86,8 +86,14 @@
                                :metadata
                                {:tyyppi "amm-tutkinnon-osa"
                                 :tutkinnonOsat [{:ePerusteId 123 :koulutusKoodiUri "koulutus_371101#1" :tutkinnonosaId 1234 :tutkinnonosaViite 5678}]
+                                :paikallisetTutkinnonOsat [{:opetussuunnitelmaId "123" :tutkinnonosaId "456"}]
                                 :kuvaus {:fi "kuvaus", :sv "kuvaus sv"}
                                 :osaamistavoitteet {:fi "osaamistavoitteet fi", :sv "osaamistavoitteet sv"}})
+
+    (reset! fixture/opetussuunnitelmat {"123" {:peruste {:perusteId 123}}})
+    (reset! fixture/paikalliset-tutkinnonosat {"123" [{:id 456
+                                                       :nimi {:fi "Paikallinen tutkinnon osa fi" :sv "Paikallinen tutkinnon osa sv"}
+                                                       :tosa {:omatutkinnonosa {:laajuus 15.0}}}]})
 
     (fixture/add-koulutus-mock koulutus-oid5
                                :tila "julkaistu"

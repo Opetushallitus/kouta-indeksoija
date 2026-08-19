@@ -1,7 +1,5 @@
 (ns kouta-indeksoija-service.indexer.kouta.koulutus
-  (:require [kouta-indeksoija-service.indexer.cache.eperuste :refer [filter-tutkinnon-osa get-eperuste-by-id]]
-            [kouta-indeksoija-service.rest.eperuste :refer [get-paikallinen-tutkinnon-osa-with-cache
-                                                            get-opetussuunnitelma-with-cache]]
+  (:require [kouta-indeksoija-service.indexer.cache.eperuste :refer [filter-tutkinnon-osa get-eperuste-by-id get-enriched-paikalliset-tutkinnon-osat]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.tools.general :refer [amm-koulutus-with-eperuste? amm-osaamisala? amm-tutkinnon-osa? ammatillinen?
@@ -41,18 +39,6 @@
                  :opintojenLaajuus (:opintojenLaajuus eperuste-tutkinnon-osa)
                  :opintojenLaajuusyksikko (:opintojenLaajuusyksikko eperuste)
                  :tutkinnonOsat (select-keys eperuste-tutkinnon-osa [:koodiUri :nimi])}))))
-
-(defn- get-enriched-paikalliset-tutkinnon-osat
-  [paikalliset-tutkinnon-osat]
-  (when (seq paikalliset-tutkinnon-osat)
-      (vec (for [osa paikalliset-tutkinnon-osat
-                 :let [opetussuunnitelma-id (:opetussuunnitelmaId osa)
-                       amosaa-osa (get-paikallinen-tutkinnon-osa-with-cache opetussuunnitelma-id (:tutkinnonosaId osa))
-                       eperuste-id (some-> (get-opetussuunnitelma-with-cache opetussuunnitelma-id) (get-in [:peruste :perusteId]))
-                       laajuusyksikko (some-> eperuste-id get-eperuste-by-id :opintojenLaajuusyksikko)]]
-             (merge osa {:nimi                    (:nimi amosaa-osa)
-                         :opintojenLaajuusNumero  (get-in amosaa-osa [:tosa :omatutkinnonosa :laajuus])
-                         :opintojenLaajuusyksikko laajuusyksikko})))))
 
 (defn- enrich-tutkinnon-osa-metadata
   [koulutus]

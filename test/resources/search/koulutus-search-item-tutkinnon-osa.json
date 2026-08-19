@@ -46,6 +46,24 @@
       }
     }
   ],
+  "paikallisetTutkinnonOsat": [
+    {
+      "opetussuunnitelmaId": "123",
+      "tutkinnonosaId": "456",
+      "nimi": {
+        "fi": "Paikallinen tutkinnon osa fi",
+        "sv": "Paikallinen tutkinnon osa sv"
+      },
+      "opintojenLaajuusNumero": 15.0,
+      "opintojenLaajuusyksikko": {
+        "koodiUri": "opintojenlaajuusyksikko_6",
+        "nimi": {
+          "fi": "opintojenlaajuusyksikko_6 nimi fi",
+          "sv": "opintojenlaajuusyksikko_6 nimi sv"
+        }
+      }
+    }
+  ],
   "search_terms": [
     {
       "koulutusnimi": {
