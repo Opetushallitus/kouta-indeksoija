@@ -41,6 +41,9 @@ jobs:
       - name: Prepare clojure env
         uses: ./.github/actions/prepare-clojure-env
 
+      - name: Check confusing dependencies
+        run: ./tools/check_confusing_dependencies.sh
+
       - name: Build jar
         env:
           GITHUB_TOKEN: ${{ github.token }}
