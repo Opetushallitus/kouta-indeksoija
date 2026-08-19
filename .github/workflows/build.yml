@@ -9,6 +9,7 @@ on:
 permissions:
   id-token: write
   contents: read
+  packages: read
 
 jobs:
   test:
@@ -23,12 +24,14 @@ jobs:
         run: ./elastic/build.sh
 
       - name: Run tests
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           git clone https://github.com/Opetushallitus/ci-tools.git
           source ci-tools/common/setup-tools.sh
           docker pull localstack/localstack:3.0.2
           aws --version
-          lein -U ci-test
+          lein ci-test
 
   build:
     runs-on: ubuntu-latest
@@ -39,6 +42,8 @@ jobs:
         uses: ./.github/actions/prepare-clojure-env
 
       - name: Build jar
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: lein uberjar
 
       - uses: actions/cache@v4

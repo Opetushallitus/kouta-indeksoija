@@ -4,16 +4,9 @@
 
 (defproject kouta-indeksoija-service "9.4.2-SNAPSHOT"
   :description "Kouta-indeksoija"
-  :repositories [["releases" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"
-                              :username :env/artifactory_username
-                              :password :env/artifactory_password
-                              :sign-releases false
-                              :snapshots false}]
-                 ["snapshots" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-snapshot-local"
-                               :username :env/artifactory_username
-                               :password :env/artifactory_password
-                               :sign-releases false
-                               :snapshots true}]]
+  :repositories [["github" {:url "https://maven.pkg.github.com/Opetushallitus/packages"
+                            :username "private-token"
+                            :password :env/GITHUB_TOKEN}]]
   :managed-dependencies [[org.clojure/clojure "1.11.4"]
                          [metosin/compojure-api "1.1.14" :exclusions [cheshire
                                                                       com.fasterxml.jackson.core/jackson-core
@@ -31,11 +24,11 @@
                          [org.clojure/core.memoize "1.1.266"]
                          [base64-clj "0.1.1"]
                          [org.clojure/algo.generic "0.1.3"]
-                         [fi.vm.sade.java-utils/java-properties "0.1.0-SNAPSHOT"]
+                         [fi.vm.sade.java-utils/java-properties "1.0.0-SNAPSHOT"]
                          [cprop "0.1.20"]
-                         [oph/clj-elasticsearch "0.5.4-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
+                         [opiskelijavalinnat-utils/clj-elasticsearch "0.5.4-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
                          [clj-soup/clojure-soup "0.1.3"]
-                         [oph/clj-log "0.3.2-SNAPSHOT"]
+                         [opiskelijavalinnat-utils/clj-log "0.3.2-SNAPSHOT"]
                          [org.clojure/tools.logging "1.3.0"]
                          [org.apache.logging.log4j/log4j-slf4j2-impl "2.24.3"]
                          [org.apache.logging.log4j/log4j-api "2.24.3"]
@@ -51,7 +44,7 @@
                          [org.slf4j/jcl-over-slf4j "2.0.17"]
 
                          ; transitive deps
-                         [clj-time "0.15.2"] ;Versioristiriita: [oph/clj-log "0.3.2-SNAPSHOT"] vs [metosin/compojure-api "1.1.14"] vs [clojurewerkz/quartzite "2.2.0"]
+                         [clj-time "0.15.2"] ;Versioristiriita: [opiskelijavalinnat-utils/clj-log "0.3.2-SNAPSHOT"] vs [metosin/compojure-api "1.1.14"] vs [clojurewerkz/quartzite "2.2.0"]
                          [com.fasterxml.jackson.core/jackson-databind "2.18.3"]
                          [commons-fileupload/commons-fileupload "1.6.0"]
                          [org.apache.commons/commons-compress "1.22"]
@@ -76,11 +69,11 @@
                  [fi.vm.sade.java-utils/java-properties]
                  [cprop]
                  ;Elasticsearch
-                 [oph/clj-elasticsearch]
+                 [opiskelijavalinnat-utils/clj-elasticsearch]
                  ;Cas
                  [clj-soup/clojure-soup]
                  ;;Logging
-                 [oph/clj-log]
+                 [opiskelijavalinnat-utils/clj-log]
                  [org.clojure/tools.logging]
                  [org.apache.logging.log4j/log4j-slf4j2-impl]
                  [org.apache.logging.log4j/log4j-api]
@@ -120,7 +113,7 @@
                                 (pjstadig.humane-test-output/activate!)]}
              :test {:env {:test "true"}
                     :dependencies [[net.java.dev.jna/jna "5.17.0"]
-                                   [oph/clj-test-utils "0.5.7-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
+                                   [opiskelijavalinnat-utils/clj-test-utils "0.5.7-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
                                    [lambdaisland/kaocha "1.91.1392"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
@@ -133,7 +126,7 @@
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.4.0"]
                                       [net.java.dev.jna/jna "5.12.1"]
-                                      [oph/clj-test-utils "0.5.7-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
+                                      [opiskelijavalinnat-utils/clj-test-utils "0.5.7-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
                                       [lambdaisland/kaocha "1.87.1366"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"
