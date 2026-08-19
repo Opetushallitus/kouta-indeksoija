@@ -1,6 +1,6 @@
 (ns kouta-indeksoija-service.indexer.kouta.koulutus
   (:require [kouta-indeksoija-service.indexer.cache.eperuste :refer [filter-tutkinnon-osa get-eperuste-by-id]]
-            [kouta-indeksoija-service.rest.eperuste :refer [get-paikalliset-tutkinnonosat-with-cache
+            [kouta-indeksoija-service.rest.eperuste :refer [get-paikallinen-tutkinnon-osa-with-cache
                                                             get-opetussuunnitelma-with-cache]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
@@ -45,17 +45,14 @@
 (defn- get-enriched-paikalliset-tutkinnon-osat
   [paikalliset-tutkinnon-osat]
   (when (seq paikalliset-tutkinnon-osat)
-    (let [opetussuunnitelma-id  (-> paikalliset-tutkinnon-osat first :opetussuunnitelmaId)
-          amosaa-osat           (get-paikalliset-tutkinnonosat-with-cache opetussuunnitelma-id)
-          eperuste-id           (some-> (get-opetussuunnitelma-with-cache opetussuunnitelma-id)
-                                        (get-in [:peruste :perusteId]))
-          laajuusyksikko        (some-> eperuste-id get-eperuste-by-id :opintojenLaajuusyksikko)]
       (vec (for [osa paikalliset-tutkinnon-osat
-                 :let [amosaa-osa (first (filter #(= (str (:id %)) (str (:tutkinnonosaId osa)))
-                                                 amosaa-osat))]]
+                 :let [opetussuunnitelma-id (:opetussuunnitelmaId osa)
+                       amosaa-osa (get-paikallinen-tutkinnon-osa-with-cache opetussuunnitelma-id (:tutkinnonosaId osa))
+                       eperuste-id (some-> (get-opetussuunnitelma-with-cache opetussuunnitelma-id) (get-in [:peruste :perusteId]))
+                       laajuusyksikko (some-> eperuste-id get-eperuste-by-id :opintojenLaajuusyksikko)]]
              (merge osa {:nimi                    (:nimi amosaa-osa)
                          :opintojenLaajuusNumero  (get-in amosaa-osa [:tosa :omatutkinnonosa :laajuus])
-                         :opintojenLaajuusyksikko laajuusyksikko}))))))
+                         :opintojenLaajuusyksikko laajuusyksikko})))))
 
 (defn- enrich-tutkinnon-osa-metadata
   [koulutus]

@@ -103,3 +103,8 @@
 
 (def get-paikalliset-tutkinnonosat-with-cache
   (with-fifo-ttl-cache get-paikalliset-tutkinnonosat (* 1000 60 5) 1000))
+
+(defn get-paikallinen-tutkinnon-osa-with-cache [opetussuunnitelma-id tutkinnonosa-id]
+  (when (and opetussuunnitelma-id tutkinnonosa-id)
+    (get-paikalliset-tutkinnonosat-with-cache opetussuunnitelma-id)
+    (first (filter #(= (str (:id %)) (str tutkinnonosa-id)) (get-paikalliset-tutkinnonosat-with-cache opetussuunnitelma-id)))))
