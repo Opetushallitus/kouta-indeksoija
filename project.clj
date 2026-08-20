@@ -149,6 +149,7 @@
                        :plugins [[lein-auto "0.1.3"]
                                  [lein-environ "1.2.0"]
                                  [lein-test-report "0.2.0"]]}
+             :elasticdump {:jvm-opts ["-Dindeksoija.elasticdump=true"]}
              :uberjar {:ring {:port 8080}}
              :jar-with-test-fixture {:source-paths ["src", "test"]
                                      :jar-exclusions [#"perf|resources|mocks"]}} ;TODO: Better exclusion
@@ -161,10 +162,10 @@
             "cloverage" ["with-profile" "+test" "cloverage"]
             "uberjar" ["do" "clean" ["ring" "uberjar"]]
             "testjar" ["with-profile" "+jar-with-test-fixture" "jar"]
-            "elasticdump:kouta-internal" ["with-profile" "+test" ["run" "-m" "mocks.kouta-internal-mocks"]]
-            "elasticdump:kouta-external" ["with-profile" "+test" ["run" "-m" "mocks.kouta-external-mocks"]]
-            "elasticdump:konfo-backend" ["with-profile" "+test" ["run" "-m" "mocks.konfo-backend-mocks"]]
-            "elasticdump:tarjonta-pulssi" ["with-profile" "+test" ["run" "-m" "mocks.tarjonta-pulssi-mocks"]]}
+            "elasticdump:kouta-internal" ["with-profile" "+test,+elasticdump" ["run" "-m" "mocks.kouta-internal-mocks"]]
+            "elasticdump:kouta-external" ["with-profile" "+test,+elasticdump" ["run" "-m" "mocks.kouta-external-mocks"]]
+            "elasticdump:konfo-backend" ["with-profile" "+test,+elasticdump" ["run" "-m" "mocks.konfo-backend-mocks"]]
+            "elasticdump:tarjonta-pulssi" ["with-profile" "+test,+elasticdump" ["run" "-m" "mocks.tarjonta-pulssi-mocks"]]}
   :resource-paths ["resources"]
   :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"]
   :zprint {:width 100 :old? false :style :community :map {:comma? false}})
