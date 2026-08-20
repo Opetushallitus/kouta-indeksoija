@@ -5,8 +5,9 @@
             [clj-log.error-log :refer [with-error-logging]]
             [clojure.string :as string]
             [clojure.tools.logging :as log]
-            [kouta-indeksoija-service.elastic.settings :refer :all]
+            [kouta-indeksoija-service.elastic.settings :refer [eperuste-mappings index-settings index-settings-eperuste index-settings-lokalisointi index-settings-search koodisto-mappings kouta-mappings kouta-search-mappings lokalisointi-mappings osaamismerkki-mappings toteutussuunnitelma-mappings]]
             [kouta-indeksoija-service.elastic.tools :as t]
+            [kouta-indeksoija-service.indexer.amosaa.toteutussuunnitelma :refer [index-name] :rename {index-name toteutussuunnitelma-index}]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :refer [index-name] :rename {index-name eperuste-index}]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :refer [index-name] :rename {index-name osaamisalakuvaus-index}]
             [kouta-indeksoija-service.indexer.eperuste.tutkinnonosa :refer [index-name] :rename {index-name tutkinnonosa-index}]
@@ -128,6 +129,9 @@
    [koulutus-search-index index-settings-search kouta-search-mappings]
    [oppilaitos-search-index index-settings-search kouta-search-mappings]])
 
+(defonce amosaa-indices-settings-and-mappings
+  [[toteutussuunnitelma-index index-settings toteutussuunnitelma-mappings]])
+
 (defonce eperuste-indices-settings-and-mappings
   [[eperuste-index index-settings-eperuste eperuste-mappings]
    [tutkinnonosa-index index-settings eperuste-mappings]
@@ -144,6 +148,7 @@
 
 (defonce indices-settings-and-mappings
   (into [] (concat kouta-indices-settings-and-mappings
+                   amosaa-indices-settings-and-mappings
                    eperuste-indices-settings-and-mappings
                    osaamismerkki-indices-settings-and-mappings
                    koodisto-indices-settings-and-mappings
@@ -175,6 +180,10 @@
 (defn initialize-kouta-indices-for-reindexing
   []
   (initialize-new-indices-for-reindexing kouta-indices-settings-and-mappings))
+
+(defn initialize-amosaa-indices-for-reindexing
+  []
+  (initialize-new-indices-for-reindexing amosaa-indices-settings-and-mappings))
 
 (defn initialize-eperuste-indices-for-reindexing
   []

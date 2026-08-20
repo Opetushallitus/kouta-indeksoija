@@ -448,6 +448,16 @@
          :query-params [koodiUri :- String]
          (with-access-logging request (ok {:result (indexer/index-osaamismerkki koodiUri)})))
 
+       (POST "/toteutussuunnitelma" [:as request]
+         :summary "Indeksoi toteutussuunnitelman (oid==opetussuunnitelmaId)"
+         :query-params [oid :- String]
+         (with-access-logging request (ok {:result (indexer/index-toteutussuunnitelma oid)})))
+
+       (POST "/tutkinnonosa" [:as request]
+         :summary "Indeksoi tutkinnonosan (oid==id)"
+         :query-params [oid :- String]
+         (with-access-logging request (ok {:result (indexer/index-tutkinnonosa oid)})))
+
        (POST "/organisaatio" [:as request]
          :summary "Indeksoi oppilaitoksen"
          :query-params [oid :- String]
@@ -491,6 +501,16 @@
          :summary "Lisää osaamismerkin indeksoinnin jonoon"
          :query-params [koodiUri :- String]
          (with-access-logging request (ok {:result (queuer/queue-osaamismerkki koodiUri)})))
+
+       (POST "/toteutussuunnitelma" [:as request]
+         :summary "Lisää toteutussuunnitelman (oid==opetussuunnitelmaId) indeksoinnin jonoon"
+         :query-params [oid :- String]
+         (with-access-logging request (ok {:result (queuer/queue-toteutussuunnitelma oid)})))
+
+       (POST "/tutkinnonosa" [:as request]
+         :summary "Lisää tutkinnonosan (oid==id) indeksoinnin jonoon"
+         :query-params [oid :- String]
+         (with-access-logging request (ok {:result (queuer/queue-tutkinnonosa oid)})))
 
        (POST "/oppilaitos" [:as request]
          :summary "Lisää oppilaitos/organisaatio indeksoinnin jonoon"

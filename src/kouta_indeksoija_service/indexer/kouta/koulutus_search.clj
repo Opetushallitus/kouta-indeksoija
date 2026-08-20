@@ -1,5 +1,6 @@
 (ns kouta-indeksoija-service.indexer.kouta.koulutus-search
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
+            [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-enriched-paikalliset-tutkinnon-osat]]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.indexer.tools.general :refer [amm-tutkinnon-osa? amm-osaamisala? julkaistu?]]
@@ -145,6 +146,7 @@
                   (common/localize-dates))]
     (cond-> entry
       (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (-> koulutus (search-tool/tutkinnon-osat) (common/decorate-koodi-uris)))
+      (amm-tutkinnon-osa? koulutus) (assoc :paikallisetTutkinnonOsat (get-enriched-paikalliset-tutkinnon-osat (get-in koulutus [:metadata :paikallisetTutkinnonOsat])))
       (amm-osaamisala? koulutus)    (merge (common/decorate-koodi-uris {:osaamisalaKoodiUri (-> koulutus (search-tool/osaamisala-koodi-uri))})))))
 
 (defn- assoc-toteutusten-tarjoajat

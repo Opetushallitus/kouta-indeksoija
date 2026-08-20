@@ -9,12 +9,13 @@ on:
 permissions:
   id-token: write
   contents: read
+  packages: read
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Prepare clojure env
         uses: ./.github/actions/prepare-clojure-env
@@ -23,25 +24,32 @@ jobs:
         run: ./elastic/build.sh
 
       - name: Run tests
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           git clone https://github.com/Opetushallitus/ci-tools.git
           source ci-tools/common/setup-tools.sh
           docker pull localstack/localstack:3.0.2
           aws --version
-          lein -U ci-test
+          lein ci-test
 
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Prepare clojure env
         uses: ./.github/actions/prepare-clojure-env
 
+      - name: Check confusing dependencies
+        run: ./tools/check_confusing_dependencies.sh
+
       - name: Build jar
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: lein uberjar
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         id: restore-build
         with:
           path: target
@@ -49,7 +57,7 @@ jobs:
 
   deploy:
     needs: [ test, build ]
-    uses: Opetushallitus/.github/.github/workflows/push-scan-java-ecr.yml@main
+    uses: Opetushallitus/.github/.github/workflows/push-scan-java-ecr.yml@2f06269d5ac067ef17a76d2d5742db0b325e9a2e # main
     with:
       application: kouta-indeksoija
       base-image: baseimage-fatjar-openjdk21:master

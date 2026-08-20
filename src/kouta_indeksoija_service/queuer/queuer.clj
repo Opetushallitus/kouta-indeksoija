@@ -9,13 +9,16 @@
 (def elastic-lock? (atom false :error-handler #(log/error %)))
 
 (defn- queue
-  [& {:keys [oppilaitokset eperusteet osaamismerkit] :or {oppilaitokset [] eperusteet [] osaamismerkit []}}]
+  [& {:keys [oppilaitokset eperusteet osaamismerkit toteutussuunnitelmat tutkinnonosat]
+      :or {oppilaitokset [] eperusteet [] osaamismerkit [] toteutussuunnitelmat [] tutkinnonosat []}}]
   (sqs/send-message
    (sqs/queue :fast)
    (cond-> {}
      (not-empty oppilaitokset) (assoc :oppilaitokset (vec oppilaitokset))
      (not-empty eperusteet) (assoc :eperusteet (vec eperusteet))
-     (not-empty osaamismerkit) (assoc :osaamismerkit (vec osaamismerkit)))))
+     (not-empty osaamismerkit) (assoc :osaamismerkit (vec osaamismerkit))
+     (not-empty toteutussuunnitelmat) (assoc :toteutussuunnitelmat (vec toteutussuunnitelmat))
+     (not-empty tutkinnonosat) (assoc :tutkinnonosat (vec tutkinnonosat)))))
 
 (defn queue-all-eperusteet
   []
@@ -36,6 +39,14 @@
 (defn queue-osaamismerkki
   [osaamismerkki-koodi-uri]
   (queue :osaamismerkit [osaamismerkki-koodi-uri]))
+
+(defn queue-toteutussuunnitelma
+  [opetussuunnitelma-id]
+  (queue :toteutussuunnitelmat [opetussuunnitelma-id]))
+
+(defn queue-tutkinnonosa
+  [tutkinnonosa-id]
+  (queue :tutkinnonosat [tutkinnonosa-id]))
 
 (defn queue-all-oppilaitokset-from-organisaatiopalvelu
   []

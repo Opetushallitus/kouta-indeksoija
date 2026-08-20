@@ -32,7 +32,27 @@
   (fixture/add-koulutus-mock traktoriala-oid :koulutustyyppi "amm" :tila "julkaistu" :nimi "Traktorialan koulutus" :tarjoajat [punkaharjun-yliopisto helsingin-yliopisto] :metadata (merge fixture/koulutus-metatieto {:luokittelutermit ["ohjaaja"]}) :sorakuvausId sorakuvausId)
   (fixture/add-koulutus-mock hevosala-oid :koulutustyyppi "amm" :tila "julkaistu" :nimi "Hevosalan koulutus" :modified "2018-05-05T12:02:23" :tarjoajat [punkaharjun-yliopisto helsingin-yliopisto] :metadata (merge fixture/koulutus-metatieto {:luokittelutermit ["ohjaaja"]}) :sorakuvausId sorakuvausId)
   (fixture/add-koulutus-mock traktoriala-oid2 :koulutustyyppi "amm" :tila "julkaistu" :nimi "Traktorialan koulutus" :metadata fixture/koulutus-metatieto :sorakuvausId sorakuvausId :tarjoajat [])
-  (fixture/add-koulutus-mock hevostutkinnon-osa-oid :koulutustyyppi "amm-tutkinnon-osa" :koulutuksetKoodiUri nil :ePerusteId nil :tila "julkaistu" :johtaaTutkintoon false :nimi "Hevosalan tutkinnon osa koulutus" :tarjoajat [punkaharjun-yliopisto] :sorakuvausId sorakuvausId :metadata fixture/amm-tutkinnon-osa-koulutus-metadata)
+  (swap! fixture/opetussuunnitelmat assoc "123"
+         {:id 123 :nimi {:fi "Toteutussuunnitelma fi" :sv "Toteutussuunnitelma sv"} :tila "julkaistu"})
+  (swap! fixture/paikalliset-tutkinnonosat assoc "123"
+         [{:id 456 :nimi {:fi "Paikallinen tutkinnon osa fi" :sv "Paikallinen tutkinnon osa sv"}
+           :tosa {:omatutkinnonosa {:ammattitaidonosoittamistavat {:fi "Ammattitaidon osoittamistavat fi" :sv "Ammattitaidon osoittamistavat sv"}
+                                    :ammattitaitovaatimukset {:kohde {:fi "Vaatimukset kohde fi" :sv "Vaatimukset kohde sv"}
+                                                              :kohdealueet []
+                                                              :vaatimukset [{:koodi "vaatimus_1" :vaatimus {:fi "Vaatimus 1 fi" :sv "Vaatimus 1 sv"}}]}
+                                    :ammattitaitovaatimuksetlista nil
+                                    :laajuus 15.0}}}
+          {:id 789 :nimi {:fi "Toinen paikallinen osa fi" :sv "Toinen paikallinen osa sv"}
+           :tosa {:omatutkinnonosa {:ammattitaidonosoittamistavat {:fi "Toinen osoittamistapa fi" :sv "Toinen osoittamistapa sv"}
+                                    :ammattitaitovaatimukset nil
+                                    :ammattitaitovaatimuksetlista {:kohde {:fi "Lista kohde fi" :sv "Lista kohde sv"}
+                                                                   :kohdealueet [{:kuvaus {:fi "Kohdealue fi" :sv "Kohdealue sv"}
+                                                                                  :vaatimukset [{:koodi "vaatimus_2" :vaatimus {:fi "Vaatimus 2 fi" :sv "Vaatimus 2 sv"}}]}]
+                                                                   :vaatimukset []}}}}])
+  (fixture/add-koulutus-mock hevostutkinnon-osa-oid :koulutustyyppi "amm-tutkinnon-osa" :koulutuksetKoodiUri nil :ePerusteId nil :tila "julkaistu" :johtaaTutkintoon false :nimi "Hevosalan tutkinnon osa koulutus" :tarjoajat [punkaharjun-yliopisto] :sorakuvausId sorakuvausId
+                             :metadata (assoc fixture/amm-tutkinnon-osa-koulutus-metadata
+                                             :paikallisetTutkinnonOsat [{:opetussuunnitelmaId "123" :tutkinnonosaId "456"}
+                                                                        {:opetussuunnitelmaId "123" :tutkinnonosaId "789"}]))
   (fixture/add-koulutus-mock hevososaamisala-oid :koulutustyyppi "amm-osaamisala" :tila "julkaistu" :johtaaTutkintoon false :nimi "Hevosalan osaamisala koulutus" :tarjoajat [punkaharjun-yliopisto] :metadata fixture/amm-osaamisala-koulutus-metadata :sorakuvausId sorakuvausId)
   (fixture/add-koulutus-mock yo-koulutus-oid :tila "julkaistu" :koulutustyyppi "yo" :nimi "Arkkitehti" :tarjoajat [punkaharjun-yliopisto] :metadata fixture/yo-koulutus-metadata :sorakuvausId sorakuvausId)
   (fixture/add-koulutus-mock amk-oid :tila "julkaistu" :koulutustyyppi "amk" :nimi "Artenomi" :tarjoajat [punkaharjun-yliopisto] :metadata (merge fixture/amk-koulutus-metadata {:luokittelutermit ["ohjaaja"]}) :sorakuvausId sorakuvausId)
