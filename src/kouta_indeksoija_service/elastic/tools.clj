@@ -30,7 +30,7 @@
 (defn ->raw-index-name
   ([index-name postfix]
    (str index-name "-" postfix))
-  ([index-name]
+  ([index-name] 
    (->raw-index-name index-name (time/current-index-postfix-time))))
 
 (defn raw-index-name->index-name

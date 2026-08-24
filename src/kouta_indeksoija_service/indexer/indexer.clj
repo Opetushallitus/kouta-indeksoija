@@ -12,6 +12,7 @@
             [kouta-indeksoija-service.indexer.eperuste.tutkinnonosa :as tutkinnonosa]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :as osaamisalakuvaus]
             [kouta-indeksoija-service.indexer.eperuste.osaamismerkki :as osaamismerkki]
+            [kouta-indeksoija-service.indexer.amosaa.toteutussuunnitelma :as toteutussuunnitelma]
             [kouta-indeksoija-service.indexer.koodisto.koodisto :as koodisto]
             [kouta-indeksoija-service.util.time :refer [long->rfc1123]]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
@@ -45,6 +46,14 @@
   [entries]
   (set (remove nil? (mapcat tutkinnonosa-ids-on-koulutus entries))))
 
+(defn opetussuunnitelma-ids-on-koulutus
+  [koulutus]
+  (map :opetussuunnitelmaId (get-in koulutus [:metadata :paikallisetTutkinnonOsat])))
+
+(defn opetussuunnitelma-ids-on-koulutukset
+  [entries]
+  (set (remove nil? (mapcat opetussuunnitelma-ids-on-koulutus entries))))
+
 (defn quick-index-koulutukset [oids execution-id]
   (log/info (str "Pikaindeksoidaan koulutukset " oids ", execution id " execution-id))
   (koulutus/do-index oids execution-id))
@@ -60,12 +69,14 @@
         tarjoaja-oids (get-oids :oid (mapcat :tarjoajat entries))
         oppilaitos-oids-to-index (organisaatio-tool/resolve-organisaatio-oids-to-index
                                   (hierarkia/get-hierarkia-cached)
-                                  tarjoaja-oids)]
+                                  tarjoaja-oids)
+        opetussuunnitelma-ids (opetussuunnitelma-ids-on-koulutukset not-poistetut)]
     (koulutus-search/do-index oids execution-id)
     (eperuste/do-index (eperuste-ids-on-koulutukset not-poistetut) execution-id)
     (tutkinnonosa/do-index (tutkinnonosa-ids-on-koulutukset not-poistetut) execution-id)
+    (toteutussuunnitelma/do-index opetussuunnitelma-ids execution-id)
     (oppilaitos/do-index oppilaitos-oids-to-index execution-id)
-    (oppilaitos-search/do-index oppilaitos-oids-to-index execution-id)
+    (oppilaitos-search/do-index oppilaitos-oids-to-index execution-id false)
     entries))
 
 (defn index-koulutus
@@ -101,7 +112,7 @@
     (haku/do-index (get-oids :oid haut) execution-id)
     (osaamisalakuvaus/do-index (eperuste-ids-on-koulutukset koulutus-entries) execution-id)
     (oppilaitos/do-index oppilaitos-oids-to-index execution-id)
-    (oppilaitos-search/do-index oppilaitos-oids-to-index execution-id)
+    (oppilaitos-search/do-index oppilaitos-oids-to-index execution-id false)
     toteutus-entries))
 
 (defn index-toteutus
@@ -223,6 +234,24 @@
   (let [execution-id (. System (currentTimeMillis))]
     (index-osaamismerkit [koodiUri] execution-id)))
 
+(defn index-toteutussuunnitelmat
+  [oids execution-id]
+  (toteutussuunnitelma/do-index oids execution-id))
+
+(defn index-toteutussuunnitelma
+  [opetussuunnitelma-id]
+  (let [execution-id (. System (currentTimeMillis))]
+    (index-toteutussuunnitelmat [opetussuunnitelma-id] execution-id)))
+
+(defn index-tutkinnonosat
+  [oids execution-id]
+  (tutkinnonosa/do-index oids execution-id))
+
+(defn index-tutkinnonosa
+  [id]
+  (let [execution-id (. System (currentTimeMillis))]
+    (index-tutkinnonosat [id] execution-id)))
+
 (defn index-oppilaitokset
   ([oids execution-id]
    (index-oppilaitokset oids execution-id true))
@@ -267,7 +296,9 @@
               (count (:valintaperusteet oids)) "valintaperustetta, "
               (count (:sorakuvaukset oids)) "sora-kuvausta, "
               (count (:eperusteet oids)) "eperustetta osaamisaloineen,"
-              (count (:osaamismerkit oids)) "osaamismerkkiä sekä"
+              (count (:osaamismerkit oids)) "osaamismerkkiä,"
+              (count (:toteutussuunnitelmat oids)) "toteutussuunnitelmaa,"
+              (count (:tutkinnonosat oids)) "tutkinnonosaa sekä"
               (count (:oppilaitokset oids)) "oppilaitosta.")
     (let [ret (cond-> {}
                 (contains? oids :koulutukset) (assoc :koulutukset (index-koulutukset (:koulutukset oids) execution-id))
@@ -278,7 +309,9 @@
                 (contains? oids :valintaperusteet) (assoc :valintaperusteet (index-valintaperusteet (:valintaperusteet oids) execution-id))
                 (contains? oids :eperusteet) (assoc :eperusteet (index-eperusteet (:eperusteet oids) execution-id))
                 (contains? oids :oppilaitokset) (assoc :oppilaitokset (index-oppilaitokset (:oppilaitokset oids) execution-id))
-                (contains? oids :osaamismerkit) (assoc :osaamismerkit (index-osaamismerkit (:osaamismerkit oids) execution-id)))]
+                (contains? oids :osaamismerkit) (assoc :osaamismerkit (index-osaamismerkit (:osaamismerkit oids) execution-id))
+                (contains? oids :toteutussuunnitelmat) (assoc :toteutussuunnitelmat (index-toteutussuunnitelmat (:toteutussuunnitelmat oids) execution-id))
+                (contains? oids :tutkinnonosat) (assoc :tutkinnonosat (index-tutkinnonosat (:tutkinnonosat oids) execution-id)))]
       (log/info (str " ID:" execution-id " Indeksointi valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms."))
       ret)))
 
@@ -300,9 +333,11 @@
                                   (:oppilaitokset oids))]
     (log/info (str "ID:" start-and-execution-id " Indeksoidaan kouta-backendistä kaikki."))
     (let [koulutus-entries (koulutus/do-index (:koulutukset oids) start-and-execution-id)
-          not-poistetut-koulutus-entries (filter not-poistettu? koulutus-entries)]
+          not-poistetut-koulutus-entries (filter not-poistettu? koulutus-entries)
+          opetussuunnitelma-ids (opetussuunnitelma-ids-on-koulutukset not-poistetut-koulutus-entries)]
       (eperuste/do-index (eperuste-ids-on-koulutukset not-poistetut-koulutus-entries) start-and-execution-id)
-      (tutkinnonosa/do-index (tutkinnonosa-ids-on-koulutukset not-poistetut-koulutus-entries) start-and-execution-id))
+      (tutkinnonosa/do-index (tutkinnonosa-ids-on-koulutukset not-poistetut-koulutus-entries) start-and-execution-id)
+      (toteutussuunnitelma/do-index opetussuunnitelma-ids start-and-execution-id))
     (koulutus-search/do-index (:koulutukset oids) start-and-execution-id)
     (toteutus/do-index (:toteutukset oids) start-and-execution-id)
     (haku/do-index (:haut oids) start-and-execution-id)
@@ -310,7 +345,7 @@
     (valintaperuste/do-index (:valintaperusteet oids) start-and-execution-id)
     (oppilaitos/do-index oppilaitos-oids-to-index start-and-execution-id)
     (sorakuvaus/do-index (:sorakuvaukset oids) start-and-execution-id)
-    (oppilaitos-search/do-index (:oppilaitokset oids) start-and-execution-id)
+    (oppilaitos-search/do-index (:oppilaitokset oids) start-and-execution-id false)
     (log/info (str "ID:" start-and-execution-id " Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) (Long. (re-find #"\d+" start-and-execution-id))) " ms."))))
 
 (defn index-all-koulutukset

@@ -4,16 +4,9 @@
 
 (defproject kouta-indeksoija-service "9.4.2-SNAPSHOT"
   :description "Kouta-indeksoija"
-  :repositories [["releases" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"
-                              :username :env/artifactory_username
-                              :password :env/artifactory_password
-                              :sign-releases false
-                              :snapshots false}]
-                 ["snapshots" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-snapshot-local"
-                               :username :env/artifactory_username
-                               :password :env/artifactory_password
-                               :sign-releases false
-                               :snapshots true}]]
+  :repositories [["github" {:url "https://maven.pkg.github.com/Opetushallitus/packages"
+                            :username "private-token"
+                            :password :env/GITHUB_TOKEN}]]
   :managed-dependencies [[org.clojure/clojure "1.11.4"]
                          [metosin/compojure-api "1.1.14" :exclusions [cheshire
                                                                       com.fasterxml.jackson.core/jackson-core
@@ -31,11 +24,11 @@
                          [org.clojure/core.memoize "1.1.266"]
                          [base64-clj "0.1.1"]
                          [org.clojure/algo.generic "0.1.3"]
-                         [fi.vm.sade.java-utils/java-properties "0.1.0-SNAPSHOT"]
+                         [fi.vm.sade.java-utils/java-properties "1.0.0-SNAPSHOT"]
                          [cprop "0.1.20"]
-                         [oph/clj-elasticsearch "0.5.4-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
+                         [opiskelijavalinnat-utils/clj-elasticsearch "0.5.4-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
                          [clj-soup/clojure-soup "0.1.3"]
-                         [oph/clj-log "0.3.2-SNAPSHOT"]
+                         [opiskelijavalinnat-utils/clj-log "0.3.2-SNAPSHOT"]
                          [org.clojure/tools.logging "1.3.0"]
                          [org.apache.logging.log4j/log4j-slf4j2-impl "2.24.3"]
                          [org.apache.logging.log4j/log4j-api "2.24.3"]
@@ -51,7 +44,7 @@
                          [org.slf4j/jcl-over-slf4j "2.0.17"]
 
                          ; transitive deps
-                         [clj-time "0.15.2"] ;Versioristiriita: [oph/clj-log "0.3.2-SNAPSHOT"] vs [metosin/compojure-api "1.1.14"] vs [clojurewerkz/quartzite "2.2.0"]
+                         [clj-time "0.15.2"] ;Versioristiriita: [opiskelijavalinnat-utils/clj-log "0.3.2-SNAPSHOT"] vs [metosin/compojure-api "1.1.14"] vs [clojurewerkz/quartzite "2.2.0"]
                          [com.fasterxml.jackson.core/jackson-databind "2.18.3"]
                          [commons-fileupload/commons-fileupload "1.6.0"]
                          [org.apache.commons/commons-compress "1.22"]
@@ -59,8 +52,20 @@
                          [org.testcontainers/testcontainers "1.21.4"] ; clj-test-utils tuleva vanha versio ei enää toimi ECR:n kanssa
                          [org.jsoup/jsoup "1.19.1"]
                          [clj-commons/clj-yaml "1.0.29"]
+                         [com.typesafe.akka/akka-http_2.12 "10.1.15"]
+                         [prismatic/schema "1.2.0"]
+                         [commons-codec "1.17.1"]
+                         [commons-io "2.19.0"]
+                         [ring/ring-core "1.7.1"]
                          [io.netty/netty-codec-http2 "4.1.124.Final"]
-                         [com.typesafe.akka/akka-http_2.12 "10.1.15"]]
+                         [io.netty/netty-codec-http "4.1.124.Final"]
+                         [io.netty/netty-codec "4.1.124.Final"]
+                         [io.netty/netty-transport "4.1.124.Final"]
+                         [io.netty/netty-common "4.1.124.Final"]
+                         [io.netty/netty-buffer "4.1.124.Final"]
+                         [io.netty/netty-handler "4.1.124.Final"]
+                         [io.netty/netty-resolver "4.1.124.Final"]
+                         [io.netty/netty-transport-native-unix-common "4.1.124.Final"]]
   :dependencies [[org.clojure/clojure]
                  [metosin/compojure-api]
                  [com.fasterxml.jackson.core/jackson-annotations]
@@ -76,11 +81,11 @@
                  [fi.vm.sade.java-utils/java-properties]
                  [cprop]
                  ;Elasticsearch
-                 [oph/clj-elasticsearch]
+                 [opiskelijavalinnat-utils/clj-elasticsearch]
                  ;Cas
                  [clj-soup/clojure-soup]
                  ;;Logging
-                 [oph/clj-log]
+                 [opiskelijavalinnat-utils/clj-log]
                  [org.clojure/tools.logging]
                  [org.apache.logging.log4j/log4j-slf4j2-impl]
                  [org.apache.logging.log4j/log4j-api]
@@ -108,22 +113,23 @@
                              [lein-zprint "1.2.0"]
                              [lein-kibit "0.1.3" :exclusions [org.clojure/clojure]]
                              [lein-environ "1.1.0"]
-                             [lein-cloverage "1.1.1" :exclusions [org.clojure/clojure]]]
+                             [lein-cloverage "1.1.1" :exclusions [org.clojure/clojure]]
+                             [com.github.clj-kondo/lein-clj-kondo "0.2.5"]]
                    :resource-paths ["dev_resources"]
                    :env {:dev "true"}
                    :ring {:reload-paths ["src"]
                           :port 8100}
                    :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
-                              "-Daws.secretKey=randomKeyForLocalstack"]
+                              "-Daws.secretAccessKey=randomKeyForLocalstack"]
                    :injections [(require 'pjstadig.humane-test-output)
                                 (pjstadig.humane-test-output/activate!)]}
              :test {:env {:test "true"}
                     :dependencies [[net.java.dev.jna/jna "5.17.0"]
-                                   [oph/clj-test-utils "0.5.7-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
+                                   [opiskelijavalinnat-utils/clj-test-utils "0.5.7-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
                                    [lambdaisland/kaocha "1.91.1392"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
-                               "-Daws.secretKey=randomKeyForLocalstack"]
+                               "-Daws.secretAccessKey=randomKeyForLocalstack"]
                     :injections [(require '[clj-test-utils.elasticsearch-docker-utils :as utils])
                                  (utils/global-docker-elastic-fixture)]
                     :plugins [[lein-auto "0.1.3"]
@@ -132,17 +138,18 @@
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.4.0"]
                                       [net.java.dev.jna/jna "5.12.1"]
-                                      [oph/clj-test-utils "0.5.7-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
+                                      [opiskelijavalinnat-utils/clj-test-utils "0.5.7-SNAPSHOT" :exclusions [com.amazonaws/aws-java-sdk-s3]]
                                       [lambdaisland/kaocha "1.87.1366"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"
                                   "-Daws.accessKeyId=randomKeyIdForLocalstack"
-                                  "-Daws.secretKey=randomKeyForLocalstack"]
+                                  "-Daws.secretAccessKey=randomKeyForLocalstack"]
                        :injections [(require '[clj-test-utils.elasticsearch-docker-utils :as utils])
                                     (utils/global-docker-elastic-fixture)]
                        :plugins [[lein-auto "0.1.3"]
                                  [lein-environ "1.2.0"]
                                  [lein-test-report "0.2.0"]]}
+             :elasticdump {:jvm-opts ["-Dindeksoija.elasticdump=true"]}
              :uberjar {:ring {:port 8080}}
              :jar-with-test-fixture {:source-paths ["src", "test"]
                                      :jar-exclusions [#"perf|resources|mocks"]}} ;TODO: Better exclusion
@@ -155,10 +162,10 @@
             "cloverage" ["with-profile" "+test" "cloverage"]
             "uberjar" ["do" "clean" ["ring" "uberjar"]]
             "testjar" ["with-profile" "+jar-with-test-fixture" "jar"]
-            "elasticdump:kouta-internal" ["with-profile" "+test" ["run" "-m" "mocks.kouta-internal-mocks"]]
-            "elasticdump:kouta-external" ["with-profile" "+test" ["run" "-m" "mocks.kouta-external-mocks"]]
-            "elasticdump:konfo-backend" ["with-profile" "+test" ["run" "-m" "mocks.konfo-backend-mocks"]]
-            "elasticdump:tarjonta-pulssi" ["with-profile" "+test" ["run" "-m" "mocks.tarjonta-pulssi-mocks"]]}
+            "elasticdump:kouta-internal" ["with-profile" "+test,+elasticdump" ["run" "-m" "mocks.kouta-internal-mocks"]]
+            "elasticdump:kouta-external" ["with-profile" "+test,+elasticdump" ["run" "-m" "mocks.kouta-external-mocks"]]
+            "elasticdump:konfo-backend" ["with-profile" "+test,+elasticdump" ["run" "-m" "mocks.konfo-backend-mocks"]]
+            "elasticdump:tarjonta-pulssi" ["with-profile" "+test,+elasticdump" ["run" "-m" "mocks.tarjonta-pulssi-mocks"]]}
   :resource-paths ["resources"]
   :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"]
   :zprint {:width 100 :old? false :style :community :map {:comma? false}})

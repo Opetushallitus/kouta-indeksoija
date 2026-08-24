@@ -66,8 +66,9 @@
   (long->date-time-string millis formatter-index-time-postfix))
 
 (defn current-index-postfix-time []
-  ; Even in tests (especially when creating the mock data for other services) we want the index names to represent the current date.
-  (long->index-postfix-time (System/currentTimeMillis)))
+  (if (= "true" (System/getProperty "indeksoija.elasticdump"))
+    "0000-00-00-at-00.00.00.000" ; Elasticdump-skriptejä ajettaessa (lein elasticdump:*) indeksien nimet halutaan pitää muuttumattomina, jotta ajojen välillä syntyvät elasticdump-tiedostot eivät muutu turhaan.
+    (long->index-postfix-time (System/currentTimeMillis))))
 
 (defn long->rfc1123
   [long]

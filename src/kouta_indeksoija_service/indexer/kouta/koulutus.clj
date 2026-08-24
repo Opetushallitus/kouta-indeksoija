@@ -1,5 +1,5 @@
 (ns kouta-indeksoija-service.indexer.kouta.koulutus
-  (:require [kouta-indeksoija-service.indexer.cache.eperuste :refer [filter-tutkinnon-osa get-eperuste-by-id]]
+  (:require [kouta-indeksoija-service.indexer.cache.eperuste :refer [filter-tutkinnon-osa get-eperuste-by-id get-enriched-paikalliset-tutkinnon-osat]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.tools.general :refer [amm-koulutus-with-eperuste? amm-osaamisala? amm-tutkinnon-osa? ammatillinen?
@@ -45,6 +45,7 @@
   (let [tutkinnon-osat (get-in koulutus [:metadata :tutkinnonOsat])]
     (-> koulutus
         (assoc-in [:metadata :tutkinnonOsat] (get-enriched-tutkinnon-osat tutkinnon-osat))
+        (assoc-in [:metadata :paikallisetTutkinnonOsat] (get-enriched-paikalliset-tutkinnon-osat (get-in koulutus [:metadata :paikallisetTutkinnonOsat])))
         (assoc-in [:metadata :koulutusala] (->> tutkinnon-osat
                                                 (map #(get-in % [:koulutus :koodiUri]))
                                                 (mapcat #(koulutusalat-taso1 %))

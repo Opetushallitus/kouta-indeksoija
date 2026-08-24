@@ -117,3 +117,15 @@
            :tutkinnonOsat
            (filter #(= (:id %) tutkinnon-osa-id))
            (first)))
+
+(defn get-enriched-paikalliset-tutkinnon-osat
+  [paikalliset-tutkinnon-osat]
+  (when (seq paikalliset-tutkinnon-osat)
+    (vec (for [osa paikalliset-tutkinnon-osat
+               :let [opetussuunnitelma-id (:opetussuunnitelmaId osa)
+                     amosaa-osa (eperuste-service/get-paikallinen-tutkinnon-osa-with-cache opetussuunnitelma-id (:tutkinnonosaId osa))
+                     eperuste-id (some-> (eperuste-service/get-opetussuunnitelma-with-cache opetussuunnitelma-id) (get-in [:peruste :perusteId]))
+                     laajuusyksikko (some-> eperuste-id get-eperuste-by-id :opintojenLaajuusyksikko)]]
+           (merge osa {:nimi                    (:nimi amosaa-osa)
+                       :opintojenLaajuusNumero  (some-> (get-in amosaa-osa [:tosa :omatutkinnonosa :laajuus]) double)
+                       :opintojenLaajuusyksikko laajuusyksikko})))))
