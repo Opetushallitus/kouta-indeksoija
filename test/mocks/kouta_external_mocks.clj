@@ -46,6 +46,7 @@
 (defonce hakukohdeOid3    "1.2.246.562.20.00000000000000000003")
 
 (defonce jokin-jarjestyspaikka "1.2.246.562.10.67476956288")
+(defonce oppilaitos-with-explicit-nulls-oid "1.2.246.562.10.00000000000000000099")
 
 (defn- constant-millis []
   (-> (LocalDateTime/parse "2023-02-27T09:50:00")
@@ -98,13 +99,21 @@
   (fixture/add-oppilaitos-mock jokin-jarjestyspaikka :tila "julkaistu" :organisaatio jokin-jarjestyspaikka
                                :_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" jokin-jarjestyspaikka ".json")))})
 
+  ;; kouta-indeksoija tuottaa oikeissa dokumenteissa toisinaan eksplisiittisiä nulleja
+  ;; puuttuvien kenttien (esim. yhteystiedot) tilalle. Tämä oppilaitos jäljittelee sitä
+  ;; organisaatiolla, jolta puuttuu nimi ja yhteystiedot, jotta json4s:n nullienkäsittely
+  ;; (ks. KoutaHitReader) pysyy testattuna.
+  (fixture/add-oppilaitos-mock oppilaitos-with-explicit-nulls-oid :tila "julkaistu" :organisaatio jokin-jarjestyspaikka
+                               :metadata (assoc (:metadata fixture/default-oppilaitos-map) :esittely nil)
+                               :_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" oppilaitos-with-explicit-nulls-oid ".json")))})
+
   (fixture/index-oids-without-related-indices {:sorakuvaukset [sorakuvausId1 sorakuvausId2]
                                                :koulutukset [koulutusOid1 koulutusOid2 koulutusOid3 koulutusOid4 koulutusOid5 koulutusOid6 koulutusOid7 koulutusOid8]
                                                :toteutukset [toteutusOid1 toteutusOid2]
                                                :haut [hakuOid1 hakuOid2 hakuOid3 hakuOid4 hakuOid5 hakuOid6]
                                                :valintaperusteet [valintaPerusteId1 valintaPerusteId2 valintaPerusteId3]
                                                :hakukohteet [hakukohdeOid1 hakukohdeOid2 hakukohdeOid3]
-                                               :oppilaitokset [jokin-jarjestyspaikka]})
+                                               :oppilaitokset [jokin-jarjestyspaikka oppilaitos-with-explicit-nulls-oid]})
   (export-elastic-data "kouta-external")
   (ed-utils/stop-elasticsearch))
 

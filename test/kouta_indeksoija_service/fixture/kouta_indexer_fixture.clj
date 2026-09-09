@@ -34,6 +34,12 @@
 (defonce oppilaitoksen-osat (atom {}))
 (defonce paikalliset-tutkinnonosat (atom {}))
 (defonce opetussuunnitelmat (atom {}))
+;; add-oppilaitos-mock rekisteröi tänne minimaalisen hierarkiamerkinnän jokaiselle
+;; mockatulle oppilaitokselle, jotta se löytyy resolve-organisaatio-oids-to-index:lle
+;; ilman että sen tarvitsee olla mukana jaetussa test/resources/organisaatiot/hierarkia.json:ssa.
+;; mock-get-all-organisaatiot yhdistää nämä hierarkia.json:in kanssa, eikä ylikirjoita
+;; oideja jotka löytyvät jo sieltä.
+(defonce oppilaitos-hierarkia-entries (atom {}))
 
 (defn complete-kielistetyt
   [e]
@@ -625,16 +631,22 @@
     (let [sorakuvaus (merge (get @sorakuvaukset id) params)]
       (swap! sorakuvaukset assoc id sorakuvaus))))
 
+(defn- default-oppilaitos-hierarkia-entry
+  [oid]
+  {:oid oid :organisaatiotyypit ["organisaatiotyyppi_02"] :status "AKTIIVINEN" :children []})
+
 (defn add-oppilaitos-mock
   ([oid & {:as params}]
    (let [oppilaitos (fix-default-format (merge default-oppilaitos-map {:organisaatio oppilaitos-oid :oid oid} params))]
-     (swap! oppilaitokset assoc oid oppilaitos)))
+     (swap! oppilaitokset assoc oid oppilaitos)
+     (swap! oppilaitos-hierarkia-entries assoc oid (default-oppilaitos-hierarkia-entry oid))))
   ([oppilaitos]
    (let [oid (:oid oppilaitos)]
      (swap! oppilaitokset assoc oid (fix-default-format
                                      (merge
                                       oppilaitos
-                                      {:organisaatio oppilaitos-oid :oid oid}))))))
+                                      {:organisaatio oppilaitos-oid :oid oid})))
+     (swap! oppilaitos-hierarkia-entries assoc oid (default-oppilaitos-hierarkia-entry oid)))))
 
 (defn add-oppilaitos-mock-without-kouta-oppilaitos
   [oid organisaatio-data]
@@ -833,7 +845,8 @@
   (reset! oppilaitokset {})
   (reset! oppilaitoksen-osat {})
   (reset! paikalliset-tutkinnonosat {})
-  (reset! opetussuunnitelmat {}))
+  (reset! opetussuunnitelmat {})
+  (reset! oppilaitos-hierarkia-entries {}))
 
 (defn init
   []
@@ -894,9 +907,16 @@
   [oid]
   (parse (str "test/resources/organisaatiot/" oid ".json")))
 
+(defn- collect-hierarkia-oids
+  [item]
+  (into #{(:oid item)} (mapcat collect-hierarkia-oids (:children item))))
+
 (defn mock-get-all-organisaatiot
   []
-  (parse (str "test/resources/organisaatiot/hierarkia.json")))
+  (let [hierarkia (parse (str "test/resources/organisaatiot/hierarkia.json"))
+        existing-oids (into #{} (mapcat collect-hierarkia-oids (:organisaatiot hierarkia)))
+        new-entries (vals (apply dissoc @oppilaitos-hierarkia-entries existing-oids))]
+    (update hierarkia :organisaatiot into new-entries)))
 
 (defmacro with-mocked-indexing
   [& body]
