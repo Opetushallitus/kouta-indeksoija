@@ -1,0 +1,21 @@
+{
+  "children": [],
+  "oid": "1.2.246.562.10.00000000000000000099",
+  "parentOid": "1.2.246.562.10.11111111111",
+  "parentOids": [
+    "1.2.246.562.10.00000000000000000099",
+    "1.2.246.562.10.11111111111",
+    "1.2.246.562.10.00000000001"
+  ],
+  "status": "AKTIIVINEN",
+  "organisaatiotyypit": [
+    "organisaatiotyyppi_02"
+  ],
+  "kieletUris": [
+    "oppilaitoksenopetuskieli_1#2"
+  ],
+  "oppilaitostyyppi": "oppilaitostyyppi_21#1",
+  "kotipaikkaUri": "kunta_297",
+  "yhteystiedot": null,
+  "nimi": null
+}
