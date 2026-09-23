@@ -210,3 +210,27 @@
     (testing "returns empty map if empty list given as a parameter"
       (is (= (merge toteutus-search-terms-result {:metadata (merge (:metadata toteutus-search-terms-result) {:suunniteltuKestoKuukausina 12})})
              (oppilaitos-search/toteutus-search-terms oppilaitos koulutus [] toteutus))))))
+
+(deftest toteutus-search-terms-lukio
+  (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-list-alakoodi-nimet
+                kouta-indeksoija-service.rest.koodisto/get-ylakoodit-with-cache mock-get-ylakoodisto
+                kouta-indeksoija-service.rest.koodisto/get-koodi-nimi-with-cache mock-get-koodi-nimi]
+    (testing "lukiopainotukset ja lukiolinjaterityinenkoulutustehtava poimitaan lukio-toteutuksen metadatasta, osaamisalat ei"
+      (let [lukio-toteutus (-> toteutus
+                               (assoc-in [:metadata :painotukset] [{:koodiUri "lukiopainotukset_0111#1"}])
+                               (assoc-in [:metadata :erityisetKoulutustehtavat] [{:koodiUri "lukiolinjaterityinenkoulutustehtava_0100#1"}]))
+            result (oppilaitos-search/toteutus-search-terms oppilaitos koulutus [] lukio-toteutus)]
+        (is (= ["lukiopainotukset_0111"] (:lukiopainotukset result)))
+        (is (= ["lukiolinjaterityinenkoulutustehtava_0100"] (:lukiolinjaterityinenkoulutustehtava result)))
+        (is (= [] (:osaamisalat result)))))))
+
+(deftest toteutus-search-terms-amm
+  (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-list-alakoodi-nimet
+                kouta-indeksoija-service.rest.koodisto/get-ylakoodit-with-cache mock-get-ylakoodisto
+                kouta-indeksoija-service.rest.koodisto/get-koodi-nimi-with-cache mock-get-koodi-nimi]
+    (testing "osaamisalat poimitaan ammatillisen toteutuksen metadatasta, lukion kentät ei"
+      (let [amm-toteutus (assoc-in toteutus [:metadata :osaamisalat] [{:koodiUri "osaamisala_1756#2"}])
+            result (oppilaitos-search/toteutus-search-terms oppilaitos koulutus [] amm-toteutus)]
+        (is (= ["osaamisala_1756"] (:osaamisalat result)))
+        (is (= [] (:lukiopainotukset result)))
+        (is (= [] (:lukiolinjaterityinenkoulutustehtava result)))))))

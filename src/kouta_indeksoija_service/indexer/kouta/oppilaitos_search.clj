@@ -73,6 +73,9 @@
                               :kuva (:teemakuva toteutus)
                               :nimi (get-esitysnimi toteutus)
                               :onkoTuleva false
+                              :lukiopainotukset (remove nil? (distinct (map :koodiUri (:painotukset toteutus-metadata))))
+                              :lukiolinjat_er (remove nil? (distinct (map :koodiUri (:erityisetKoulutustehtavat toteutus-metadata))))
+                              :osaamisalat (remove nil? (distinct (map :koodiUri (:osaamisalat toteutus-metadata))))
                               :metadata (merge {:tutkintonimikkeet   (tutkintonimikkeet-for-toteutus toteutus)
                                                 :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
                                                 :suunniteltuKestoKuukausina (search-tool/kesto-kuukausina opetus)
