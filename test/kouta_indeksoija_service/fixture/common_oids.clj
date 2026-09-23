@@ -93,6 +93,7 @@
 (defonce massikkakoulu-oid      "1.2.246.562.17.000012")
 (defonce zetorkoulu-oid         "1.2.246.562.17.000013")
 (defonce poniosatoteutus-oid    "1.2.246.562.17.000014")
+(defonce lukio-toteutus-oid2    "1.2.246.562.17.000034")
 
 (defonce aakkostus-toteutus-oid1  "1.2.246.562.17.000015")
 (defonce aakkostus-toteutus-oid2  "1.2.246.562.17.000016")

@@ -114,6 +114,7 @@
   (fixture/add-toteutus-mock massikkakoulu-oid traktoriala-oid        :koulutustyyppi "amk"             :tila "julkaistu" :nimi "Massikkakoulutus" :tarjoajat [helsingin-toimipiste] :metadata fixture/amk-toteutus-metatieto)
   (fixture/add-toteutus-mock zetorkoulu-oid traktoriala-oid2          :koulutustyyppi "amm"             :tila "julkaistu" :nimi "Zetorkoulutus" :tarjoajat [punkaharjun-toimipiste-2] :metadata fixture/oletus-toteutus-metatieto)
   (fixture/add-toteutus-mock poniosatoteutus-oid hevososaamisala-oid  :koulutustyyppi "amm-osaamisala"  :tila "julkaistu" :nimi "Ponikoulu tutkinnon osa" :tarjoajat [punkaharjun-toimipiste-2] :metadata fixture/amm-osaamisala-toteutus-metatieto)
+  (fixture/add-toteutus-mock lukio-toteutus-oid2 lukio-oid2           :koulutustyyppi "lk"              :tila "julkaistu" :nimi "Lukiokoulutus" :tarjoajat [punkaharjun-toimipiste-2] :metadata fixture/lk-toteutus-metadata)
 
   (fixture/add-toteutus-mock puutarha-ala-toteutus-erityisopetuksena-oid puutarha-koulutus-oid :koulutustyyppi "amm" :tila "julkaistu" :nimi "Puutarha-ala erityisopetuksena" :tarjoajat [oppilaitosOid2]
                              :metadata fixture/amm-erityisopetus-toteutus-metatieto)

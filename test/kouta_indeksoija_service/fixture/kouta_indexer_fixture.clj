@@ -226,6 +226,11 @@
 (defonce amm-osaamisala-toteutus-metatieto
   {:tyyppi "amm-osaamisala"
    :osaamistavoitteet {}
+   :osaamisalat [{:koodiUri "osaamisala_1756#2"
+                  :linkki {:fi "http://osaamisala.fi/linkki/fi"
+                           :sv "http://osaamisala.fi/linkki/sv"}
+                  :otsikko {:fi "Katso osaamisalan tarkempi kuvaus tästä"
+                            :sv "Katso osaamisalan tarkempi kuvaus tästä sv"}}]
    :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_1", "oppilaitoksenopetuskieli_2"]
             :opetustapaKoodiUrit ["opetuspaikkakk_1", "opetuspaikkakk_2"]
             :opetusaikaKoodiUrit ["opetusaikakk_1"]
