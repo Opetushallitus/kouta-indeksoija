@@ -137,7 +137,15 @@
       (is (= false (:maksullinenKkHaku (get-doc haku/index-name haku-oid))))
       (fixture/update-toteutus-mock toteutus-oid :johtaaTutkintoon true)
       (i/index-haut [haku-oid] (. System (currentTimeMillis)))
-      (is (= true (:maksullinenKkHaku (get-doc haku/index-name haku-oid)))))))
+      (is (= true (:maksullinenKkHaku (get-doc haku/index-name haku-oid))))
+      (testing "Erasmus Mundus -tarkenne ei salli maksullisuutta"
+        (fixture/update-haku-mock haku-oid :kohdejoukonTarkenneKoodiUri "haunkohdejoukontarkenne_010#1")
+        (i/index-haut [haku-oid] (. System (currentTimeMillis)))
+        (is (= false (:maksullinenKkHaku (get-doc haku/index-name haku-oid)))))
+      (testing "hakemusmaksullinen kaksoistutkinto-ohjelma -tarkenne sallii maksullisuuden"
+        (fixture/update-haku-mock haku-oid :kohdejoukonTarkenneKoodiUri "haunkohdejoukontarkenne_11#1")
+        (i/index-haut [haku-oid] (. System (currentTimeMillis)))
+        (is (= true (:maksullinenKkHaku (get-doc haku/index-name haku-oid))))))))
 
 (deftest parse-hakuaika-test
   (testing "should return hakuaika in UTC time"
