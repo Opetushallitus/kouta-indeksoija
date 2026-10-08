@@ -57,7 +57,7 @@ jobs:
 
   deploy:
     needs: [ test, build ]
-    uses: Opetushallitus/.github/.github/workflows/push-scan-java-ecr.yml@2f06269d5ac067ef17a76d2d5742db0b325e9a2e # main
+    uses: Opetushallitus/.github/.github/workflows/push-scan-java-ecr.yml@5b292079aefb2b8baea7d3d8744e969bf18498e7 # main
     with:
       application: kouta-indeksoija
       base-image: baseimage-fatjar-openjdk21:master
