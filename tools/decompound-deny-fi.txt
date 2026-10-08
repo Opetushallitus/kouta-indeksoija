@@ -1,0 +1,33 @@
+# Sanat, joita EI oteta yhdyssanojen pilkkojan sanalistalle, vaikka ne
+# esiintyisivät korpuksessa riittävän usein.
+#
+# Nämä ovat sanoja, jotka ovat oikeita suomen sanoja mutta joiden irrottaminen
+# yhdyssanasta tuottaa väärän osuman. Poistolista koskee VAIN yhdyssanan osana
+# käyttöä: sanaa voi edelleen hakea normaalisti, ja se osuu niihin nimiin,
+# joissa se esiintyy itsenäisenä sanana.
+#
+# Lisää sana tänne vasta kun väärä osuma on todettu. Ks.
+# generate_decompound_wordlist.py ja konfo-backendin regressiotestit.
+
+# "yliopisto" -> "opisto". Yliopisto ei ole opisto, ja yliopistokoulutuksia on
+# indeksissä satoja, joten haku "opisto" täyttyisi niistä.
+opisto
+
+# "harvinaiset" -> "nainen", "moninainen" -> "nainen".
+nainen
+
+# "opetus" -> "ope", "opettaja" -> "ope". Ei morfeemiraja; 8 % indeksistä osui
+# hakusanaan "ope".
+ope
+
+# "matematiikka" -> "tematiikka".
+tematiikka
+
+# Raudikon virheellisiä perusmuotoja, jotka päätyivät korpukseen itsenäisinä
+# sanoina (esim. "Terveystieteiden" -> "terveystietie").
+tietie
+voimaa
+
+# Raudikko lemmatisoi "opintoja" myös muotoon "opinta", josta pilkkoja irrottaa
+# "pinta". Haku "pinta" (pintakäsittely) osui siten kaikkiin opintoja-nimiin.
+pinta
