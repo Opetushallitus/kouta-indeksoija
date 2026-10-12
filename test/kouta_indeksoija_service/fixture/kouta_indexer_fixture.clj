@@ -80,7 +80,7 @@
   (let [->vector (fn [e k] (if (get e k) (if (vector? (get e k)) e (assoc e k (vec (map str/trim (str/split (get e k) #","))))) e))
         complete-esitysnimi (fn [e] (if (:esitysnimi e)
                                       (-> e
-                                          (assoc :_enrichedData {:esitysnimi (:esitysnimi e)})
+                                          (assoc-in [:_enrichedData :esitysnimi] (:esitysnimi e))
                                           (dissoc :esitysnimi))
                                       e))
         fix-organisaatio (fn [e] (if (and (:organisaatio e) (string? (:organisaatio e)))
@@ -558,6 +558,20 @@
   [oid execution-id]
   (get @haut oid))
 
+;; kouta-backendin hakukohteelle päättelemät tiedot, jotka palautetaan hakukohteen _enrichedDatassa
+(defn default-hakukohde-enriched-data
+  [oid]
+  {:kuuluuYosinPiiriin    false
+   :paateltyAlkamiskausi  {:alkamiskausityyppi "tarkka alkamisajankohta"
+                           :kausiUri           "kausi_k#1"
+                           :vuosi              "2042"
+                           :source             oid}
+   :johtaaTutkintoon      true
+   :koulutusasteKoodiUrit ["kansallinenkoulutusluokitus2016koulutusastetaso1_01"
+                           "kansallinenkoulutusluokitus2016koulutusastetaso1_02"
+                           "kansallinenkoulutusluokitus2016koulutusastetaso2_01"
+                           "kansallinenkoulutusluokitus2016koulutusastetaso2_02"]})
+
 ;; Ellei hakuaikoja ole erikseen annettu -> kaytetaan oletuksia. Oletus-jsonista tulevia arvoja ei kayteta.
 (defn add-hakukohde-mock
   [oid toteutusOid hakuOid & {:as params}]
@@ -580,7 +594,8 @@
                     (fix-valintaperuste
                      (fix-muu-pk-vaatimus
                       (merge (dissoc default-hakukohde-map :hakuaikaAlkaa :hakuaikaPaattyy)
-                             {:organisaatio oppilaitos-oid}
+                             {:organisaatio oppilaitos-oid
+                              :_enrichedData (default-hakukohde-enriched-data oid)}
                              params
                              {:oid oid :hakuOid hakuOid :toteutusOid toteutusOid}
                              {:liitteidenToimitusaika (common-near-future-time)})))))]

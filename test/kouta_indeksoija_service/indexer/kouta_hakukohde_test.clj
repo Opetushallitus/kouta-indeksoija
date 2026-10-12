@@ -243,6 +243,34 @@
      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
        (is (= "koulutustyyppiabc_01" (:koulutustyyppikoodi hakukohde)))))))
 
+(deftest index-hakukohde-with-enriched-data-from-kouta
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index hakukohde with YOS status deduced in kouta-backend"
+     (check-all-nil)
+     (fixture/update-hakukohde-mock hakukohde-oid
+                                    :_enrichedData {:kuuluuYosinPiiriin    true
+                                                    :paateltyAlkamiskausi  {:alkamiskausityyppi "alkamiskausi ja -vuosi"
+                                                                            :kausiUri           "kausi_s#1"
+                                                                            :vuosi              "2027"
+                                                                            :source             haku-oid}
+                                                    :johtaaTutkintoon      true
+                                                    :koulutusasteKoodiUrit ["kansallinenkoulutusluokitus2016koulutusastetaso2_72"]})
+     (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
+     (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
+       (is (true? (:kuuluuYosinPiiriin hakukohde)))
+       (is (= {:alkamiskausityyppi "alkamiskausi ja -vuosi" :kausiUri "kausi_s#1" :vuosi "2027" :source haku-oid}
+              (:paateltyAlkamiskausi hakukohde)))
+       (is (true? (:johtaaTutkintoon hakukohde)))
+       (is (= ["kansallinenkoulutusluokitus2016koulutusastetaso2_72"] (:koulutusasteKoodiUrit hakukohde)))))
+   (testing "Indexer should index hakukohde without päätelty alkamiskausi when kouta-backend has none"
+     (fixture/update-hakukohde-mock hakukohde-oid :_enrichedData {})
+     (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
+     (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
+       (is (false? (:kuuluuYosinPiiriin hakukohde)))
+       (is (nil? (:paateltyAlkamiskausi hakukohde)))
+       (is (nil? (:johtaaTutkintoon hakukohde)))
+       (is (= [] (:koulutusasteKoodiUrit hakukohde)))))))
+
 (deftest index-hakukohde-with-henkilokohtainen-suunnitelma-aloitussajankohta
   (fixture/with-mocked-indexing
     (testing "Indexer should index hakukohde with henkilokohtainen suunnitelma"
