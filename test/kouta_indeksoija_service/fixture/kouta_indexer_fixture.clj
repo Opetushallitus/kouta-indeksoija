@@ -566,6 +566,10 @@
                            :kausiUri           "kausi_k#1"
                            :vuosi              "2042"
                            :source             oid}
+   :paateltyAlkamisajankohta {:alkamiskausityyppi          "tarkka alkamisajankohta"
+                              :pvm                         "2042-03-24T09:49"
+                              :source                      oid
+                              :henkilokohtainenSuunnitelma false}
    :johtaaTutkintoon      true
    :koulutusasteKoodiUrit ["kansallinenkoulutusluokitus2016koulutusastetaso1_01"
                            "kansallinenkoulutusluokitus2016koulutusastetaso1_02"

@@ -269,13 +269,16 @@
        (is (false? (:kuuluuYosinPiiriin hakukohde)))
        (is (nil? (:paateltyAlkamiskausi hakukohde)))
        (is (nil? (:johtaaTutkintoon hakukohde)))
-       (is (= [] (:koulutusasteKoodiUrit hakukohde)))))))
+       (is (= [] (:koulutusasteKoodiUrit hakukohde)))
+       (is (nil? (:paateltyAlkamisajankohta hakukohde)))))))
 
 (deftest index-hakukohde-with-henkilokohtainen-suunnitelma-aloitussajankohta
   (fixture/with-mocked-indexing
     (testing "Indexer should index hakukohde with henkilokohtainen suunnitelma"
       (check-all-nil)
-      (fixture/update-hakukohde-mock hakukohde-oid :metadata {:koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}})
+      (fixture/update-hakukohde-mock hakukohde-oid
+                                     :_enrichedData {:paateltyAlkamisajankohta {:source                      hakukohde-oid
+                                                                                :henkilokohtainenSuunnitelma true}})
       (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
       (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
         (is (true? (get-in hakukohde [:paateltyAlkamisajankohta :henkilokohtainenSuunnitelma])))))))
