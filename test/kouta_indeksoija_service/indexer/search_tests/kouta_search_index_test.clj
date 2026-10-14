@@ -43,6 +43,7 @@
 
   (defn- test-data-fixture
     [tests]
+    (fixture/teardown)
     (admin/initialize-indices)
     (fixture/add-oppilaitos-mock oppilaitos-oid1 :tila "julkaistu")
     (fixture/add-oppilaitos-mock oppilaitos-oid2 :tila "julkaistu")
