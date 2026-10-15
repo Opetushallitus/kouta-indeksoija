@@ -7,11 +7,10 @@
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.tools.general :refer [get-non-korkeakoulu-koodi-uri korkeakoulutus? korkeakoulutus? not-poistettu?
                                                                     set-hakukohde-tila-by-related-haku Tallennettu]]
-            [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto-tools :refer [koulutusasteet]]
+            [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto-tools]
             [kouta-indeksoija-service.indexer.tools.koulutustyyppi :refer [assoc-koulutustyyppi-path]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
-            [kouta-indeksoija-service.util.time :as time]
             [kouta-indeksoija-service.util.tools :refer [assoc-hakukohde-nimi-as-esitysnimi]]))
 
 (def index-name "hakukohde-kouta")
@@ -243,56 +242,15 @@
     (assoc hakukohde :salliikoHakukohdeHarkinnanvaraisuudenKysymisen harkinnanvaraisuus-question-allowed
            :voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita hakukohde-allows-harkinnanvaraiset-applicants)))
 
-(defn- parse-tarkka-ajankohta [time-str]
-  (when-let [date (time/parse-utc-date-time time-str)]
-    {:kausiUri (if (time/kevat-date? date)
-                 "kausi_k#1"
-                 "kausi_s#1")
-     :vuosi    (time/year date)}))
-
-(defn- parse-alkamiskausi [alkamiskausi oid]
-  (let [tyyppi (:alkamiskausityyppi alkamiskausi)
-        result (case tyyppi
-                 "tarkka alkamisajankohta" (parse-tarkka-ajankohta (:koulutuksenAlkamispaivamaara alkamiskausi))
-                 "alkamiskausi ja -vuosi" {:kausiUri (:koulutuksenAlkamiskausiKoodiUri alkamiskausi) :vuosi (:koulutuksenAlkamisvuosi alkamiskausi)}
-                 {})]
-    (when (and (:kausiUri result) (:vuosi result))
-      (merge result
-             {:alkamiskausityyppi tyyppi
-              :source             oid}))))
-
-(defn- assoc-paatelty-alkamiskausi-for-hakukohde [hakukohde hakukohde-source haku toteutus]
-  (if-let [result (or (parse-alkamiskausi (get-in hakukohde-source [:metadata :koulutuksenAlkamiskausi]) (:oid hakukohde))
-                      (parse-alkamiskausi (get-in haku [:metadata :koulutuksenAlkamiskausi]) (:oid haku))
-                      (parse-alkamiskausi (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi]) (:oid toteutus)))]
-    (assoc hakukohde :paateltyAlkamiskausi result)
-    hakukohde))
-
-(defn- kausi-vuosi-to-pvm [kausi vuosi]
-  (when (and kausi vuosi)
-    (let [pvm (if (= kausi "kausi_k#1") "01-01" "08-01")]
-      (str vuosi "-" pvm))))
-
-(defn- parse-alkamisaika [alkamiskausi oid]
-  (let [tyyppi (:alkamiskausityyppi alkamiskausi)
-        pvm (case tyyppi
-                 "tarkka alkamisajankohta" (:koulutuksenAlkamispaivamaara alkamiskausi)
-                 "alkamiskausi ja -vuosi" (kausi-vuosi-to-pvm (:koulutuksenAlkamiskausiKoodiUri alkamiskausi) (:koulutuksenAlkamisvuosi alkamiskausi))
-                 {})]
-    (when (string? pvm)
-      {:pvm                pvm
-       :alkamiskausityyppi tyyppi
-       :source             oid})))
-
-(defn- assoc-paatelty-alkamisaika-for-hakukohde [hakukohde, hakukohde-source haku toteutus]
-  (let [result (or (parse-alkamisaika (get-in hakukohde-source [:metadata :koulutuksenAlkamiskausi]) (:oid hakukohde))
-                   (parse-alkamisaika (get-in haku [:metadata :koulutuksenAlkamiskausi]) (:oid haku))
-                   (parse-alkamisaika (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi]) (:oid toteutus)))
-        has-henkilokohtainen (= "henkilokohtainen suunnitelma" (get-in hakukohde-source [:metadata :koulutuksenAlkamiskausi :alkamiskausityyppi]))
-        result-with-plan (if result
-                           (assoc result :henkilokohtainenSuunnitelma has-henkilokohtainen)
-                           {:pvm nil :alkamiskausityyppi nil :source (:oid hakukohde-source) :henkilokohtainenSuunnitelma has-henkilokohtainen})]
-    (assoc hakukohde :paateltyAlkamisajankohta result-with-plan)))
+; kouta-backend päättelee nämä hakukohteen tiedot ja palauttaa ne hakukohteen _enrichedDatassa
+(defn- assoc-enriched-data-from-kouta [hakukohde hakukohde-source]
+  (let [enriched-data (:_enrichedData hakukohde-source)]
+    (cond-> (assoc hakukohde
+                   :kuuluuYosinPiiriin (boolean (:kuuluuYosinPiiriin enriched-data))
+                   :johtaaTutkintoon (:johtaaTutkintoon enriched-data)
+                   :koulutusasteKoodiUrit (vec (:koulutusasteKoodiUrit enriched-data)))
+      (some? (:paateltyAlkamiskausi enriched-data)) (assoc :paateltyAlkamiskausi (:paateltyAlkamiskausi enriched-data))
+      (some? (:paateltyAlkamisajankohta enriched-data)) (assoc :paateltyAlkamisajankohta (:paateltyAlkamisajankohta enriched-data)))))
 
 (defn- get-koodiurit-to-complete
   [koodiurit]
@@ -424,10 +382,6 @@
                               :kkTutkinnonTasoSykli kk-tutkinnon-taso-sykli})))
     hakukohde))
 
-(defn get-koulutusasteet
-  [koulutus]
-  (mapcat koulutusasteet (:koulutuksetKoodiUri koulutus)))
-
 (defn create-index-entry
   [oid execution-id]
   (let [hakukohde-from-kouta (kouta-backend/get-hakukohde-with-cache oid execution-id)]
@@ -458,15 +412,12 @@
                                                          (assoc-toteutus toteutus)
                                                          (assoc-valintaperuste valintaperuste)
                                                          (assoc-hakulomake-linkki haku)
-                                                         (assoc-paatelty-alkamiskausi-for-hakukohde hakukohde-from-kouta haku toteutus)
-                                                         (assoc-paatelty-alkamisaika-for-hakukohde hakukohde-from-kouta haku toteutus)
+                                                         (assoc-enriched-data-from-kouta hakukohde-from-kouta)
                                                          (assoc-odw-kk-tasot haku koulutus)
                                                          (assoc-jarjestaa-urheilijan-ammatillista-koulutusta (get-in hakukohde [:metadata :jarjestaaUrheilijanAmmKoulutusta]))
                                                          (assoc-pistehistoria pistehistoria)
-                                                         (assoc :johtaaTutkintoon (johtaa-tutkintoon? koulutus))
                                                          (assoc :hakutapaKoodiUri (:hakutapaKoodiUri haku))
                                                          (assoc :opetuskieliKoodiUrit (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit]))
-                                                         (assoc :koulutusasteKoodiUrit (get-koulutusasteet koulutus))
                                                          (common/localize-dates)) hakukohde))
       (indexable/->delete-entry-with-forwarded-data oid hakukohde-from-kouta))))
 
