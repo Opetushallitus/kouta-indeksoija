@@ -339,6 +339,7 @@
       "osaamisalat": ["osaamisala_1"],
       "jarjestaaUrheilijanAmmKoulutusta": false,
       "metadata": {
+        "ammatillinenPerustutkintoErityisopetuksena": false,
         "tutkintonimikkeet": [],
         "opetusajat": [
           {
@@ -490,6 +491,7 @@
       "osaamisalat": ["osaamisala_0001"],
       "jarjestaaUrheilijanAmmKoulutusta": false,
       "metadata": {
+        "ammatillinenPerustutkintoErityisopetuksena": false,
         "tutkintonimikkeet": [],
         "opetusajat": [
           {
@@ -593,6 +595,7 @@
       "osaamisalat": ["osaamisala_0001"],
       "jarjestaaUrheilijanAmmKoulutusta": false,
       "metadata": {
+        "ammatillinenPerustutkintoErityisopetuksena": false,
         "tutkintonimikkeet": [],
         "opetusajat": [
           {

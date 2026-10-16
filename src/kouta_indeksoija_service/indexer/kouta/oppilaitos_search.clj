@@ -81,6 +81,9 @@
                                                 :suunniteltuKestoKuukausina (search-tool/kesto-kuukausina opetus)
                                                 :onkoApuraha         (:onkoApuraha opetus)
                                                 :koulutustyyppi      (:koulutustyyppi koulutus)}
+                                               (select-keys toteutus-metadata
+                                                            [:ammatillinenPerustutkintoErityisopetuksena
+                                                             :jarjestetaanErityisopetuksena])
                                                (search-tool/get-maksullisuus-search-data (:maksut opetus))))))
 
 (defn search-terms
