@@ -135,6 +135,46 @@ elastic/deploy.sh
 ```
 
 ---
+#### Yhdyssanojen pilkkojan sanalistat
+
+Suomen- ja ruotsinkielisessä haussa yhdyssanat pilkotaan osiin
+`hyphenation_decompounder`-suodattimella (`elastic/settings.clj`). Suodatin ajetaan
+lemmatisoinnin (raudikko / hunspell) **jälkeen**, joten sanalistan pitää sisältää
+perusmuotoja.
+
+Sanalistat ovat `elastic/decompound/{fi,sv}/words-lemmat.txt` ja ne on **generoitu
+indeksoidusta datasta**. Yleiskielisiä sanalistoja (`words.txt`) ei saa käyttää:
+tavutuspohjainen pilkkoja poimii tavurajojen välistä minkä tahansa listalta
+löytyvän merkkijonon, joten iso yleislista tuottaa merkityksettömiä sanapaloja.
+Yleiskielisellä listalla esimerkiksi "avoin" pilkkoutui muotoon "voi", ja haku
+`voi` palautti 3 464 osumaa 7 691 koulutuksesta.
+
+Listat generoidaan ympäristöä vasten:
+
+```
+./tools/generate_decompound_wordlist.py --elastic-url http://localhost:9200 \
+    --lang fi --out elastic/decompound/fi/words-lemmat.txt
+./tools/generate_decompound_wordlist.py --elastic-url http://localhost:9200 \
+    --lang sv --out elastic/decompound/sv/words-lemmat.txt
+```
+
+Skripti lukee korpuksen hakuindeksien `search_terms`-kentistä, lemmatisoi sen
+`_analyze`-rajapinnalla ja ottaa mukaan vain riittävän usein itsenäisenä sanana
+esiintyvät perusmuodot. Käsin ylläpidettävät täydennykset ovat
+`tools/decompound-seed-<lang>.txt` (aina mukaan) ja
+`tools/decompound-deny-<lang>.txt` (aina pois). Lisää sana poistolistalle vasta
+kun väärä osuma on todettu, ja kirjoita syy kommenttiin.
+
+Listan muuttaminen vaatii tässä järjestyksessä:
+
+1. `elastic/build.sh` ja `elastic/deploy.sh` (lista on ES-imagen sisällä)
+2. hakuindeksien uudelleenindeksointi
+
+Regressiotestit sanalistoille ja analysaattoreille ovat
+`test/kouta_indeksoija_service/elastic/analysis_test.clj`. Ne ajetaan samaa
+imagea vasten kuin tuotanto, joten ne kattavat myös sanalistat.
+
+---
 #### Localstack SQS-jonot
 Indeksoija vaatii lokaalin SQS-palvelun porttiin 4566. Sen voi käynnistää docker-konttiin ajamalla skriptin 
 `tools/start_localstack` ja pysäyttää skriptillä `tools/stop_localstack`.
