@@ -19,6 +19,19 @@
   [oppilaitos tarjoajat]
   (vec (map #(organisaatio-tool/find-from-organisaatio-and-children oppilaitos %) tarjoajat)))
 
+(defn- toimipiste-oids
+  "Toteutuksen tarjoajina olevat oppilaitoksen toimipisteet sekä niiden ylemmät toimipisteet, jotta
+   ylemmän toimipisteen valinta konfon rajaimessa kattaa myös sen alla olevat toimipisteet. Oppilaitosta
+   itseään ei palauteta. Hierarkia-cachessa kaikki toimipisteet ovat oppilaitoksen lapsina ja
+   toimipisteen ylempi toimipiste on kentässä :parentToimipisteOid."
+  [oppilaitos tarjoajat]
+  (let [toimipisteet-by-oid (into {} (map (juxt :oid identity) (:children oppilaitos)))
+        with-ylemmat-toimipisteet (fn with-ylemmat [toimipiste]
+                                    (when (and toimipiste (not= (:oid toimipiste) (:oid oppilaitos)))
+                                      (cons (:oid toimipiste)
+                                            (with-ylemmat (get toimipisteet-by-oid (:parentToimipisteOid toimipiste))))))]
+    (->distinct-vec (mapcat with-ylemmat-toimipisteet tarjoajat))))
+
 (defn- tutkintonimikkeet-for-osaamisala
   [osaamisalaKoodiUri]
   (list-alakoodi-nimet-with-cache osaamisalaKoodiUri "tutkintonimikkeet"))
@@ -61,30 +74,31 @@
         jarjestaa-urheilijan-amm-koulutusta (search-tool/jarjestaako-tarjoaja-urheilijan-amm-koulutusta
                                              (:tarjoajat toteutus)
                                              (:haut hakutieto))]
-    (search-tool/search-terms :koulutus koulutus
-                              :toteutus toteutus
-                              :tarjoajat tarjoajat
-                              :jarjestaa-urheilijan-amm-koulutusta jarjestaa-urheilijan-amm-koulutusta
-                              :oppilaitos oppilaitos
-                              :hakutiedot hakutieto
-                              :toteutus-organisaationimi (remove nil? (distinct (map :nimi tarjoajat)))
-                              :opetuskieliUrit (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
-                              :koulutustyypit (search-tool/deduce-koulutustyypit koulutus oppilaitos toteutus-metadata)
-                              :kuva (:teemakuva toteutus)
-                              :nimi (get-esitysnimi toteutus)
-                              :onkoTuleva false
-                              :lukiopainotukset (remove nil? (distinct (map :koodiUri (:painotukset toteutus-metadata))))
-                              :lukiolinjat_er (remove nil? (distinct (map :koodiUri (:erityisetKoulutustehtavat toteutus-metadata))))
-                              :osaamisalat (remove nil? (distinct (map :koodiUri (:osaamisalat toteutus-metadata))))
-                              :metadata (merge {:tutkintonimikkeet   (tutkintonimikkeet-for-toteutus toteutus)
-                                                :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
-                                                :suunniteltuKestoKuukausina (search-tool/kesto-kuukausina opetus)
-                                                :onkoApuraha         (:onkoApuraha opetus)
-                                                :koulutustyyppi      (:koulutustyyppi koulutus)}
-                                               (select-keys toteutus-metadata
-                                                            [:ammatillinenPerustutkintoErityisopetuksena
-                                                             :jarjestetaanErityisopetuksena])
-                                               (search-tool/get-maksullisuus-search-data (:maksut opetus))))))
+    (-> (search-tool/search-terms :koulutus koulutus
+                                  :toteutus toteutus
+                                  :tarjoajat tarjoajat
+                                  :jarjestaa-urheilijan-amm-koulutusta jarjestaa-urheilijan-amm-koulutusta
+                                  :oppilaitos oppilaitos
+                                  :hakutiedot hakutieto
+                                  :toteutus-organisaationimi (remove nil? (distinct (map :nimi tarjoajat)))
+                                  :opetuskieliUrit (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
+                                  :koulutustyypit (search-tool/deduce-koulutustyypit koulutus oppilaitos toteutus-metadata)
+                                  :kuva (:teemakuva toteutus)
+                                  :nimi (get-esitysnimi toteutus)
+                                  :onkoTuleva false
+                                  :lukiopainotukset (remove nil? (distinct (map :koodiUri (:painotukset toteutus-metadata))))
+                                  :lukiolinjat_er (remove nil? (distinct (map :koodiUri (:erityisetKoulutustehtavat toteutus-metadata))))
+                                  :osaamisalat (remove nil? (distinct (map :koodiUri (:osaamisalat toteutus-metadata))))
+                                  :metadata (merge {:tutkintonimikkeet   (tutkintonimikkeet-for-toteutus toteutus)
+                                                    :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
+                                                    :suunniteltuKestoKuukausina (search-tool/kesto-kuukausina opetus)
+                                                    :onkoApuraha         (:onkoApuraha opetus)
+                                                    :koulutustyyppi      (:koulutustyyppi koulutus)}
+                                                   (select-keys toteutus-metadata
+                                                                [:ammatillinenPerustutkintoErityisopetuksena
+                                                                 :jarjestetaanErityisopetuksena])
+                                                   (search-tool/get-maksullisuus-search-data (:maksut opetus))))
+        (assoc :toimipisteOids (toimipiste-oids oppilaitos (remove nil? tarjoajat))))))
 
 (defn search-terms
   [oppilaitos koulutus toteutus hakutiedot]
@@ -126,13 +140,27 @@
              (when (seq koulutuksen-toteutukset)
                (map #(search-terms oppilaitos koulutus % hakutiedot) koulutuksen-toteutukset))))))
 
+(defn- assoc-toimipisteet
+  "Toteutusten tarjoajina olevat toimipisteet (ja niiden ylemmät toimipisteet) hierarkiatietoineen, jotta
+   konfo-backend voi muodostaa niistä hierarkkisen toimipisterajaimen nimineen."
+  [entry oppilaitos]
+  (let [toimipiste-oids (set (mapcat :toimipisteOids (:search_terms entry)))
+        toimipisteet (->> (:children oppilaitos)
+                          (filter #(contains? toimipiste-oids (:oid %)))
+                          (map #(select-keys % [:oid :nimi :parentToimipisteOid]))
+                          (sort-by :oid)
+                          (vec))]
+    (cond-> entry
+      (seq toimipisteet) (assoc :toimipisteet toimipisteet))))
+
 (defn- create-oppilaitos-entry-with-hits
   [oppilaitos koulutukset execution-id]
   (let [oppilaitoksen-koulutukset (get-organisaation-koulutukset oppilaitos koulutukset)]
     (-> oppilaitos
         (create-base-entry oppilaitoksen-koulutukset execution-id)
         (assoc :search_terms (create-search-terms oppilaitos oppilaitoksen-koulutukset execution-id))
-        (assoc-paikkakunnat))))
+        (assoc-paikkakunnat)
+        (assoc-toimipisteet oppilaitos))))
 
 (defn create-index-entry
   [oid execution-id]
