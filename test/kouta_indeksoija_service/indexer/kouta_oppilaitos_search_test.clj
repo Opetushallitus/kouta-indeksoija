@@ -193,7 +193,8 @@
                         :nimi {:fi "kunta_086 fi" :sv "kunta_086 sv"}}]
               :onkoApuraha false}
    :toteutusNimi {:fi "Opistovuosi oppivelvollisille kansanopistoissa"}
-   :paatellytAlkamiskaudet ["2023-syksy"]})
+   :paatellytAlkamiskaudet ["2023-syksy"]
+   :toimipisteOids ["1.2.246.562.10.50472236657"]})
 
 (deftest koulutus-search-terms
   (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-list-alakoodi-nimet
@@ -234,3 +235,59 @@
         (is (= ["osaamisala_1756"] (:osaamisalat result)))
         (is (= [] (:lukiopainotukset result)))
         (is (= [] (:lukiolinjaterityinenkoulutustehtava result)))))))
+
+(def ylempi-toimipiste-oid "1.2.246.562.10.50472236657")
+(def alempi-toimipiste-oid "1.2.246.562.10.50472236658")
+(def toinen-toimipiste-oid "1.2.246.562.10.50472236659")
+
+(def oppilaitos-with-toimipistehierarkia
+  (update oppilaitos :children conj
+          {:oid alempi-toimipiste-oid
+           :status "AKTIIVINEN"
+           :organisaatiotyypit ["organisaatiotyyppi_03"]
+           :parentOid "1.2.246.562.10.31756159625"
+           :parentToimipisteOid ylempi-toimipiste-oid
+           :nimi {:fi "Opisto alempi toimipiste"}
+           :kotipaikkaUri "kunta_086"}
+          {:oid toinen-toimipiste-oid
+           :status "AKTIIVINEN"
+           :organisaatiotyypit ["organisaatiotyyppi_03"]
+           :parentOid "1.2.246.562.10.31756159625"
+           :nimi {:fi "Opisto toinen toimipiste"}
+           :kotipaikkaUri "kunta_086"}))
+
+(deftest toteutus-search-terms-toimipisteet
+  (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-list-alakoodi-nimet
+                kouta-indeksoija-service.rest.koodisto/get-ylakoodit-with-cache mock-get-ylakoodisto
+                kouta-indeksoija-service.rest.koodisto/get-koodi-nimi-with-cache mock-get-koodi-nimi]
+    (let [toimipiste-oids (fn [tarjoajat]
+                            (:toimipisteOids (oppilaitos-search/toteutus-search-terms oppilaitos-with-toimipistehierarkia
+                                                                                      koulutus
+                                                                                      []
+                                                                                      (assoc toteutus :tarjoajat tarjoajat))))]
+      (testing "oppilaitosta itseään ei lisätä toimipisteisiin"
+        (is (= [] (toimipiste-oids ["1.2.246.562.10.31756159625"]))))
+      (testing "alemman toimipisteen lisäksi lisätään sen ylempi toimipiste"
+        (is (= [alempi-toimipiste-oid ylempi-toimipiste-oid] (toimipiste-oids [alempi-toimipiste-oid]))))
+      (testing "ylempi toimipiste lisätään vain kerran, vaikka se olisi myös itse tarjoaja"
+        (is (= [ylempi-toimipiste-oid alempi-toimipiste-oid toinen-toimipiste-oid]
+               (toimipiste-oids ["1.2.246.562.10.31756159625" ylempi-toimipiste-oid alempi-toimipiste-oid toinen-toimipiste-oid]))))
+      (testing "muun oppilaitoksen organisaatiota ei lisätä"
+        (is (= [toinen-toimipiste-oid] (toimipiste-oids ["1.2.246.562.10.99999999999" toinen-toimipiste-oid])))))))
+
+(deftest assoc-toimipisteet
+  (let [assoc-toimipisteet #'oppilaitos-search/assoc-toimipisteet]
+    (testing "lisää toteutuksissa viitatut toimipisteet hierarkiatietoineen"
+      (is (= [{:oid ylempi-toimipiste-oid
+               :nimi {:fi "Opisto toimipiste" :sv "Opisto toimipiste" :en "Opisto toimipiste"}}
+              {:oid alempi-toimipiste-oid
+               :nimi {:fi "Opisto alempi toimipiste"}
+               :parentToimipisteOid ylempi-toimipiste-oid}]
+             (:toimipisteet (assoc-toimipisteet {:search_terms [{:toimipisteOids [alempi-toimipiste-oid ylempi-toimipiste-oid]}
+                                                                {:toimipisteOids []}
+                                                                {}]}
+                                                oppilaitos-with-toimipistehierarkia)))))
+    (testing "toimipisteitä ilman tarjontaa ei lisätä"
+      (is (not (contains? (assoc-toimipisteet {:search_terms [{:toimipisteOids []}]}
+                                              oppilaitos-with-toimipistehierarkia)
+                          :toimipisteet))))))
