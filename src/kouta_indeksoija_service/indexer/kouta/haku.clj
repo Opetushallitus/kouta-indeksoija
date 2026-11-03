@@ -44,9 +44,9 @@
         (some #(not (time/before? % maksullinen-kk-haku-start-date)) hakuajat-start)
         ; Kohdejoukko must be korkeakoulutus
         (= "haunkohdejoukko_12" kohdejoukko)
-        ; "Kohdejoukon tarkenne must be empty or siirtohaku
+        ; Kohdejoukon tarkenne must be empty, siirtohaku, or hakemusmaksullinen kaksoistutkinto-ohjelma
         (or (str/blank? kohdejoukon-tarkenne)
-            (= "haunkohdejoukontarkenne_1" kohdejoukon-tarkenne))
+            (contains? #{"haunkohdejoukontarkenne_1" "haunkohdejoukontarkenne_11"} kohdejoukon-tarkenne))
         ; Must be tutkintoon johtava
         johtaa-tutkintoon?))))
 

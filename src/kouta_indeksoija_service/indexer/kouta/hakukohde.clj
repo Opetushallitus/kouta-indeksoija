@@ -105,10 +105,18 @@
     (:kohdejoukonTarkenneKoodiUri haku)
     "haunkohdejoukontarkenne_010#"))
 
+(defn- hakemusmaksullinen-kaksoistutkinto-tarkenne?
+  "Hakemusmaksulliset kv-kaksoistutkinto-ohjelmat"
+  [haku]
+  (str/starts-with?
+    (:kohdejoukonTarkenneKoodiUri haku)
+    "haunkohdejoukontarkenne_11#"))
+
 (defn- yps-tarkenne?
   [haku]
   (or (jatkotutkintohaku-tarkenne? haku)
-      (erasmus-mundus-tarkenne? haku)))
+      (erasmus-mundus-tarkenne? haku)
+      (hakemusmaksullinen-kaksoistutkinto-tarkenne? haku)))
 
 (defn- ->ei-yps
   [syy]
