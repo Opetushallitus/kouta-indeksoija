@@ -6,7 +6,7 @@
             [kouta-indeksoija-service.indexer.koodisto.koodisto :as koodisto]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.tools.general :refer [get-non-korkeakoulu-koodi-uri korkeakoulutus? korkeakoulutus? not-poistettu?
-                                                                    set-hakukohde-tila-by-related-haku Tallennettu]]
+                                                                    set-hakukohde-tila-by-related-haku]]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto-tools]
             [kouta-indeksoija-service.indexer.tools.koulutustyyppi :refer [assoc-koulutustyyppi-path]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
@@ -57,101 +57,9 @@
    (when sora-tiedot
      (select-keys sora-tiedot [:tila]))))
 
-(defn- luonnos?
-  [haku-tai-hakukohde]
-  (= Tallennettu (:tila haku-tai-hakukohde)))
-
 (defn- johtaa-tutkintoon?
   [koulutus]
   (:johtaaTutkintoon koulutus))
-
-(defn- alkamiskausi-kevat?
-  [haku hakukohde]
-  (if-some [alkamiskausi-koodi-uri (if (:kaytetaanHaunAlkamiskautta hakukohde)
-                                     (get-in haku [:metadata :koulutuksenAlkamiskausi :koulutuksenAlkamiskausiKoodiUri])
-                                     (:alkamiskausiKoodiUri hakukohde))]
-    (str/starts-with? alkamiskausi-koodi-uri "kausi_k#")
-    false))
-
-(defn- alkamisvuosi
-  [haku hakukohde]
-  (when-some [alkamisvuosi (if (:kaytetaanHaunAlkamiskautta hakukohde)
-                             (get-in haku [:metadata :koulutuksenAlkamiskausi :koulutuksenAlkamisvuosi])
-                             (:alkamisvuosi hakukohde))]
-    (Integer/valueOf alkamisvuosi)))
-
-(defn- alkamiskausi-ennen-syksya-2016?
-  [haku hakukohde]
-  (if-some [alkamisvuosi (alkamisvuosi haku hakukohde)]
-    (or (< alkamisvuosi 2016)
-        (and (= alkamisvuosi 2016)
-             (alkamiskausi-kevat? haku hakukohde)))
-    false))
-
-(defn- some-kohdejoukon-tarkenne?
-  [haku]
-  (not (str/blank? (:kohdejoukonTarkenneKoodiUri haku))))
-
-(defn- jatkotutkintohaku-tarkenne?
-  [haku]
-  (str/starts-with?
-   (:kohdejoukonTarkenneKoodiUri haku)
-   "haunkohdejoukontarkenne_3#"))
-
-(defn- erasmus-mundus-tarkenne?
-  [haku]
-  (str/starts-with?
-    (:kohdejoukonTarkenneKoodiUri haku)
-    "haunkohdejoukontarkenne_010#"))
-
-(defn- hakemusmaksullinen-kaksoistutkinto-tarkenne?
-  "Hakemusmaksulliset kv-kaksoistutkinto-ohjelmat"
-  [haku]
-  (str/starts-with?
-    (:kohdejoukonTarkenneKoodiUri haku)
-    "haunkohdejoukontarkenne_11#"))
-
-(defn- yps-tarkenne?
-  [haku]
-  (or (jatkotutkintohaku-tarkenne? haku)
-      (erasmus-mundus-tarkenne? haku)
-      (hakemusmaksullinen-kaksoistutkinto-tarkenne? haku)))
-
-(defn- ->ei-yps
-  [syy]
-  {:voimassa false :syy syy})
-
-(def ^:private yps
-  {:voimassa true
-   :syy      "Hakukohde on yhden paikan säännön piirissä"})
-
-(defn- assoc-yps
-  [hakukohde haku koulutus]
-  (assoc
-   hakukohde
-   :yhdenPaikanSaanto
-   (cond (luonnos? haku)
-         (->ei-yps "Haku on luonnos tilassa")
-
-         (luonnos? hakukohde)
-         (->ei-yps "Hakukohde on luonnos tilassa")
-
-         (not (korkeakoulutus? koulutus))
-         (->ei-yps "Ei korkeakoulutus koulutusta")
-
-         (not (johtaa-tutkintoon? koulutus))
-         (->ei-yps "Ei tutkintoon johtavaa koulutusta")
-
-         (alkamiskausi-ennen-syksya-2016? haku hakukohde)
-         (->ei-yps "Koulutuksen alkamiskausi on ennen syksyä 2016")
-
-         (and (some-kohdejoukon-tarkenne? haku)
-              (not (yps-tarkenne? haku)))
-         (->ei-yps (str "Haun kohdejoukon tarkenne on "
-                        (:kohdejoukonTarkenneKoodiUri haku)))
-
-         :else
-         yps)))
 
 (defn- assoc-hakulomake-linkki
   [hakukohde haku]
@@ -258,7 +166,8 @@
                    :johtaaTutkintoon (:johtaaTutkintoon enriched-data)
                    :koulutusasteKoodiUrit (vec (:koulutusasteKoodiUrit enriched-data)))
       (some? (:paateltyAlkamiskausi enriched-data)) (assoc :paateltyAlkamiskausi (:paateltyAlkamiskausi enriched-data))
-      (some? (:paateltyAlkamisajankohta enriched-data)) (assoc :paateltyAlkamisajankohta (:paateltyAlkamisajankohta enriched-data)))))
+      (some? (:paateltyAlkamisajankohta enriched-data)) (assoc :paateltyAlkamisajankohta (:paateltyAlkamisajankohta enriched-data))
+      (some? (:yhdenPaikanSaanto enriched-data)) (assoc :yhdenPaikanSaanto (:yhdenPaikanSaanto enriched-data)))))
 
 (defn- get-koodiurit-to-complete
   [koodiurit]
@@ -409,7 +318,6 @@
         (indexable/->index-entry-with-forwarded-data oid
                                                      (-> hakukohde
                                                          (assoc-koulutustyyppi-path koulutus (:metadata toteutus))
-                                                         (assoc-yps haku koulutus)
                                                          (assoc :koulutustyyppi (:koulutustyyppi koulutus))
                                                          (set-hakukohde-tila-by-related-haku haku)
                                                          (assoc :hakuNimi (:nimi haku))
