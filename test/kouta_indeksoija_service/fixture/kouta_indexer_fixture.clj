@@ -579,7 +579,9 @@
    :koulutusasteKoodiUrit ["kansallinenkoulutusluokitus2016koulutusastetaso1_01"
                            "kansallinenkoulutusluokitus2016koulutusastetaso1_02"
                            "kansallinenkoulutusluokitus2016koulutusastetaso2_01"
-                           "kansallinenkoulutusluokitus2016koulutusastetaso2_02"]})
+                           "kansallinenkoulutusluokitus2016koulutusastetaso2_02"]
+   :yhdenPaikanSaanto     {:voimassa false
+                           :syy      "Ei korkeakoulutus koulutusta"}})
 
 ;; Ellei hakuaikoja ole erikseen annettu -> kaytetaan oletuksia. Oletus-jsonista tulevia arvoja ei kayteta.
 (defn add-hakukohde-mock
